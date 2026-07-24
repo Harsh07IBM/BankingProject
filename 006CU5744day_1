@@ -1,0 +1,8 @@
+Task Number 1 -> Git : It is a version control system that tracks our code and take the snapshot of it time by time. So that it we do omething wrong at our current repo then git help is to revert back.
+
+Task Number 2 -> Github : Github is a cloud plateform where you can put your entire codebase , github help us to manage our large codebase and help our team during the collaboration.
+
+Task Number 3 -> Difference between git and github 
+
+a -> So git is a version control system thak takes the snapshot of our codebase and github is a cloud plateform where we put our entire codebase and manage it.
+b -> Github our team to collaboration on a centralised codebase while git help us to maintain a same page while collaborating and it anything goes wrong then git help us to move back in last version of our code.
