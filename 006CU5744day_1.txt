@@ -1,0 +1,88 @@
+Day 1 - 16th July 2026
+Task Number 1 -> Git
+
+Git is a version control system that tracks our code and takes the snapshot of it time by time. So if we do something wrong in our current project then Git helps us to revert back to the previous version.
+
+Task Number 2 -> GitHub
+
+GitHub is a cloud platform where we can put our entire codebase. GitHub helps us to manage our large projects and also helps the team to collaborate on the same project.
+
+Task Number 3 -> Difference between Git and GitHub
+
+a -> Git is a version control system that takes the snapshot of our codebase, whereas GitHub is a cloud platform where we store and manage our repositories.
+
+b -> GitHub helps multiple developers collaborate on the same project, while Git keeps track of every change made in the code and allows us to restore older versions if needed.
+
+c -> Git works on our local machine, whereas GitHub works online and requires an internet connection.
+
+Task Number 4 -> Staging Area
+
+The staging area is a temporary place in Git where we keep the files before making a commit. We first add the files using git add, then Git stores them in the staging area, and after that we commit them.
+
+Task Number 5 -> VCS (Version Control System)
+
+VCS stands for Version Control System. It is a system that keeps the history of our code changes. It helps us to track changes, compare versions, and go back to any previous version whenever required.
+
+Task Number 6 -> Fork
+
+Fork means creating a copy of someone else's GitHub repository into our own GitHub account. After forking, we can make any changes in our copy without affecting the original repository.
+
+Commands in CMD
+1. Create a directory named linux_demo
+mkdir linux_demo
+
+2. Move into the directory
+cd linux_demo
+
+3. Create a file demo1.txt
+echo Hello World > demo1.txt
+
+4. List all files and folders
+dir
+
+5. Go back to the previous directory
+cd..
+
+6. Go to the root directory
+cd\
+
+
+Commands in PowerShell
+1. Create a directory named shell_demo
+mkdir shell_demo
+
+2. Move into the directory
+cd shell_demo
+
+3. Create a file demo1.txt
+echo "Hello World" > demo1.txt
+
+4. Read the file
+cat demo1.txt
+
+5. Difference between > and >>
+
+> -> It creates a new file or overwrites the existing content.
+
+>> -> It appends the new content at the end of the existing file without removing the old content.
+
+Example:
+
+echo "First Line" > demo1.txt
+echo "Second Line" >> demo1.txt
+cat demo1.txt
+
+Output:
+
+First Line
+Second Line
+
+
+6. List all files and folders
+dir
+
+7. Go back to the previous directory
+cd..
+
+8. Go to the root directory
+cd\

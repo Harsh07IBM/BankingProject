@@ -1,0 +1,243 @@
+Task  0 -> Installing the wls in windows OS and try to execute some linux command 
+
+1. Check current location
+   --> pwd
+
+2. List files and folders
+   --> ls
+
+3. List all files including hidden ones
+   --> ls -la
+
+4. Change directory
+   --> cd folderName
+
+5. Go back one directory
+   --> cd ..
+
+6. Go to home directory
+   --> cd
+
+7. Create a folder
+   --> mkdir folderName
+
+8. Create a file
+   --> touch file.txt
+
+9. View file contents
+   --> cat file.txt
+
+10. Write text to a file
+    --> echo "Hello" > file.txt
+
+11. Add text to an existing file
+    --> echo "New line" >> file.txt
+
+12. Rename or move a file/folder
+    --> mv oldName newName
+
+13. Copy a file
+    --> cp file.txt copy.txt
+
+14. Delete a file
+    --> rm file.txt
+
+15. Delete a folder and its contents
+    --> rm -r folderName
+
+16. Clear terminal
+    --> clear
+
+17. Check command history
+    --> history
+
+18. Check current user
+    --> whoami
+
+19. Open file editor
+    --> nano file.txt
+
+20. Exit WSL
+    --> exit
+
+
+Task 1: Default Permissions
+
+Newly Created File:
+- Default permission: 666 (rw-rw-rw-)
+- Actual permission is usually 644 (rw-r--r--) because the system's umask removes write permission for group and others.
+
+Newly Created Directory:
+- Default permission: 777 (rwxrwxrwx)
+- Actual permission is usually 755 (rwxr-xr-x) because the umask removes write permission for group and others. 
+
+
+Task 2: Create a User in Linux
+
+Command:
+sudo adduser Prasunamba
+
+OR
+
+sudo useradd Prasunamba
+
+Note:
+- adduser is an easy and interactive command that also creates the home directory.
+- useradd is a low-level command and may require additional options to create the home directory and set a password.
+
+Task 3: Delete the Above User
+
+Command:
+sudo userdel Prasunamba
+
+OR (to delete the user along with the home directory):
+sudo userdel -r Prasunamba
+
+Note:
+The -r option removes the user's home directory and mail files as well.
+
+Task 4: Create Another User, Change Password, and Switch User
+
+1. Create another user:
+sudo adduser Rahul
+
+2. Change the password of Rahul:
+sudo passwd Rahul
+
+3. Create a third user:
+sudo adduser Aman
+
+4. Switch to the second user (Rahul):
+su - Rahul
+
+Note:
+- adduser creates a new user with a home directory.
+- passwd is used to set or change a user's password.
+- su - switches to another user's account.
+
+
+Task 5: Find the System's Current Time
+
+Command:
+date
+
+Note:
+The `date` command displays the current system date and time.
+
+Task 6: What is the chown Command Used For?
+
+Answer:
+The `chown` command is used to change the owner of a file or directory.
+
+Example:
+sudo chown Rahul file.txt
+
+Note:
+It can also be used to change both the owner and the group of a file or directory.
+
+Task 7: What is grep Used For?
+
+Answer:
+The `grep` command is used to search for a specific word or pattern in a file or command output.
+
+Example:
+grep "hello" file.txt
+
+Note:
+It displays all the lines that contain the searched word or pattern.
+
+Task 8: Redirecting in Linux
+
+Answer:
+Redirection is used to send the output of a command to a file or take input from a file.
+
+Common Redirection Operators:
+>   : Write output to a file (overwrites existing content)
+>>  : Append output to a file
+<   : Take input from a file
+
+Examples:
+echo "Hello" > file.txt
+echo "World" >> file.txt
+sort < file.txt
+
+Note:
+Redirection helps save command output or use a file as input instead of typing manually.
+
+
+Task 9: Open a File Using vi
+
+Command:
+vi file.txt
+
+Note:
+- If the file exists, it will open in the vi editor.
+- If the file does not exist, vi will create a new file with that name.
+- Press Esc to exit Insert mode.
+- Type :wq and press Enter to save and exit.
+- Type :q! and press Enter to exit without saving.
+
+To insert text use i - insert
+Esc :wq – to exit
+
+
+Task 11: Display Detailed System Information
+
+Command:
+uname -a
+
+
+Task 12: Use the sudo Command
+
+Command:
+sudo apt update
+
+Note:
+The `sudo` command allows a user to run commands with administrator (root) privileges.
+
+
+Task 13: What do you understand by HTTP and HTTPS?
+
+HTTP (HyperText Transfer Protocol):
+- Used to transfer data between a web browser and a web server.
+- Data is sent in plain text and is not secure.
+
+HTTPS (HyperText Transfer Protocol Secure):
+- A secure version of HTTP.
+- Uses SSL/TLS encryption to protect data during transmission.
+
+
+Task 14: What are Methods in HTTP Protocol?
+
+HTTP methods define the action to be performed on a web resource.
+
+Common Methods:
+- GET – Retrieve data from the server.
+- POST – Send data to the server.
+- PUT – Update existing data.
+- DELETE – Remove data from the server.
+
+
+Task 15: Give a Few HTTP Status Codes
+
+- 200 OK – Request completed successfully.
+- 201 Created – Resource created successfully.
+- 400 Bad Request – Invalid request from the client.
+- 401 Unauthorized – Authentication required.
+- 403 Forbidden – Access denied.
+- 404 Not Found – Requested resource not found.
+- 500 Internal Server Error – Server encountered an error.
+
+Task 16: What do you understand by Headers in HTTP?
+
+Answer:
+HTTP headers are key-value pairs that carry additional information between a client (browser) and a server during an HTTP request or response.
+
+Examples:
+- Content-Type – Specifies the type of data being sent.
+- Authorization – Sends authentication credentials.
+- User-Agent – Identifies the client making the request.
+- Accept – Specifies the type of response the client can receive.
+
+Note:
+HTTP headers help control how data is sent, received, and processed.
