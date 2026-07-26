@@ -1,0 +1,880 @@
+Day 6 – 23rd July 2026
+
+Task 1:
+WAP to display a simple lambda expression to display "Welcome"
+
+package org.example;
+
+interface WelcomeMessage {
+    void show();
+}
+
+public class Day6_SimpleLambda {
+
+    public static void main(String[] args) {
+
+        WelcomeMessage message =
+                () -> System.out.println("Welcome");
+
+        message.show();
+    }
+}
+
+Output:
+
+Welcome
+
+Task 2:
+WAP to display multiplication using Lambda Expression
+
+package org.example;
+
+interface Product {
+    int calculate(int first, int second);
+}
+
+public class Day6_LambdaMultiplication {
+
+    public static void main(String[] args) {
+
+        Product product =
+                (first, second) -> first * second;
+
+        int answer = product.calculate(10, 20);
+
+        System.out.println("Product is: " + answer);
+    }
+}
+
+Output:
+
+Product is: 200
+
+Task 3:
+WAP to create a Calculator using Lambda Expression
+
+package org.example;
+
+interface Calculation {
+    int calculate(int a, int b);
+}
+
+public class Day6_LambdaCalculator {
+
+    public static void main(String[] args) {
+
+        Calculation addition =
+                (a, b) -> a + b;
+
+        Calculation subtraction =
+                (a, b) -> a - b;
+
+        Calculation multiplication =
+                (a, b) -> a * b;
+
+        Calculation division =
+                (a, b) -> a / b;
+
+        System.out.println("Addition: "
+                + addition.calculate(20, 10));
+
+        System.out.println("Subtraction: "
+                + subtraction.calculate(20, 10));
+
+        System.out.println("Multiplication: "
+                + multiplication.calculate(20, 10));
+
+        System.out.println("Division: "
+                + division.calculate(20, 10));
+    }
+}
+
+Output:
+
+Addition: 30
+Subtraction: 10
+Multiplication: 200
+Division: 2
+
+Task 4:
+Create an interface with one abstract method and one normal method.
+
+A Functional Interface can have only one abstract method.
+
+It can have multiple default and static methods.
+
+Yes, an abstract method can be explicitly written using the abstract keyword.
+
+We cannot have two abstract methods in a Functional Interface.
+
+package org.example;
+
+@FunctionalInterface
+interface Action {
+
+    abstract void perform(int value);
+
+    default void showMessage() {
+        System.out.println("Welcome to Java");
+    }
+
+    default void displayInfo() {
+        System.out.println("This is another default method");
+    }
+
+    static void showStaticMessage() {
+        System.out.println("This is a static method");
+    }
+}
+
+public class Day6_FunctionalInterface {
+
+    public static void main(String[] args) {
+
+        Action action =
+                value -> System.out.println(
+                        "Result: " + (value * 2)
+                );
+
+        action.perform(50);
+
+        action.showMessage();
+
+        action.displayInfo();
+
+        Action.showStaticMessage();
+    }
+}
+
+Output:
+
+Result: 100
+Welcome to Java
+This is another default method
+This is a static method
+
+Note:
+
+A Functional Interface can have:
+
+Only one abstract method.
+Multiple default methods.
+Multiple static methods.
+Methods inherited from Object do not count as abstract methods for this purpose.
+
+Task 5:
+What is this code snippet doing? Can I have a zero-parameter Lambda Expression?
+
+Yes, we can have a zero-parameter Lambda Expression.
+
+The lambda expression does not take any input parameter and simply displays a message when the display() method is called.
+
+package org.example;
+
+@FunctionalInterface
+interface MessagePrinter {
+    void display();
+}
+
+public class Day6_ZeroParameterLambda {
+
+    public static void main(String[] args) {
+
+        MessagePrinter printer =
+                () -> System.out.println(
+                        "This is a zero parameter lambda"
+                );
+
+        printer.display();
+    }
+}
+
+Output:
+
+This is a zero parameter lambda
+
+Task 6:
+WAP to create an ArrayList and use Lambda Expression in forEach to check even and odd numbers
+
+package org.example;
+
+import java.util.ArrayList;
+
+public class Day6_LambdaArrayList {
+
+    public static void main(String[] args) {
+
+        ArrayList<Integer> numbers =
+                new ArrayList<>();
+
+        numbers.add(11);
+        numbers.add(24);
+        numbers.add(37);
+        numbers.add(48);
+        numbers.add(55);
+
+        numbers.forEach(number -> {
+
+            if (number % 2 == 0) {
+                System.out.println(
+                        number + " is Even"
+                );
+            } else {
+                System.out.println(
+                        number + " is Odd"
+                );
+            }
+        });
+    }
+}
+
+Output:
+
+11 is Odd
+24 is Even
+37 is Odd
+48 is Even
+55 is Odd
+
+Task 7:
+What is JUnit 5?
+
+JUnit 5 is a testing framework used in Java to test Java applications.
+
+It helps developers write and run unit tests to check whether the code is working correctly.
+
+JUnit 5 consists of three main parts:
+
+JUnit Platform
+JUnit Jupiter
+JUnit Vintage
+
+JUnit 5 provides annotations, assertions and features for writing automated tests.
+
+Task 8:
+List down the annotations of JUnit 5
+
+Some commonly used JUnit 5 annotations are:
+
+@Test
+@BeforeEach
+@AfterEach
+@BeforeAll
+@AfterAll
+@Disabled
+@DisplayName
+@Nested
+@Tag
+@RepeatedTest
+@ParameterizedTest
+@Timeout
+
+Task 9:
+Difference between JUnit 5 and JUnit 4
+
+JUnit 4	JUnit 5
+Older version	Newer version
+Uses org.junit package	Uses org.junit.jupiter.api for Jupiter tests
+Uses @Before	Uses @BeforeEach
+Uses @After	Uses @AfterEach
+Uses @BeforeClass	Uses @BeforeAll
+Uses @AfterClass	Uses @AfterAll
+Uses @Ignore	Uses @Disabled
+Uses @RunWith	Uses extensions
+Less flexible architecture	Modular architecture
+Does not support lambda-based assertions as well as JUnit 5	Supports modern Java features better
+
+Task 10:
+What is JUnit Test Suite?
+
+A JUnit Test Suite is a collection of multiple test classes that can be executed together.
+
+Instead of running every test class separately, we can group multiple test classes and run them as one test suite.
+
+In JUnit 5, test suites can be created using the JUnit Platform Suite support.
+
+Task 11:
+What is JUnit Vintage?
+
+JUnit Vintage is a test engine provided by JUnit 5.
+
+It allows older tests written using JUnit 3 and JUnit 4 to run on the JUnit 5 platform.
+
+It is useful when a project is migrating from an older JUnit version to JUnit 5 and still has old tests.
+
+Task 12:
+What are Mock Objects?
+
+Mock objects are fake objects used during testing.
+
+They are used to simulate the behavior of real objects or external dependencies.
+
+For example, suppose our application gets data from a database. During testing, instead of connecting to the actual database, we can use a mock object to provide fake data.
+
+Mock objects help us:
+
+Test individual components separately.
+Avoid depending on external systems.
+Make tests faster.
+Control the behavior of dependencies.
+Test different situations easily.
+
+Task 13:
+Write about Mockito
+
+Mockito is a popular mocking framework used with Java unit testing.
+
+It is commonly used with JUnit to create mock objects.
+
+Mockito allows us to:
+
+Create mock objects.
+Define the behavior of mock objects.
+Verify whether a method was called.
+Test classes independently.
+Avoid using real external dependencies during unit testing.
+
+Example:
+
+UserService service = mock(UserService.class);
+
+when(service.getUserName())
+        .thenReturn("Harsh");
+
+System.out.println(
+        service.getUserName()
+);
+
+Here, Mockito creates a fake UserService object and returns "Harsh" when getUserName() is called.
+
+Task 14:
+Define Functional Interface – A Java 8 Feature
+
+A Functional Interface is an interface that contains exactly one abstract method.
+
+It can have multiple default and static methods.
+
+The @FunctionalInterface annotation is used to tell the compiler that the interface should contain only one abstract method.
+
+Example:
+
+@FunctionalInterface
+interface Calculator {
+    int calculate(int a, int b);
+}
+
+Functional Interfaces are mainly used with Lambda Expressions.
+
+Some built-in Functional Interfaces are:
+
+Predicate
+Function
+Consumer
+Supplier
+
+Task 15:
+What are Default and Static Methods in Interfaces?
+
+Default Method
+
+A default method is a method inside an interface that has a method body.
+
+It is declared using the default keyword.
+
+interface Demo {
+
+    default void show() {
+        System.out.println("Default Method");
+    }
+}
+
+A class implementing the interface can directly use the default method or override it.
+
+Static Method
+
+A static method belongs to the interface itself.
+
+It is called using the interface name.
+
+interface Demo {
+
+    static void display() {
+        System.out.println("Static Method");
+    }
+}
+
+It is called like:
+
+Demo.display();
+
+Task 16:
+Java 8 Stream API
+
+The Stream API is used to process collections of data in a simple and efficient way.
+
+package org.example;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Day6_StreamAPI {
+
+    public static void main(String[] args) {
+
+        List<String> names = new ArrayList<>();
+
+        names.add("Harsh");
+        names.add("Ravi");
+        names.add("Sam");
+        names.add("Aman");
+
+        List<String> result = names.stream()
+                .filter(name -> name.startsWith("S"))
+                .collect(Collectors.toList());
+
+        System.out.println(result);
+    }
+}
+
+Output:
+
+[Sam]
+
+Task 17:
+What is Optional Class in Java 8?
+
+Optional is a class introduced in Java 8.
+
+It is used to represent a value that may or may not be present.
+
+It helps reduce the chances of NullPointerException.
+
+Example:
+
+Optional<String> name =
+        Optional.ofNullable(null);
+
+We can provide a default value using:
+
+String result = name.orElse("Guest");
+
+If the value is not available, "Guest" will be returned.
+
+Task 18:
+What is the error in the below Optional class?
+
+Given code:
+
+Optional.ofNullable(user)
+        .map(User::getName)
+        .orElse("Guest"); [1];
+
+There are errors in this code.
+
+User class is not defined.
+User::getName is being used, but user is declared as a String.
+String user = "Prasunamba";
+
+A String does not have a getName() method.
+
+[1] is invalid Java syntax.
+
+Correct code can simply be:
+
+package org.example;
+
+import java.util.Optional;
+
+public class Day6_Optional {
+
+    public static void main(String[] args) {
+
+        String user = "Harsh";
+
+        String name = Optional.ofNullable(user)
+                .orElse("Guest");
+
+        System.out.println(name);
+    }
+}
+
+Output:
+
+Harsh
+
+Task 19:
+What is the double colon :: operator?
+
+The :: operator is called the Method Reference Operator.
+
+It is used to refer to an existing method without calling it directly.
+
+Example:
+
+System.out::println
+
+Instead of:
+
+x -> System.out.println(x)
+
+Method references are commonly used with Lambda Expressions and Functional Interfaces.
+
+Task 20:
+What is Method Reference in Java 8?
+
+Method Reference is a feature introduced in Java 8.
+
+It provides a shorter way to write Lambda Expressions when an existing method can be directly used.
+
+Syntax:
+
+ClassName::methodName
+
+Example:
+
+numbers.forEach(System.out::println);
+
+This is similar to:
+
+numbers.forEach(number ->
+        System.out.println(number));
+
+Task 21:
+Types of Method References
+
+There are mainly four types of Method References:
+
+Reference to a static method
+Reference to an instance method of a particular object
+Reference to an instance method of an arbitrary object of a particular type
+Reference to a constructor
+1. Static Method Reference
+package org.example;
+
+import java.util.function.BiFunction;
+
+public class Day6_StaticMethodReference {
+
+    public static void main(String[] args) {
+
+        BiFunction<Integer, Integer, Integer> maximum =
+                Math::max;
+
+        System.out.println(
+                maximum.apply(15, 25)
+        );
+    }
+}
+
+Output:
+
+25
+2. Instance Method Reference
+package org.example;
+
+import java.util.function.Supplier;
+
+public class Day6_InstanceMethodReference {
+
+    public static void main(String[] args) {
+
+        String message = "HELLO JAVA";
+
+        Supplier<String> result =
+                message::toLowerCase;
+
+        System.out.println(
+                result.get()
+        );
+    }
+}
+
+Output:
+
+hello java
+3. Instance Method Reference of an Arbitrary Object
+package org.example;
+
+import java.util.function.Function;
+
+public class Day6_StringMethodReference {
+
+    public static void main(String[] args) {
+
+        Function<String, String> converter =
+                String::toLowerCase;
+
+        System.out.println(
+                converter.apply("HELLO")
+        );
+    }
+}
+
+Output:
+
+hello
+4. Constructor Method Reference
+package org.example;
+
+import java.util.ArrayList;
+import java.util.function.Supplier;
+
+public class Day6_ConstructorReference {
+
+    public static void main(String[] args) {
+
+        Supplier<ArrayList<String>> listCreator =
+                ArrayList::new;
+
+        ArrayList<String> names =
+                listCreator.get();
+
+        names.add("Harsh");
+        names.add("Ravi");
+
+        System.out.println(names);
+    }
+}
+
+Output:
+
+[Harsh, Ravi]
+
+Task 22:
+Java 8 Date and Time API
+
+Java 8 introduced a new Date and Time API in the java.time package.
+
+It provides classes for working with dates, times and time zones.
+
+It is preferred over the older java.util.Date and java.util.Calendar classes.
+
+LocalDate
+
+Used to represent only the date.
+
+package org.example;
+
+import java.time.LocalDate;
+
+public class Day6_LocalDate {
+
+    public static void main(String[] args) {
+
+        LocalDate today =
+                LocalDate.now();
+
+        System.out.println("Today's Date: " + today);
+    }
+}
+LocalTime
+
+Used to represent only the time.
+
+package org.example;
+
+import java.time.LocalTime;
+
+public class Day6_LocalTime {
+
+    public static void main(String[] args) {
+
+        LocalTime currentTime =
+                LocalTime.now();
+
+        System.out.println(
+                "Current Time: " + currentTime
+        );
+    }
+}
+LocalDateTime
+
+Used to represent both date and time.
+
+package org.example;
+
+import java.time.LocalDateTime;
+
+public class Day6_LocalDateTime {
+
+    public static void main(String[] args) {
+
+        LocalDateTime current =
+                LocalDateTime.now();
+
+        System.out.println(
+                "Current Date and Time: " + current
+        );
+    }
+}
+ZonedDateTime
+
+Used when we need date and time along with a specific time zone.
+
+package org.example;
+
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
+public class Day6_ZonedDateTime {
+
+    public static void main(String[] args) {
+
+        ZonedDateTime current =
+                ZonedDateTime.now(
+                        ZoneId.of("Asia/Kolkata")
+                );
+
+        System.out.println(
+                "India Date and Time: " + current
+        );
+    }
+}
+
+After Break:
+
+Be prepared to give a demo of Garbage Collector and Types of Objects.
+
+Add-ons:
+
+WAP to perform different operations using Lambda Expressions
+
+package org.example;
+
+@FunctionalInterface
+interface Operation {
+    int execute(int a, int b);
+}
+
+public class Day6_LambdaOperations {
+
+    public static void main(String[] args) {
+
+        Operation addition =
+                (a, b) -> a + b;
+
+        Operation multiplication =
+                (a, b) -> a * b;
+
+        Operation subtraction =
+                (a, b) -> a - b;
+
+        System.out.println(
+                "Addition: "
+                        + addition.execute(6, 3)
+        );
+
+        System.out.println(
+                "Multiplication: "
+                        + multiplication.execute(4, 5)
+        );
+
+        System.out.println(
+                "Subtraction: "
+                        + subtraction.execute(10, 4)
+        );
+    }
+}
+
+Output:
+
+Addition: 9
+Multiplication: 20
+Subtraction: 6
+
+Other Notable Enhancements in Java 8
+
+1. forEach() Method
+
+The forEach() method provides a simple way to iterate over collections using Lambda Expressions.
+
+Example:
+
+names.forEach(name -> System.out.println(name));
+2. StringJoiner
+
+StringJoiner is used to join multiple strings using a delimiter, prefix and suffix.
+
+Example:
+
+StringJoiner joiner =
+        new StringJoiner(", ", "[", "]");
+
+joiner.add("Java");
+joiner.add("Python");
+joiner.add("C++");
+
+System.out.println(joiner);
+
+Output:
+
+[Java, Python, C++]
+3. Base64 Encoding
+
+Java 8 introduced the Base64 class in java.util.
+
+It provides standard Base64 encoding and decoding functionality.
+
+It is important to note that Base64 is an encoding mechanism, not encryption.
+
+4. Parallel Array Sorting
+
+Java 8 introduced:
+
+Arrays.parallelSort()
+
+It can use multiple threads to sort large arrays.
+
+Example:
+
+int[] numbers = {5, 2, 8, 1, 3};
+
+Arrays.parallelSort(numbers);
+5. Nashorn JavaScript Engine
+
+Nashorn was introduced in Java 8 as a JavaScript engine that allowed Java applications to execute JavaScript code.
+
+It was later deprecated and removed from modern Java releases, so it is mainly relevant as a historical Java 8 feature.
+
+What are GOD Classes?
+
+A God Class is a class that tries to do too many things in a software application.
+
+It usually contains too much business logic and has too many responsibilities.
+
+For example, one class might handle:
+
+User registration
+Login
+Database operations
+Payment processing
+Email sending
+Report generation
+
+This makes the class very large and difficult to understand and maintain.
+
+Problems with God Classes:
+Difficult to maintain.
+Difficult to test.
+Difficult to understand.
+Changes in one functionality can affect other functionalities.
+Violates the Single Responsibility Principle.
+Simple Example:
+God Class
+   |
+   |--- User Management
+   |--- Database
+   |--- Payment
+   |--- Email
+   |--- Reports
+
+Instead, responsibilities should be separated into different classes:
+
+UserService
+PaymentService
+EmailService
+ReportService
+DatabaseService
+
+This makes the application cleaner, easier to maintain and easier to test.
