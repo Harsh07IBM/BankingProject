@@ -1,0 +1,693 @@
+Day 4 – 21st July 2026
+
+Task 1:
+WAP to display the functionality of Method Overloading
+
+Method overloading means creating multiple methods with the same name but different parameters.
+
+package org.example;
+
+class MathOperation {
+
+    int multiply(int a, int b) {
+        return a * b;
+    }
+
+    int multiply(int a, int b, int c) {
+        return a * b * c;
+    }
+
+    double multiply(double a, double b) {
+        return a * b;
+    }
+}
+
+public class Day4_MethodOverloading {
+
+    public static void main(String[] args) {
+
+        MathOperation operation = new MathOperation();
+
+        System.out.println(operation.multiply(5, 4));
+        System.out.println(operation.multiply(2, 3, 4));
+        System.out.println(operation.multiply(2.5, 4.0));
+    }
+}
+
+Output:
+
+20
+24
+10.0
+
+Task 2:
+Write a brief history of Java
+
+Java was developed by James Gosling and his team at Sun Microsystems.
+
+The development of Java started in 1991. At first, the project was named Oak. Later, the name was changed to Java.
+
+Java was officially released in 1995. The main idea behind Java was "Write Once, Run Anywhere". Java programs are compiled into bytecode, which can run on different operating systems using the Java Virtual Machine (JVM).
+
+In 2010, Oracle acquired Sun Microsystems. After that, Oracle became responsible for the development and maintenance of Java.
+
+Java is currently one of the most popular programming languages and is widely used for backend development, enterprise applications, web applications and many other software applications.
+
+Task 3:
+WAP to display LinkedList using Package
+
+package org.example;
+
+import java.util.LinkedList;
+
+public class Day4_BuiltinLinkedList {
+
+    public static void main(String[] args) {
+
+        LinkedList<String> names = new LinkedList<>();
+
+        names.add("Harsh");
+        names.add("Rahul");
+        names.add("Aman");
+        names.add("Rohit");
+
+        System.out.println("Linked List: " + names);
+    }
+}
+
+Output:
+
+Linked List: [Harsh, Rahul, Aman, Rohit]
+
+Task 4:
+WAP to show how custom defined LinkedList works
+
+package org.example;
+
+public class Day4_MyLinkedList {
+
+    Item first;
+
+    static class Item {
+        int value;
+        Item nextItem;
+
+        Item(int value) {
+            this.value = value;
+            this.nextItem = null;
+        }
+    }
+
+    public void addItem(int value) {
+
+        Item newItem = new Item(value);
+
+        if (first == null) {
+            first = newItem;
+            return;
+        }
+
+        Item currentItem = first;
+
+        while (currentItem.nextItem != null) {
+            currentItem = currentItem.nextItem;
+        }
+
+        currentItem.nextItem = newItem;
+    }
+
+    public void showItems() {
+
+        Item currentItem = first;
+
+        System.out.print("My Linked List: ");
+
+        while (currentItem != null) {
+            System.out.print(currentItem.value + " -> ");
+            currentItem = currentItem.nextItem;
+        }
+
+        System.out.println("null");
+    }
+
+    public static void main(String[] args) {
+
+        Day4_MyLinkedList numbers = new Day4_MyLinkedList();
+
+        numbers.addItem(100);
+        numbers.addItem(200);
+        numbers.addItem(300);
+
+        numbers.showItems();
+    }
+}
+
+Output:
+
+My Linked List: 100 -> 200 -> 300 -> null
+
+Stack using java.util.Stack
+
+package org.example;
+
+import java.util.Stack;
+
+public class Day4_StackExample {
+
+    public static void main(String[] args) {
+
+        Stack<String> books = new Stack<>();
+
+        books.push("Java");
+        books.push("C++");
+        books.push("Python");
+
+        System.out.println("Top Book: " + books.peek());
+
+        System.out.println("Removed Book: " + books.pop());
+
+        System.out.println("Stack Empty: " + books.empty());
+    }
+}
+
+Output:
+
+Top Book: Python
+Removed Book: Python
+Stack Empty: false
+
+Task 5:
+WAP to add and display elements in a built-in stack
+
+Using Deque and ArrayDeque instead of the legacy Stack class.
+
+package org.example;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+public class Day4_ArrayDequeStack {
+
+    public static void main(String[] args) {
+
+        Deque<String> items = new ArrayDeque<>();
+
+        items.push("One");
+        items.push("Two");
+        items.push("Three");
+        items.push("Four");
+
+        items.pop();
+
+        System.out.println("Stack Elements: " + items);
+    }
+}
+
+Output:
+
+Stack Elements: [Three, Two, One]
+
+Task 6:
+WAP to create a built-in Queue and display the elements
+
+package org.example;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class Day4_BuiltinQueue {
+
+    public static void main(String[] args) {
+
+        Queue<String> messages = new LinkedList<>();
+
+        messages.add("Hello");
+        messages.add("Good Morning");
+        messages.add("How are you?");
+
+        System.out.println("Queue Elements: " + messages);
+    }
+}
+
+Output:
+
+Queue Elements: [Hello, Good Morning, How are you?]
+
+Task 7:
+WAP to demonstrate Method Overriding
+
+package org.example;
+
+class Vehicle {
+
+    void start() {
+        System.out.println("Vehicle is starting");
+    }
+}
+
+class Car extends Vehicle {
+
+    @Override
+    void start() {
+        System.out.println("Car starts with a key");
+    }
+}
+
+public class Day4_MethodOverriding {
+
+    public static void main(String[] args) {
+
+        Car myCar = new Car();
+
+        myCar.start();
+    }
+}
+
+Output:
+
+Car starts with a key
+
+Task 8:
+What are the advantages of Polymorphism? Brief it.
+
+Polymorphism makes the code more flexible.
+It allows the same method name to perform different tasks.
+It improves code reusability.
+It makes the program easier to maintain.
+It supports method overloading and method overriding.
+It helps in implementing real-world relationships between different classes.
+
+Task 9:
+WAP to show the Encapsulation feature in Java using Getters and Setters
+
+package org.example;
+
+class StudentData {
+
+    private String studentName;
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+}
+
+public class Day4_Encapsulation {
+
+    public static void main(String[] args) {
+
+        StudentData student = new StudentData();
+
+        student.setStudentName("Harsh Saini");
+
+        System.out.println("Student Name: " +
+                student.getStudentName());
+    }
+}
+
+Output:
+
+Student Name: Harsh Saini
+
+Task 10:
+What are the advantages and disadvantages of Encapsulation?
+
+Advantages:
+
+It provides data hiding.
+It protects the internal data of a class.
+We can control access to variables using getters and setters.
+We can add validation before changing the data.
+It makes the code easier to maintain.
+It improves the security of the data.
+
+Disadvantages:
+
+It increases the amount of code because we need getters and setters.
+It can make simple programs more lengthy.
+It may add a small amount of overhead due to method calls.
+
+Task 11:
+WAP to use the concept of Type Casting
+
+package org.example;
+
+public class Day4_TypeCasting {
+
+    public static void main(String[] args) {
+
+        int marks = 85;
+
+        double result = marks;
+
+        System.out.println("Integer Value: " + marks);
+        System.out.println("Double Value: " + result);
+
+        double price = 99.99;
+
+        int newPrice = (int) price;
+
+        System.out.println("Original Price: " + price);
+        System.out.println("After Casting: " + newPrice);
+    }
+}
+
+Output:
+
+Integer Value: 85
+Double Value: 85.0
+Original Price: 99.99
+After Casting: 99
+
+Task 12:
+What is Autoboxing and Auto-unboxing?
+
+Autoboxing means automatically converting a primitive data type into its corresponding wrapper class object.
+
+Example:
+
+int number = 50;
+
+Integer value = number;
+
+Here, int is automatically converted into Integer.
+
+Auto-unboxing means automatically converting a wrapper class object into its corresponding primitive data type.
+
+Example:
+
+Integer value = 50;
+
+int number = value;
+
+Here, Integer is automatically converted into int.
+
+In simple words:
+
+Autoboxing:
+Primitive → Wrapper Object
+
+Auto-unboxing:
+Wrapper Object → Primitive
+
+Trees and Hash File
+
+Page No. 2 to 18
+
+Page No. 34 to 42 – Till 3.18
+
+Difference between Level and Depth
+
+Level represents the position of a node in a tree.
+
+Depth represents the number of edges from the root node to a particular node.
+
+Example:
+
+          10          Level 0
+         /  \
+        20   30        Level 1
+       / \
+      40  50           Level 2
+
+Depth of 10 = 0
+
+Depth of 20 = 1
+
+Depth of 40 = 2
+
+Note: Some books consider the root as Level 1 instead of Level 0.
+
+Multithreading
+
+Implementing Runnable Interface
+
+package org.example;
+
+class WorkerTask implements Runnable {
+
+    private String workerName;
+
+    WorkerTask(String name) {
+        workerName = name;
+        System.out.println("Creating " + workerName);
+    }
+
+    @Override
+    public void run() {
+
+        System.out.println("Running " + workerName);
+
+        try {
+
+            for (int count = 3; count >= 1; count--) {
+
+                System.out.println(
+                        workerName + " : " + count
+                );
+
+                Thread.sleep(100);
+            }
+
+        } catch (InterruptedException e) {
+
+            System.out.println(
+                    workerName + " was interrupted"
+            );
+        }
+
+        System.out.println(
+                workerName + " has finished"
+        );
+    }
+}
+
+public class Day4_RunnableThread {
+
+    public static void main(String[] args) {
+
+        WorkerTask taskOne =
+                new WorkerTask("Worker-One");
+
+        WorkerTask taskTwo =
+                new WorkerTask("Worker-Two");
+
+        Thread firstThread =
+                new Thread(taskOne);
+
+        Thread secondThread =
+                new Thread(taskTwo);
+
+        firstThread.start();
+        secondThread.start();
+    }
+}
+
+Extending Thread Class
+
+package org.example;
+
+class DownloadThread extends Thread {
+
+    private String taskName;
+
+    DownloadThread(String name) {
+        taskName = name;
+        System.out.println("Creating " + taskName);
+    }
+
+    @Override
+    public void run() {
+
+        System.out.println("Running " + taskName);
+
+        try {
+
+            for (int step = 3; step >= 1; step--) {
+
+                System.out.println(
+                        taskName + " : Step " + step
+                );
+
+                Thread.sleep(100);
+            }
+
+        } catch (InterruptedException e) {
+
+            System.out.println(
+                    taskName + " was interrupted"
+            );
+        }
+
+        System.out.println(
+                taskName + " has completed"
+        );
+    }
+}
+
+public class Day4_ExtendingThread {
+
+    public static void main(String[] args) {
+
+        DownloadThread firstTask =
+                new DownloadThread("Task-One");
+
+        DownloadThread secondTask =
+                new DownloadThread("Task-Two");
+
+        firstTask.start();
+        secondTask.start();
+    }
+}
+
+Home Task 1:
+WAP to create a Doubly Linked List
+
+package org.example;
+
+public class Day4_DoublyLinkedList {
+
+    Node start;
+
+    static class Node {
+
+        int number;
+        Node previous;
+        Node next;
+
+        Node(int number) {
+            this.number = number;
+        }
+    }
+
+    public void add(int number) {
+
+        Node newNode = new Node(number);
+
+        if (start == null) {
+            start = newNode;
+            return;
+        }
+
+        Node current = start;
+
+        while (current.next != null) {
+            current = current.next;
+        }
+
+        current.next = newNode;
+        newNode.previous = current;
+    }
+
+    public void display() {
+
+        Node current = start;
+
+        while (current != null) {
+
+            System.out.print(current.number + " <-> ");
+
+            current = current.next;
+        }
+
+        System.out.println("null");
+    }
+
+    public static void main(String[] args) {
+
+        Day4_DoublyLinkedList numbers =
+                new Day4_DoublyLinkedList();
+
+        numbers.add(10);
+        numbers.add(20);
+        numbers.add(30);
+        numbers.add(40);
+
+        numbers.display();
+    }
+}
+
+Output:
+
+10 <-> 20 <-> 30 <-> 40 <-> null
+
+Home Task 2:
+WAP to create a Circular Linked List
+
+package org.example;
+
+public class Day4_CircularLinkedList {
+
+    Node firstNode;
+
+    static class Node {
+
+        int number;
+        Node next;
+
+        Node(int number) {
+            this.number = number;
+        }
+    }
+
+    public void add(int number) {
+
+        Node newNode = new Node(number);
+
+        if (firstNode == null) {
+
+            firstNode = newNode;
+            newNode.next = firstNode;
+
+        } else {
+
+            Node current = firstNode;
+
+            while (current.next != firstNode) {
+                current = current.next;
+            }
+
+            current.next = newNode;
+            newNode.next = firstNode;
+        }
+    }
+
+    public void display() {
+
+        if (firstNode == null) {
+            return;
+        }
+
+        Node current = firstNode;
+
+        do {
+
+            System.out.print(current.number + " -> ");
+
+            current = current.next;
+
+        } while (current != firstNode);
+
+        System.out.println("(back to first node)");
+    }
+
+    public static void main(String[] args) {
+
+        Day4_CircularLinkedList numbers =
+                new Day4_CircularLinkedList();
+
+        numbers.add(10);
+        numbers.add(20);
+        numbers.add(30);
+        numbers.add(40);
+
+        numbers.display();
+    }
+}
+
+Output:
+
+10 -> 20 -> 30 -> 40 -> (back to first node)
