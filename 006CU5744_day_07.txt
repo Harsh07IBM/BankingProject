@@ -1,0 +1,989 @@
+Day 7 – 24th July 2026
+
+Task 01:
+Basic Test Case
+
+Java code for Calculator:
+
+package Junit;
+
+public class Day7_Calculator {
+
+    public int add(int firstNumber, int secondNumber) {
+        return firstNumber + secondNumber;
+    }
+}
+
+JUnit 5 Test Code:
+
+package Junit;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class Day7_BasicUnitTest {
+
+    @Test
+    void testAdditionPass() {
+
+        Day7_Calculator calculator =
+                new Day7_Calculator();
+
+        assertEquals(
+                15,
+                calculator.add(10, 5)
+        );
+    }
+
+    @Test
+    void testAdditionFail() {
+
+        Day7_Calculator calculator =
+                new Day7_Calculator();
+
+        assertEquals(
+                20,
+                calculator.add(10, 5),
+                "Expected 20 but actual result is 15"
+        );
+    }
+}
+
+The first test case passes because 10 + 5 = 15.
+
+The second test case fails because the expected result is 20, but the actual result is 15.
+
+Task 02:
+Exception Testing
+
+Java Code:
+
+package Junit;
+
+public class Day7_BankAccount {
+
+    private String accountId;
+    private double balance;
+
+    public Day7_BankAccount(
+            String accountId,
+            double balance) {
+
+        this.accountId = accountId;
+        this.balance = balance;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void deposit(double amount) {
+
+        if (amount <= 0) {
+            throw new IllegalArgumentException(
+                    "Deposit amount must be positive"
+            );
+        }
+
+        balance += amount;
+    }
+
+    public void withdraw(double amount) {
+
+        if (amount > balance) {
+            throw new IllegalArgumentException(
+                    "Insufficient balance"
+            );
+        }
+
+        balance -= amount;
+    }
+}
+
+JUnit Test Code:
+
+package Junit;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+public class Day7_ExceptionTesting {
+
+    @Test
+    void testInsufficientBalance() {
+
+        Day7_BankAccount account =
+                new Day7_BankAccount(
+                        "ACC101",
+                        100.0
+                );
+
+        Exception exception =
+                assertThrows(
+                        IllegalArgumentException.class,
+                        () -> account.withdraw(200.0)
+                );
+
+        assertEquals(
+                "Insufficient balance",
+                exception.getMessage()
+        );
+    }
+}
+
+Task 03:
+Create Fail Test Cases for the Above Bank Account Code
+
+package Junit;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class Day7_BankAccountFailTests {
+
+    @Test
+    void testWrongDepositBalance() {
+
+        Day7_BankAccount account =
+                new Day7_BankAccount(
+                        "ACC101",
+                        500.0
+                );
+
+        account.deposit(200.0);
+
+        assertEquals(
+                800.0,
+                account.getBalance(),
+                "Expected 800 but got "
+                        + account.getBalance()
+        );
+    }
+
+    @Test
+    void testWrongWithdrawBalance() {
+
+        Day7_BankAccount account =
+                new Day7_BankAccount(
+                        "ACC101",
+                        500.0
+                );
+
+        account.withdraw(200.0);
+
+        assertEquals(
+                400.0,
+                account.getBalance(),
+                "Expected 400 but got "
+                        + account.getBalance()
+        );
+    }
+
+    @Test
+    void testExpectedExceptionFails() {
+
+        Day7_BankAccount account =
+                new Day7_BankAccount(
+                        "ACC101",
+                        100.0
+                );
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> account.withdraw(50.0)
+        );
+    }
+}
+
+Task 04:
+Parameterized Test Case
+
+Java Code:
+
+package Junit;
+
+public class Day7_StringUtility {
+
+    public static boolean isPalindrome(String text) {
+
+        if (text == null) {
+            return false;
+        }
+
+        String reversed =
+                new StringBuilder(text)
+                        .reverse()
+                        .toString();
+
+        return text.equalsIgnoreCase(reversed);
+    }
+}
+
+JUnit 5 Test Code:
+
+package Junit;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class Day7_ParameterizedTests {
+
+    @ParameterizedTest
+    @ValueSource(
+            strings = {
+                    "madam",
+                    "level",
+                    "radar"
+            }
+    )
+    void testPalindromePass(String word) {
+
+        assertTrue(
+                Day7_StringUtility.isPalindrome(word)
+        );
+    }
+
+    @Test
+    void testPalindromeFail() {
+
+        assertTrue(
+                Day7_StringUtility.isPalindrome("hello"),
+                "Expected palindrome but value is not a palindrome"
+        );
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+            strings = {
+                    "java",
+                    "spring",
+                    "bank"
+            }
+    )
+    void testNotPalindrome(String word) {
+
+        assertFalse(
+                Day7_StringUtility.isPalindrome(word)
+        );
+    }
+}
+
+Task 05:
+What is JUnit Life Cycle Hook (Setup and Tear Down)?
+
+JUnit Life Cycle Hooks are methods that run automatically at specific points during the execution of test cases.
+
+The main lifecycle annotations are:
+
+@BeforeEach
+
+Runs before every test method.
+
+@AfterEach
+
+Runs after every test method.
+
+@BeforeAll
+
+Runs once before all test methods.
+
+@AfterAll
+
+Runs once after all test methods.
+
+Setup means preparing the required environment before testing.
+
+Tear down means cleaning up the resources after testing.
+
+Task 06:
+Create Java Code for Life Cycle Hook Setup/Tear Down
+
+Database Service:
+
+package Junit;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Day7_DatabaseService {
+
+    private Map<String, String> records =
+            new HashMap<>();
+
+    public void connect() {
+        System.out.println(
+                "Database connection established"
+        );
+    }
+
+    public void disconnect() {
+        System.out.println(
+                "Database connection closed"
+        );
+    }
+
+    public void save(String key, String value) {
+        records.put(key, value);
+    }
+
+    public String find(String key) {
+        return records.get(key);
+    }
+}
+
+JUnit Test Code:
+
+package Junit;
+
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class Day7_LifeCycleTest {
+
+    private Day7_DatabaseService database;
+
+    @BeforeEach
+    void setUp() {
+
+        database =
+                new Day7_DatabaseService();
+
+        database.connect();
+    }
+
+    @AfterEach
+    void tearDown() {
+
+        database.disconnect();
+    }
+
+    @Test
+    void testSaveAndFindPass() {
+
+        database.save(
+                "customer1",
+                "Harsh"
+        );
+
+        assertEquals(
+                "Harsh",
+                database.find("customer1")
+        );
+    }
+
+    @Test
+    void testSaveAndFindFail() {
+
+        database.save(
+                "customer1",
+                "Harsh"
+        );
+
+        assertEquals(
+                "WrongName",
+                database.find("customer1")
+        );
+    }
+
+    @Test
+    void testMissingRecordFail() {
+
+        assertEquals(
+                "SomeValue",
+                database.find("unknown")
+        );
+    }
+}
+
+Task 07:
+What are Assertions in JUnit 5?
+
+Assertions are methods used to verify whether the actual result of a program matches the expected result.
+
+If the assertion is correct, the test passes.
+
+If the assertion is incorrect, the test fails.
+
+Common JUnit 5 assertions are:
+
+assertEquals()
+assertNotEquals()
+assertTrue()
+assertFalse()
+assertNull()
+assertNotNull()
+assertSame()
+assertNotSame()
+assertThrows()
+assertDoesNotThrow()
+assertTimeout()
+
+Example:
+
+assertEquals(10, calculator.add(5, 5));
+
+Here:
+
+Expected value = 10
+
+Actual value = result of calculator.add(5, 5)
+
+If both are equal, the test passes.
+
+Task 08:
+What is Time Test Performance Service?
+
+Time-based testing is used to check whether a particular operation completes within a specified amount of time.
+
+JUnit 5 provides assertTimeout() for this purpose.
+
+For example, if we expect an operation to finish within 500 milliseconds, we can write:
+
+assertTimeout(
+        Duration.ofMillis(500),
+        () -> service.performOperation()
+);
+
+If the operation takes longer than 500 milliseconds, the test fails.
+
+Task 09:
+Timeout Test Performance Service
+
+Java Performance Service:
+
+package Junit;
+
+public class Day7_PerformanceService {
+
+    public void quickOperation() {
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public void slowOperation() {
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+}
+
+JUnit Test Code:
+
+package Junit;
+
+import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
+
+import static org.junit.jupiter.api.Assertions.assertTimeout;
+
+class Day7_TimeoutTests {
+
+    @Test
+    void testFastOperationPasses() {
+
+        Day7_PerformanceService service =
+                new Day7_PerformanceService();
+
+        assertTimeout(
+                Duration.ofMillis(500),
+                () -> service.quickOperation()
+        );
+    }
+
+    @Test
+    void testSlowOperationFails() {
+
+        Day7_PerformanceService service =
+                new Day7_PerformanceService();
+
+        assertTimeout(
+                Duration.ofMillis(500),
+                () -> service.slowOperation()
+        );
+    }
+
+    @Test
+    void testVerySmallTimeoutFails() {
+
+        Day7_PerformanceService service =
+                new Day7_PerformanceService();
+
+        assertTimeout(
+                Duration.ofMillis(50),
+                () -> service.quickOperation()
+        );
+    }
+}
+
+Task 10:
+Different Types of JUnit 5 Tests
+
+Some common types of JUnit 5 tests are:
+
+Basic Unit Test
+Exception Testing
+Parameterized Test
+Nested Test
+Lifecycle Testing
+Timeout Testing
+Repeated Test
+Disabled Test
+Conditional Test
+Dynamic Test
+Tag-based Test
+Test using Assertions
+Test using Mock Objects
+
+Task 11:
+JVM Architecture
+
+JVM stands for Java Virtual Machine.
+
+It is responsible for executing Java bytecode.
+
+Basic JVM Architecture:
+
+                 JVM
+                  |
+        -----------------------
+        |                     |
+   Class Loader          Runtime Data Areas
+        |                     |
+        |          ---------------------------
+        |          |      |       |           |
+        |       Method   Heap   Stack   PC Register
+        |       Area
+        |
+   Bytecode
+        |
+   Execution Engine
+        |
+   -------------------------
+   |           |           |
+ Interpreter  JIT       Garbage
+              Compiler   Collector
+   |
+   |
+Native Method Interface
+   |
+Native Method Libraries
+1. Class Loader
+
+The Class Loader loads .class files containing Java bytecode into JVM memory.
+
+2. Method Area
+
+It stores class-level information, method information, static variables and runtime constant pool information.
+
+3. Heap
+
+The Heap is used to store objects and their instance data.
+
+Garbage Collector works mainly on objects stored in the Heap.
+
+4. Stack
+
+Each thread has its own stack.
+
+It stores local variables, method calls and stack frames.
+
+5. PC Register
+
+The Program Counter Register stores the address of the current JVM instruction being executed by a thread.
+
+6. Execution Engine
+
+The Execution Engine executes the bytecode.
+
+It contains:
+
+Interpreter
+JIT Compiler
+Garbage Collector
+7. JNI
+
+JNI stands for Java Native Interface.
+
+It allows Java code to communicate with native code written in languages such as C and C++.
+
+8. Native Method Libraries
+
+These are native libraries required by the JVM to perform certain operations.
+
+Task 12:
+Why are Enums Useful?
+
+Enums are useful when we have a fixed set of predefined values.
+
+For example, in a banking application, an account can have a fixed set of statuses:
+
+ACTIVE
+BLOCKED
+CLOSED
+
+Instead of using normal strings:
+
+String status = "ACTIVE";
+
+we can use an enum:
+
+AccountStatus status =
+        AccountStatus.ACTIVE;
+
+Advantages of Enums:
+
+They provide type safety.
+They prevent invalid values.
+They make code more readable.
+They represent fixed sets of constants.
+They can be used with switch.
+They can contain methods and constructors.
+They make business logic easier to understand.
+
+Task 13:
+WAP to Show Importance of Enums in a Real-World Banking Application
+
+package org.example;
+
+enum AccountStatus {
+    ACTIVE,
+    BLOCKED,
+    CLOSED
+}
+
+class CustomerAccount {
+
+    private String accountNumber;
+    private AccountStatus status;
+
+    CustomerAccount(
+            String accountNumber,
+            AccountStatus status) {
+
+        this.accountNumber = accountNumber;
+        this.status = status;
+    }
+
+    public void displayStatus() {
+
+        switch (status) {
+
+            case ACTIVE:
+                System.out.println(
+                        accountNumber
+                                + " account is active"
+                );
+                break;
+
+            case BLOCKED:
+                System.out.println(
+                        accountNumber
+                                + " account is blocked"
+                );
+                break;
+
+            case CLOSED:
+                System.out.println(
+                        accountNumber
+                                + " account is closed"
+                );
+                break;
+        }
+    }
+}
+
+public class Day7_BankingEnum {
+
+    public static void main(String[] args) {
+
+        CustomerAccount account =
+                new CustomerAccount(
+                        "ACC1001",
+                        AccountStatus.ACTIVE
+                );
+
+        account.displayStatus();
+    }
+}
+
+Output:
+
+ACC1001 account is active
+
+Task 14:
+String Handling Functions with Examples in a Banking Application
+
+package org.example;
+
+public class Day7_BankingStringMethods {
+
+    public static void main(String[] args) {
+
+        String customerName = "Harsh Saini";
+        String accountNumber = "ACC123456";
+        String branchName = "Delhi Main Branch";
+        String accountType = "Savings Account";
+
+        // 1. length()
+        System.out.println(
+                "Name Length: "
+                        + customerName.length()
+        );
+
+        // 2. charAt()
+        System.out.println(
+                "First Character: "
+                        + customerName.charAt(0)
+        );
+
+        // 3. toUpperCase()
+        System.out.println(
+                "Uppercase Name: "
+                        + customerName.toUpperCase()
+        );
+
+        // 4. toLowerCase()
+        System.out.println(
+                "Lowercase Name: "
+                        + customerName.toLowerCase()
+        );
+
+        // 5. equals()
+        System.out.println(
+                "Account Type Matches: "
+                        + accountType.equals(
+                                "Savings Account"
+                        )
+        );
+
+        // 6. equalsIgnoreCase()
+        System.out.println(
+                "Case Ignored Check: "
+                        + accountType.equalsIgnoreCase(
+                                "savings account"
+                        )
+        );
+
+        // 7. contains()
+        System.out.println(
+                "Contains Savings: "
+                        + accountType.contains(
+                                "Savings"
+                        )
+        );
+
+        // 8. startsWith()
+        System.out.println(
+                "Account Starts With ACC: "
+                        + accountNumber.startsWith(
+                                "ACC"
+                        )
+        );
+
+        // 9. endsWith()
+        System.out.println(
+                "Branch Ends With Branch: "
+                        + branchName.endsWith(
+                                "Branch"
+                        )
+        );
+
+        // 10. substring()
+        System.out.println(
+                "Account Prefix: "
+                        + accountNumber.substring(0, 3)
+        );
+
+        // 11. indexOf()
+        System.out.println(
+                "Position of Space: "
+                        + customerName.indexOf(" ")
+        );
+
+        // 12. replace()
+        System.out.println(
+                "Updated Branch: "
+                        + branchName.replace(
+                                "Delhi",
+                                "Mumbai"
+                        )
+        );
+
+        // 13. trim()
+        String enteredName =
+                "   Harsh Saini   ";
+
+        System.out.println(
+                "Trimmed Name: "
+                        + enteredName.trim()
+        );
+
+        // 14. isEmpty()
+        String nomineeName = "";
+
+        System.out.println(
+                "Nominee Name Empty: "
+                        + nomineeName.isEmpty()
+        );
+
+        // 15. concat()
+        System.out.println(
+                "Customer Details: "
+                        + customerName.concat(
+                                " - "
+                        ).concat(accountNumber)
+        );
+
+        // 16. split()
+        String fullName = "Harsh Saini";
+
+        String[] nameParts =
+                fullName.split(" ");
+
+        System.out.println(
+                "First Name: "
+                        + nameParts[0]
+        );
+
+        System.out.println(
+                "Last Name: "
+                        + nameParts[1]
+        );
+
+        // 17. compareTo()
+        System.out.println(
+                "String Comparison: "
+                        + accountType.compareTo(
+                                "Current Account"
+                        )
+        );
+
+        // 18. startsWith() with account number
+        if (accountNumber.startsWith("ACC")) {
+            System.out.println(
+                    "Valid Bank Account Number"
+            );
+        }
+    }
+}
+
+Add-on:
+Nested Tests – Organized Scenarios
+
+Nested tests are used to group related test cases inside another test class.
+
+For example, bank account tests can be divided into:
+
+Bank Account Tests
+       |
+       |---- Deposit Tests
+       |
+       |---- Withdraw Tests
+
+JUnit 5 uses the @Nested annotation for this purpose.
+
+package Junit;
+
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class Day7_NestedBankAccountTests {
+
+    @Nested
+    class DepositScenarios {
+
+        @Test
+        void testSuccessfulDeposit() {
+
+            Day7_BankAccount account =
+                    new Day7_BankAccount(
+                            "ACC200",
+                            500.0
+                    );
+
+            account.deposit(200.0);
+
+            assertEquals(
+                    700.0,
+                    account.getBalance()
+            );
+        }
+
+        @Test
+        void testIncorrectDepositResult() {
+
+            Day7_BankAccount account =
+                    new Day7_BankAccount(
+                            "ACC200",
+                            500.0
+                    );
+
+            account.deposit(200.0);
+
+            assertEquals(
+                    800.0,
+                    account.getBalance()
+            );
+        }
+    }
+
+    @Nested
+    class WithdrawalScenarios {
+
+        @Test
+        void testSuccessfulWithdrawal() {
+
+            Day7_BankAccount account =
+                    new Day7_BankAccount(
+                            "ACC200",
+                            500.0
+                    );
+
+            account.withdraw(100.0);
+
+            assertEquals(
+                    400.0,
+                    account.getBalance()
+            );
+        }
+
+        @Test
+        void testIncorrectWithdrawalResult() {
+
+            Day7_BankAccount account =
+                    new Day7_BankAccount(
+                            "ACC200",
+                            500.0
+                    );
+
+            account.withdraw(100.0);
+
+            assertEquals(
+                    300.0,
+                    account.getBalance()
+            );
+        }
+    }
+}
