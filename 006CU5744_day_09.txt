@@ -1,0 +1,799 @@
+Task 4: Explain ApplicationContext with syntax
+
+ApplicationContext is the main container of the Spring Framework. It creates, manages, and provides objects (called Beans) to our application.
+
+Syntax:
+
+ApplicationContext context =
+    new ClassPathXmlApplicationContext("applicationContext.xml");
+
+To get an object from Spring:
+
+Student student = context.getBean(Student.class);
+
+In simple words:
+ApplicationContext is like a manager that manages all the objects of our Spring application.
+
+Task 5: Why do we use ApplicationContext?
+
+Some important uses of ApplicationContext are:
+
+Bean Management – Creates and manages Spring Beans.
+Dependency Injection – Provides required objects to other objects.
+Configuration Management – Loads application configuration.
+Event Handling – Supports application events.
+Internationalization – Supports multiple languages and messages.
+Resource Management – Helps access files and other resources.
+Lifecycle Management – Manages the lifecycle of Spring Beans.
+
+
+Task 6: Features of Spring Framework
+Dependency Injection (DI) – Spring automatically provides required objects to classes.
+Inversion of Control (IoC) – Spring takes control of creating and managing objects instead of the programmer.
+Spring MVC – Used to develop web applications using the Model-View-Controller architecture.
+Spring AOP – Helps handle common tasks like logging and security separately from business logic.
+Transaction Management – Makes database transactions easier to manage.
+Spring Security – Provides authentication and authorization features for applications.
+Database Support – Provides easy integration with databases using JDBC, JPA, Hibernate, etc.
+Testing Support – Provides support for testing Spring applications.
+Integration Support – Can easily integrate with other frameworks and technologies.
+
+
+Task 7: Why do we use Spring Framework? Advantages
+
+We use Spring Framework because it makes Java application development easier, faster, and more organized.
+
+Advantages:
+Loose Coupling – Classes depend less on each other, making the application easier to change.
+Dependency Injection – Spring manages object creation and dependencies.
+Less Code – Spring provides many ready-made features, reducing boilerplate code.
+Easy Testing – Loose coupling makes unit testing easier.
+Modular – We can use only the Spring modules that our application needs.
+Database Support – Makes database operations easier.
+Security – Provides powerful security features.
+Scalable – Suitable for both small and large enterprise applications.
+
+
+Task 8: What do you understand by IoC? Explain with diagram
+IoC stands for Inversion of Control.
+
+Normally, we create and manage objects ourselves using the new keyword.
+
+Engine engine = new Engine();
+Car car = new Car(engine);
+
+Here, the programmer is controlling object creation.
+
+With IoC, Spring takes this responsibility. Spring creates and manages the objects and provides them when needed.
+
+Simple Diagram:
+Without IoC:
+
+Programmer
+    |
+    | creates object
+    v
+  Engine
+    |
+    | gives to
+    v
+   Car
+
+
+With IoC:
+
+             Spring IoC Container
+                    |
+          ---------------------
+          |                   |
+     Creates Engine       Creates Car
+          |                   |
+          ---------+-----------
+                   |
+                   v
+          Injects Engine into Car
+
+In simple words:
+IoC means "Instead of us controlling object creation, Spring controls it for us."
+
+Task 9: How many types of IoC are there in Spring?
+
+In Spring, IoC is mainly achieved through two types of Dependency Injection:
+
+1. Constructor Injection
+
+The dependency is provided through the class constructor.
+
+class Car {
+    private Engine engine;
+
+    Car(Engine engine) {
+        this.engine = engine;
+    }
+}
+
+Spring provides the Engine object through the constructor.
+
+2. Setter Injection
+
+The dependency is provided through a setter method.
+
+class Car {
+    private Engine engine;
+
+    public void setEngine(Engine engine) {
+        this.engine = engine;
+    }
+}
+
+Spring provides the Engine object using the setEngine() method.
+
+Note: IoC is a broad concept, and DI is one of the main ways Spring implements IoC.
+
+Task 10: What is DI in Spring?
+
+DI stands for Dependency Injection.
+
+Dependency Injection means Spring provides the required dependency (object) to a class instead of the class creating the object itself.
+
+Example:
+
+class Car {
+    private Engine engine;
+
+    Car(Engine engine) {
+        this.engine = engine;
+    }
+}
+
+Here, Car needs an Engine. Instead of creating Engine inside Car, the Engine object is provided from outside.
+
+In simple words:
+DI = Spring gives the required object to our class.
+
+Task 11: How many types of DI do we have?
+
+There are mainly two types of Dependency Injection in Spring:
+
+1. Constructor Injection
+
+The dependency is injected through the constructor.
+
+class Car {
+    private Engine engine;
+
+    Car(Engine engine) {
+        this.engine = engine;
+    }
+}
+
+Best choice for: Required dependencies.
+
+2. Setter Injection
+
+The dependency is injected using a setter method.
+
+class Car {
+    private Engine engine;
+
+    public void setEngine(Engine engine) {
+        this.engine = engine;
+    }
+}
+
+Best choice for: Optional dependencies or dependencies that can be changed later.
+
+Task 12: What is Spring Application Configuration?
+
+Spring Application Configuration means telling Spring how to create, manage, and connect the objects (Beans) in our application.
+
+For example, we can tell Spring:
+
+Which classes should be Spring Beans.
+Which objects depend on other objects.
+How dependencies should be injected.
+What configurations our application needs.
+
+Example:
+
+@Configuration
+@ComponentScan("com.example")
+public class AppConfig {
+}
+
+Here:
+
+@Configuration tells Spring that this class contains configuration.
+@ComponentScan tells Spring where to search for Spring Beans.
+
+In simple words:
+Spring Application Configuration is like a blueprint that tells Spring how our application should be set up.
+
+Task 13: What are the different ways to configure Spring applications?
+
+There are mainly three ways to configure Spring applications:
+
+1. XML-Based Configuration
+
+Configuration is written in an XML file.
+
+<bean id="engine" class="com.example.Engine"/>
+
+This was commonly used in older Spring applications.
+
+2. Annotation-Based Configuration
+
+We use annotations to configure Spring Beans.
+
+@Component
+class Engine {
+}
+
+Spring automatically detects the class and manages it as a Bean.
+
+Common annotations:
+
+@Component
+@Service
+@Repository
+@Controller
+@Autowired
+3. Java-Based Configuration
+
+We use Java classes and annotations for configuration.
+
+@Configuration
+class AppConfig {
+
+    @Bean
+    public Engine engine() {
+        return new Engine();
+    }
+}
+
+This approach is more type-safe and easier to maintain than XML configuration.
+
+
+Task 14: Why do we need Spring Application Configuration?
+
+Spring Application Configuration is needed to tell Spring how to create, manage, and connect objects (Beans) in our application.
+
+It helps us to:
+
+Define Beans – Tell Spring which objects it should manage.
+Configure Dependencies – Tell Spring which object depends on another object.
+Enable Dependency Injection – Spring can automatically provide required objects.
+Configure Application Behavior – We can define how our application should work.
+Reduce Hardcoding – Configuration keeps object creation and dependencies separate from business logic.
+
+In simple words:
+Spring Application Configuration acts like a blueprint that tells the Spring Container how to set up and manage our application.
+
+Task 15: What are the different ways to configure a Spring application?
+
+There are mainly 3 ways:
+
+1. XML-Based Configuration
+
+We define Beans and their dependencies in an XML file.
+
+<bean id="engine" class="com.example.Engine"/>
+
+This approach is mostly used in older Spring applications.
+
+2. Annotation-Based Configuration
+
+We use annotations to tell Spring which classes should be managed as Beans.
+
+@Component
+class Engine {
+}
+
+Common annotations:
+
+@Component
+@Service
+@Repository
+@Controller
+@Autowired
+3. Java-Based Configuration
+
+We use Java classes and annotations to configure Beans.
+
+@Configuration
+class AppConfig {
+
+    @Bean
+    public Engine engine() {
+        return new Engine();
+    }
+}
+
+In modern Spring applications, Java-based and annotation-based configuration are commonly used.
+
+Task 16: What is Bean Scope? Give different scopes with description.
+
+Bean Scope defines how long a Spring Bean will live and how many objects of that Bean Spring will create.
+
+Spring provides several Bean scopes:
+
+1. Singleton
+
+Only one object of the Bean is created per Spring IoC Container.
+
+@Scope("singleton")
+
+This is the default scope in Spring.
+
+2. Prototype
+
+A new object is created every time we request the Bean from the Spring Container.
+
+@Scope("prototype")
+3. Request
+
+A new Bean object is created for each HTTP request.
+
+@Scope("request")
+
+Mainly used in web applications.
+
+4. Session
+
+A Bean object is created for each HTTP session.
+
+@Scope("session")
+
+It remains available throughout that user's session.
+
+5. Application
+
+A Bean object is created for the lifetime of the web application.
+
+@Scope("application")
+6. WebSocket
+
+A Bean object is created for the lifetime of a WebSocket session.
+
+@Scope("websocket")
+Quick Summary:
+Singleton  → One object per Spring Container
+Prototype  → New object every time requested
+Request    → One object per HTTP request
+Session    → One object per HTTP session
+Application → One object per web application
+WebSocket  → One object per WebSocket session
+Task 17: What is Autowiring in Spring?
+
+Autowiring means Spring automatically finds and injects the required dependency into a Bean.
+
+For example, suppose Car needs an Engine.
+
+@Component
+class Engine {
+}
+@Component
+class Car {
+
+    @Autowired
+    private Engine engine;
+}
+
+Here, Spring automatically finds the Engine Bean and injects it into Car.
+
+In simple words:
+
+Autowiring means Spring automatically connects the required objects for us.
+
+Task 18: What are the different ways of Autowiring?
+
+There are mainly 3 common ways of autowiring in modern Spring:
+
+1. Constructor Autowiring
+
+Dependency is injected through the constructor.
+
+@Component
+class Car {
+
+    private Engine engine;
+
+    @Autowired
+    public Car(Engine engine) {
+        this.engine = engine;
+    }
+}
+
+If there is only one constructor, @Autowired can usually be omitted.
+
+Recommended approach because dependencies are clear and can be made final.
+
+2. Setter Autowiring
+
+Dependency is injected through a setter method.
+
+@Component
+class Car {
+
+    private Engine engine;
+
+    @Autowired
+    public void setEngine(Engine engine) {
+        this.engine = engine;
+    }
+}
+
+Useful when the dependency is optional or can be changed.
+
+3. Field Autowiring
+
+Dependency is injected directly into a field.
+
+@Component
+class Car {
+
+    @Autowired
+    private Engine engine;
+}
+
+It is simple to write, but constructor injection is generally preferred in modern Spring applications.
+
+Quick Summary:
+Autowiring
+    |
+    |--- Constructor Injection
+    |
+    |--- Setter Injection
+    |
+    |--- Field Injection
+
+
+Task 19: Difference between a Normal Java Object and a Spring Bean
+Normal Java Object	                          Spring Bean
+Created by the programmer using new.	      Created and managed by Spring Container.
+Programmer manages its lifecycle.	          Spring manages its lifecycle.
+Dependencies are usually managed manually.	  Spring can inject dependencies automatically.
+Not automatically managed by Spring.	      Fully managed by Spring.
+
+Example:
+
+Normal Java Object:
+
+Engine engine = new Engine();
+
+Here, we create the object ourselves.
+
+Spring Bean:
+
+@Component
+class Engine {
+}
+
+Here, Spring creates and manages the Engine object.
+
+In simple words:
+
+Normal Object → We manage it.
+Spring Bean → Spring manages it.
+
+Task 20: Difference between @Component and @Bean
+
+Both are used to create Spring Beans, but they are used differently.
+
+@Component
+
+We put @Component directly on the class.
+
+@Component
+class Engine {
+}
+
+Spring automatically finds this class during component scanning and creates a Bean.
+
+@Bean
+
+We put @Bean on a method inside a configuration class.
+
+@Configuration
+class AppConfig {
+
+    @Bean
+    public Engine engine() {
+        return new Engine();
+    }
+}
+
+The object returned by the method becomes a Spring Bean.
+
+Main Difference:
+@Component	@Bean
+Used on a class.	                        Used on a method.
+Spring automatically discovers the class.	We explicitly create and return the object.
+Good for classes that we own.	           Useful for third-party classes or custom object creation.
+
+In simple words:
+
+@Component → "Spring, please manage this class."
+@Bean → "Spring, please manage the object returned by this method."
+
+Task 21: Spring Initializr
+
+Spring Initializr
+
+Spring Initializr is a website used to quickly create a new Spring Boot project. We select the project type, Java version, dependencies, and project details, and it generates a ready-made project structure for us.
+
+It saves time because we don't have to create the Spring Boot project structure manually.
+
+Task 22: Create Application Using Spring Initializr
+
+Using Spring Initializr, we can create a Spring Boot project with the following files:
+
+Main Class: This is the starting point of the Spring Boot application.
+AppConfig Class: Used to define application configuration and beans.
+Employee Class: Represents an employee object in our application.
+
+The main class contains:
+
+SpringApplication.run()
+
+This starts the Spring Boot application and creates the Spring Container, which manages the beans and dependencies.
+
+In real applications, Spring Boot automatically creates and manages the application setup using SpringApplication.run().
+
+Task 23: Spring Annotations
+@Bean – Used to manually create and register an object as a Spring Bean.
+@Controller – Used to create a controller that handles web requests.
+@Value – Used to inject a value from properties or configuration files.
+@ComponentScan – Tells Spring where to search for Spring components like @Component, @Service, and @Repository.
+@Configuration – Marks a class as a configuration class where we can define beans.
+@Service – Used for classes that contain business logic.
+@Repository – Used for classes that communicate with the database.
+@Qualifier – Used to tell Spring exactly which bean to inject when multiple beans of the same type exist.
+@Required – Used to indicate that a property must be configured. It is an older annotation and is rarely used in modern Spring applications.
+@Component – Marks a class as a Spring-managed bean.
+@Autowired – Used for automatic dependency injection by Spring.
+@Scope – Defines the scope of a Spring bean, such as singleton or prototype.
+
+Simple flow to remember:
+@Component
+    ↓
+Spring creates and manages the object
+    ↓
+@Autowired
+    ↓
+Spring injects the required dependency
+
+And in a typical Spring Boot application:
+
+Controller
+    ↓
+Service
+    ↓
+Repository
+    ↓
+Database
+
+
+
+Task 24: What are the features of Spring Boot?
+Auto-Configuration – Automatically configures the application based on the dependencies added.
+Starter Dependencies – Provides ready-made dependency bundles for common features.
+Embedded Server – Comes with embedded servers like Tomcat, Jetty, and Undertow.
+Spring Boot CLI – Allows applications to be run using command-line tools.
+Actuator – Provides monitoring and management features for applications.
+Externalized Configuration – Allows configuration through application.properties or application.yml.
+Production Ready – Provides features that make applications easier to monitor and manage.
+Task 25: What are the advantages of Spring Boot?
+Reduces configuration and boilerplate code.
+Makes application development faster.
+Provides automatic configuration.
+Easy to create REST APIs and web applications.
+Embedded server means no need to install a separate server.
+Easy integration with databases and other technologies.
+Provides production-ready monitoring through Actuator.
+Easy to create and deploy standalone applications.
+Task 26: What are the key components of Spring Boot?
+
+The main components are:
+
+Spring Boot Starter Dependencies – Simplify dependency management.
+Auto-Configuration – Automatically configures the application.
+Spring Boot CLI – Used to run Spring applications from the command line.
+Spring Boot Actuator – Used for monitoring and managing applications.
+Embedded Servers – Servers like Tomcat are included inside the application.
+Spring Initializr – Used to quickly generate a Spring Boot project.
+Task 27: Why Spring Boot over Spring?
+
+Spring Framework requires more configuration and setup, while Spring Boot simplifies the process.
+
+Spring Framework:
+
+More configuration
+More setup
+Server configuration
+More boilerplate
+
+Spring Boot:
+
+Auto-configuration
+Starter dependencies
+Embedded server
+Less configuration
+Faster development
+
+So, we use Spring Boot over traditional Spring because it helps us build and run Spring applications quickly with less configuration.
+
+Task 28: Internal working of Spring Boot
+
+The basic working of Spring Boot is:
+
+Start Application
+      ↓
+SpringApplication.run()
+      ↓
+Create ApplicationContext
+      ↓
+Component Scanning
+      ↓
+Auto-Configuration
+      ↓
+Create and Manage Beans
+      ↓
+Dependency Injection
+      ↓
+Start Embedded Server
+      ↓
+Application Ready
+
+Spring Boot uses the dependencies and configuration present in the project to automatically configure the application.
+
+Task 29: Starter Dependencies for Spring Boot
+
+Some commonly used Spring Boot starters are:
+
+spring-boot-starter – Core Spring Boot features.
+spring-boot-starter-web – Used for web applications and REST APIs.
+spring-boot-starter-data-jpa – Used for JPA and database operations.
+spring-boot-starter-jdbc – Used for JDBC database connectivity.
+spring-boot-starter-security – Used for authentication and security.
+spring-boot-starter-test – Used for testing Spring Boot applications.
+spring-boot-starter-thymeleaf – Used for server-side HTML templates.
+spring-boot-starter-validation – Used for validating data.
+spring-boot-starter-actuator – Used for monitoring and managing applications.
+spring-boot-starter-mail – Used for sending emails.
+Task 30: Internal working of the given Spring Boot code
+
+Given code:
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MyApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(MyApplication.class, args);
+    }
+}
+Step 1: Program starts
+
+Java starts execution from the main() method:
+
+public static void main(String[] args)
+Step 2: SpringApplication.run() is called
+SpringApplication.run(MyApplication.class, args);
+
+This starts the Spring Boot application.
+
+It receives:
+
+MyApplication.class → Main configuration class
+args                → Command-line arguments
+Step 3: Spring Boot creates the ApplicationContext
+
+Spring Boot creates an ApplicationContext.
+
+The ApplicationContext is responsible for managing Spring objects called Beans.
+
+Step 4: @SpringBootApplication is processed
+
+This annotation is very important.
+
+@SpringBootApplication
+
+It is a combination of three annotations:
+
+@SpringBootConfiguration
+@EnableAutoConfiguration
+@ComponentScan
+Step 5: Component Scanning
+
+@ComponentScan tells Spring to search for classes such as:
+
+@Component
+@Service
+@Repository
+@Controller
+
+Spring finds these classes and creates their objects as Spring Beans.
+
+Step 6: Auto-Configuration
+
+@EnableAutoConfiguration tells Spring Boot to automatically configure the application based on the dependencies available in the project.
+
+For example, if we add the Web starter:
+
+spring-boot-starter-web
+
+Spring Boot automatically configures many things required for web development.
+
+Step 7: Dependency Injection
+
+Spring creates and manages the required Beans and injects dependencies where needed.
+
+For example:
+
+Controller
+    ↓
+Service
+    ↓
+Repository
+
+Spring connects these objects using Dependency Injection.
+
+Step 8: Embedded Server starts
+
+If we have a web application and the required web dependency is present, Spring Boot starts an embedded server such as Tomcat.
+
+Spring Boot Application
+        ↓
+Embedded Tomcat
+        ↓
+Application starts
+Step 9: Application is ready
+
+After all configuration, Bean creation, dependency injection, and server startup are completed, the application becomes ready to receive requests.
+
+Complete flow:
+main()
+  ↓
+SpringApplication.run()
+  ↓
+Create ApplicationContext
+  ↓
+Process @SpringBootApplication
+  ↓
+Component Scanning
+  ↓
+Auto-Configuration
+  ↓
+Create Spring Beans
+  ↓
+Dependency Injection
+  ↓
+Start Embedded Tomcat
+  ↓
+Application Ready
+Task 31: Syntax to change the embedded Tomcat port
+
+To change the default port from 8080 to another port, add this to:
+
+src/main/resources/application.properties
+
+server.port=8081
+
+Now your application will run on:
+
+http://localhost:8081
+
+The default port is:
+
+8080
+
+You can change it to any available port, for example:
+
+server.port=9090
+
+Then the application will run on:
+
+http://localhost:9090
