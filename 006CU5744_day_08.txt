@@ -28,12 +28,13 @@ public class MyApplication {
         SpringApplication.run(MyApplication.class, args);
     }
 }
+
 Task 03: Difference between Spring Framework and Spring Boot
-Spring Framework	Spring Boot
-It is the main framework for Java applications.	It is built on top of Spring Framework.
-Requires more configuration.	Requires less configuration.
-We may need to configure the server separately.	Provides embedded servers like Tomcat.
-Development can take more time.	Makes development faster and easier.
+Spring Framework	                                         Spring Boot
+It is the main framework for Java applications.	           It is built on top of Spring Framework.
+Requires more configuration.	                           Requires less configuration.
+We may need to configure the server separately.	           Provides embedded servers like Tomcat.
+Development can take more time.	                           Makes development faster and easier.
 
 In simple words:
 Spring Framework = More configuration
