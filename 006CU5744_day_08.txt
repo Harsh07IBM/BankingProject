@@ -1,0 +1,52 @@
+Task 01: What do you understand by Spring Framework?
+
+Spring Framework is a Java framework used to develop large and enterprise-level applications easily.
+
+It provides features like Dependency Injection, MVC, Security, Database Connectivity, etc.
+
+Example:
+Instead of creating objects manually using new, Spring can create and manage objects for us.
+
+@Component
+class Student {
+}
+
+Here, Spring creates and manages the Student object.
+
+Task 02: What is Spring Boot?
+
+Spring Boot is built on top of the Spring Framework. It makes Spring application development faster and easier.
+
+It provides auto-configuration, starter dependencies, and an embedded server, so we need less configuration.
+
+Example:
+With Spring Boot, we can create a web application and run it directly without manually configuring an external Tomcat server.
+
+@SpringBootApplication
+public class MyApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MyApplication.class, args);
+    }
+}
+Task 03: Difference between Spring Framework and Spring Boot
+Spring Framework	Spring Boot
+It is the main framework for Java applications.	It is built on top of Spring Framework.
+Requires more configuration.	Requires less configuration.
+We may need to configure the server separately.	Provides embedded servers like Tomcat.
+Development can take more time.	Makes development faster and easier.
+
+In simple words:
+Spring Framework = More configuration
+Spring Boot = Spring + Auto Configuration + Easy Setup
+
+Task 04: What is Dependency Injection?
+
+Dependency Injection means Spring automatically provides the required object to another class, instead of the class creating that object itself.
+
+Without Dependency Injection:
+
+class Car {
+    Engine engine = new Engine();
+}
+
+Here, Car creates the Engine object itself.
