@@ -13,7 +13,10 @@ public class WelcomeNoteAppApplication {
     }
 
     @Bean
-    CommandLineRunner runner(WelcomeMessageService service) {
-        return args -> System.out.println(service.getWelcomeMessage());
+    CommandLineRunner runner(WelcomeMessageService service, Student student) {
+        return args -> {
+            System.out.println(service.getWelcomeMessage());
+            System.out.println(student);
+        };
     }
 }
