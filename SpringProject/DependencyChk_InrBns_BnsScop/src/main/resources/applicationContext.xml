@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+         http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Bank account bean -->
+    <bean id="bankAccount" class="com.bank.BankAccount">
+        <property name="accountId" value="101"/>
+        <property name="accountHolder" value="Prasunamba"/>
+    </bean>
+
+    <!-- Inner bean example -->
+    <bean id="customer" class="com.bank.Customer">
+        <property name="name" value="Prasunamba"/>
+        <property name="address">
+            <bean class="com.bank.Address">
+                <property name="city" value="Bengaluru"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Singleton scope: same instance every time -->
+    <bean id="singletonAccount" class="com.bank.BankAccount" scope="singleton">
+        <property name="accountId" value="201"/>
+        <property name="accountHolder" value="Singleton User"/>
+    </bean>
+
+    <!-- Prototype scope: new instance each time -->
+    <bean id="prototypeAccount" class="com.bank.BankAccount" scope="prototype">
+        <property name="accountId" value="202"/>
+        <property name="accountHolder" value="Prototype User"/>
+    </bean>
+
+</beans>
