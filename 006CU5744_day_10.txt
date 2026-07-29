@@ -1,0 +1,51 @@
+Task 1: What is Spring Data JPA?
+
+Spring Data JPA is a part of the Spring ecosystem that makes it easier to work with databases using JPA (Java Persistence API).
+
+It reduces the amount of database-related code we need to write. We can create repository interfaces and Spring Data JPA provides common database operations automatically.
+
+Example:
+
+public interface EmployeeRepository 
+        extends JpaRepository<Employee, Long> {
+}
+
+Now we can perform operations like:
+
+Save Employee
+Find Employee
+Update Employee
+Delete Employee
+
+without writing SQL for every basic operation.
+
+Task 2: What are the key features of Spring Data JPA?
+Repository Support – Provides ready-made repository interfaces like JpaRepository.
+CRUD Operations – Provides methods for Create, Read, Update, and Delete operations.
+Query Methods – Can create database queries using method names.
+Custom Queries – Allows writing custom queries using @Query.
+Pagination and Sorting – Supports retrieving data in pages and sorting results.
+Transaction Support – Helps manage database transactions.
+JPA Integration – Works with JPA and ORM frameworks like Hibernate.
+Less Boilerplate Code – Reduces the amount of database code we need to write.
+Task 3: What are the core components of Spring Data JPA?
+
+The main components are:
+
+Entity – A Java class that represents a table in the database. Usually marked with @Entity.
+Repository – Interface used to communicate with the database. For example, JpaRepository.
+EntityManager – Manages entities and their interaction with the database.
+JPA Provider – The implementation that performs the actual ORM work. Hibernate is commonly used as the JPA provider.
+Query Methods – Methods that allow us to retrieve data using method names, such as findByName().
+Transaction Management – Manages database operations as transactions.
+
+Simple flow:
+Java Entity
+     ↓
+Repository
+     ↓
+Spring Data JPA
+     ↓
+JPA / Hibernate
+     ↓
+Database
