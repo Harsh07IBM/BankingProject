@@ -49,3 +49,142 @@ Spring Data JPA
 JPA / Hibernate
      ↓
 Database
+
+
+Task 6: What is application.properties file?
+
+application.properties is a configuration file used in Spring Boot applications. It is usually located inside:
+
+src/main/resources/application.properties
+
+We use it to store application settings like:
+
+Server port
+Database connection
+Username and password
+Logging settings
+Spring configuration
+
+Example:
+
+server.port=8081
+spring.application.name=BankingApplication
+
+
+Task 7: Why use application.properties? Uses?
+
+We use application.properties to keep configuration settings outside the Java code.
+
+Main uses:
+
+Change server port.
+Configure database connection.
+Set application name.
+Configure logging.
+Configure Spring Boot settings.
+Store environment-specific configuration.
+
+Example:
+
+server.port=8081
+spring.datasource.url=jdbc:mysql://localhost:3306/bank
+spring.datasource.username=root
+spring.datasource.password=password
+
+This makes it easier to change configuration without modifying the Java code.
+
+Task 8: What is application.yml?
+
+application.yml is another configuration file used in Spring Boot applications.
+
+It serves the same basic purpose as application.properties, but it uses YAML format and represents configuration in a hierarchical structure.
+
+Example:
+
+server:
+  port: 8081
+
+spring:
+  application:
+    name: BankingApplication
+
+The same configuration in application.properties would be:
+
+server.port=8081
+spring.application.name=BankingApplication
+
+
+Task 9: Why use/prefer application.yml instead of application.properties?
+
+application.yml is often preferred when the application has many nested or hierarchical configurations.
+
+Advantages:
+
+Easier to read for complex configurations.
+Uses indentation to show relationships.
+Avoids repeating long property prefixes.
+Better for large configuration files.
+Supports lists and nested structures in a cleaner way.
+
+Example:
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/bank
+    username: root
+    password: password
+
+The same configuration in properties format:
+
+spring.datasource.url=jdbc:mysql://localhost:3306/bank
+spring.datasource.username=root
+spring.datasource.password=password
+
+In short:
+
+application.properties → Simple key-value format
+
+application.yml        → Hierarchical and structured format
+
+Both are valid. The choice is mainly based on readability and personal/team preference.
+
+Task 10: What is Eureka Server?
+
+Eureka Server is a service registry used in microservices applications.
+
+It keeps a list of all running microservices and their locations.
+
+For example:
+
+Eureka Server
+     │
+     ├── User Service → localhost:8081
+     ├── Account Service → localhost:8082
+     └── Transaction Service → localhost:8083
+
+Each microservice registers itself with the Eureka Server.
+
+Task 11: Purpose of Eureka Server
+
+The main purpose of Eureka Server is service discovery.
+
+It helps microservices find and communicate with each other without manually storing the IP address and port of every service.
+
+Example:
+
+Account Service
+      │
+      │ "I need User Service"
+      ↓
+Eureka Server
+      │
+      │ "User Service is running at..."
+      ↓
+User Service
+
+Main uses:
+Keeps a registry of available services.
+Helps services discover each other.
+Reduces hard-coded IP addresses and ports.
+Supports dynamic service registration.
+Helps with load balancing when multiple instances of a service are running.
