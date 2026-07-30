@@ -1,0 +1,552 @@
+Task 1: What is an Actuator in Spring Boot?
+Answer:
+
+Spring Boot Actuator is a feature that helps us monitor and manage a Spring Boot application while it is running. It provides different endpoints that show information such as the application's health, memory usage, beans, metrics, and configuration.
+
+It is mainly used in production environments to check whether the application is working properly.
+
+Real-World Example:
+
+Suppose a banking application is running on a server. If users report that the application is slow, the developer can use the Actuator Health Endpoint to check whether the application and database are running properly instead of checking everything manually.
+
+This is the kind of answer you can easily write in your notebook within 2–3 minutes.
+
+We'll keep the rest of the tasks in the same concise format, and for Task 4, we'll create a complete Spring Boot Actuator project with the required code, configuration, and output.
+
+
+Perfect! Here are the remaining tasks in the same notebook-friendly format.
+
+Task 2: Advantages of Spring Boot Actuator
+Answer:
+
+Spring Boot Actuator provides several advantages that make it easier to monitor and manage an application.
+
+Advantages:
+
+It helps monitor the health of the application.
+It provides information about memory usage, CPU usage, and application metrics.
+It helps identify issues quickly in production.
+It shows details about beans, environment properties, and application configuration.
+It makes application monitoring easier for developers and DevOps teams.
+Real-World Example:
+
+In an e-commerce website, if the server becomes slow during a sale, developers can use Spring Boot Actuator to check the application's health and performance, helping them find and fix the issue quickly.
+
+Task 3: Commonly Used Spring Boot Actuator Endpoints
+Answer:
+
+Spring Boot Actuator provides many endpoints to monitor an application. Some of the commonly used endpoints are:
+
+Endpoint	Description
+/actuator	Displays all available Actuator endpoints.
+/actuator/health	Shows the health status of the application.
+/actuator/info	Displays application information such as version and description.
+/actuator/beans	Lists all Spring Beans in the application.
+/actuator/metrics	Shows application performance metrics like memory and CPU usage.
+/actuator/env	Displays environment properties and configuration details.
+/actuator/mappings	Shows all URL mappings available in the application.
+Real-World Example:
+
+If a developer wants to check whether the database connection is working properly, they can open the /actuator/health endpoint. If the status is UP, the application is running correctly. If the status is DOWN, there is likely a problem that needs attention.
+
+Task 5: What is Spring Security Architecture?
+Answer:
+
+Spring Security Architecture is the framework that provides security to a Spring Boot application. It protects the application by handling authentication (verifying the user's identity) and authorization (checking what the user is allowed to access). It uses different components such as filters, authentication managers, and authentication providers to secure the application.
+
+Real-World Example:
+
+When you log in to your online banking application, Spring Security first verifies your username and password. If the credentials are correct, it allows you to access your account. If they are incorrect, access is denied.
+
+Task 6: What are the Core Components of Spring Security Architecture?
+Answer:
+
+The main components of Spring Security Architecture are:
+
+Security Filter Chain – Intercepts every incoming request and applies security rules.
+Authentication Manager – Verifies the user's credentials.
+Authentication Provider – Performs the actual authentication by checking the username and password.
+UserDetailsService – Loads user information from the database or another source.
+Password Encoder – Encrypts and verifies passwords.
+Security Context – Stores the details of the authenticated user during the session.
+Real-World Example:
+
+In a company portal, when an employee logs in, the Security Filter Chain receives the request, the Authentication Manager verifies the login details, the Authentication Provider checks the database, and if the login is successful, the employee is allowed to access the portal.
+
+Task 7: Diagrammatic Representation of Spring Security Architecture
+
+              User Request
+                    │
+                    ▼
+        Security Filter Chain
+                    │
+                    ▼
+      Authentication Manager
+                    │
+                    ▼
+      Authentication Provider
+                    │
+                    ▼
+        UserDetailsService
+                    │
+                    ▼
+             User Database
+                    │
+          Valid User? (Yes/No)
+                    │
+          ┌─────────┴─────────┐
+          │                   │
+        Yes                  No
+          │                   │
+          ▼                   ▼
+   Access Granted      Access Denied
+
+
+Real-World Example:
+
+Imagine a company office:
+
+Security Guard → Security Filter Chain
+Receptionist → Authentication Manager
+HR Department → Authentication Provider
+Employee Records → UserDetailsService/Database
+
+When a visitor arrives, the security guard stops them first, the receptionist checks their identity, HR verifies the records, and only then the visitor is allowed to enter.
+
+Task 8: What is a Security Filter Chain? Give Example Code.
+Answer:
+
+The Security Filter Chain is a collection of security filters that intercept every HTTP request before it reaches the application. It checks authentication, authorization, CSRF protection, and other security rules.
+
+Real-World Example:
+
+A security check at an airport works like a Security Filter Chain. Every passenger must pass through security before boarding the flight.
+
+Example Code:
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/public").permitAll()
+                .anyRequest().authenticated()
+            )
+            .formLogin();
+
+        return http.build();
+    }
+}
+
+Explanation:
+
+/public can be accessed by anyone.
+All other URLs require login.
+formLogin() enables the default Spring Security login page.
+Task 9: What is an Authentication Manager? Give Example Code.
+Answer:
+
+The Authentication Manager is a core component of Spring Security that verifies a user's login credentials. It receives the username and password and decides whether the user should be authenticated.
+
+Real-World Example:
+
+A receptionist in an office checks your ID card before allowing you to enter the building.
+
+Example Code:
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class SecurityConfig {
+
+    @Bean
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration configuration) throws Exception {
+
+        return configuration.getAuthenticationManager();
+    }
+}
+
+Explanation:
+
+AuthenticationManager receives the login request.
+It forwards the credentials to an AuthenticationProvider.
+If the credentials are valid, the user is authenticated.
+Task 10: What are Authentication Providers? Give Example and Code.
+Answer:
+
+An Authentication Provider is responsible for performing the actual authentication. It checks whether the username and password are correct by comparing them with the stored user information.
+
+Real-World Example:
+
+In a college, the principal asks the administration office to verify a student's ID. The administration office checks the records and confirms whether the student is genuine. Similarly, the Authentication Provider verifies user credentials.
+
+Example Code:
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+@Configuration
+public class UserConfig {
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+
+        return new InMemoryUserDetailsManager(
+                User.withUsername("admin")
+                    .password("{noop}admin123")
+                    .roles("ADMIN")
+                    .build()
+        );
+    }
+}
+
+Explanation:
+
+Creates an in-memory user.
+Username: admin
+Password: admin123
+Role: ADMIN
+
+When the user logs in, the Authentication Provider checks these credentials. If they match, access is granted; otherwise, access is denied.
+
+
+Task 11: What is UserDetailsService? Give Example.
+Answer:
+
+UserDetailsService is an interface in Spring Security that is used to load user information such as username, password, and roles from a database or another data source during authentication.
+
+Spring Security calls the loadUserByUsername() method to find the user details.
+
+Real-World Example:
+
+When you log in to your Gmail account, Google first searches for your email in its database. Similarly, UserDetailsService searches for the user's information before verifying the password.
+
+Example Code:
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+@Configuration
+public class UserConfig {
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+
+        return new InMemoryUserDetailsManager(
+                User.withUsername("harsh")
+                    .password("{noop}12345")
+                    .roles("USER")
+                    .build()
+        );
+    }
+}
+
+Explanation:
+
+Username: harsh
+Password: 12345
+Role: USER
+
+This user is stored in memory instead of a database.
+
+Task 12: What is Password Encoder? Give Example.
+Answer:
+
+A Password Encoder is a Spring Security component used to encrypt passwords before storing them in the database and to verify passwords during login.
+
+Storing passwords in plain text is not secure, so passwords are encoded using algorithms like BCrypt.
+
+Real-World Example:
+
+Think of a locker. Instead of storing the key outside the locker, you lock it securely. Similarly, passwords are stored in an encoded form to protect user data.
+
+Example Code:
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@Configuration
+public class PasswordConfig {
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}
+
+Example of Encoding:
+
+PasswordEncoder encoder = new BCryptPasswordEncoder();
+
+String encodedPassword = encoder.encode("admin123");
+
+System.out.println(encodedPassword);
+
+Output (Example):
+
+$2a$10$8G7Rr2w..............
+
+The encoded password looks completely different from the original password.
+
+Task 13: What is SecurityContextHolder?
+
+Note: The task says SecurityContextHeader, but in Spring Security the correct term is SecurityContextHolder. It is likely a typing mistake by your instructor.
+
+Answer:
+
+SecurityContextHolder is a class in Spring Security that stores the details of the currently authenticated user during a request. It allows any part of the application to access information about the logged-in user.
+
+Real-World Example:
+
+When you enter a company office, you receive an ID card. Anyone inside the company can check your ID card to know who you are. Similarly, SecurityContextHolder stores the authenticated user's information while the request is being processed.
+
+Example Code:
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+Authentication authentication =
+        SecurityContextHolder.getContext().getAuthentication();
+
+System.out.println(authentication.getName());
+
+Explanation:
+
+This code prints the username of the currently logged-in user.
+
+Task 14: Explain the Internal Functionality of Spring Security Architecture (Step by Step)
+Answer:
+
+The internal working of Spring Security happens in the following steps:
+
+Step 1: User Sends Login Request
+
+The user enters the username and password and clicks the Login button.
+
+⬇
+
+Step 2: Security Filter Chain
+
+The request first reaches the Security Filter Chain, which intercepts every incoming request and checks whether authentication is required.
+
+⬇
+
+Step 3: Authentication Manager
+
+The Authentication Manager receives the username and password from the filter chain and starts the authentication process.
+
+⬇
+
+Step 4: Authentication Provider
+
+The Authentication Provider checks the user credentials.
+
+⬇
+
+Step 5: UserDetailsService
+
+The UserDetailsService loads the user's information (username, password, and roles) from the database or another data source.
+
+⬇
+
+Step 6: Password Encoder
+
+The Password Encoder compares the entered password with the encoded password stored in the database.
+
+⬇
+
+Step 7: Authentication Successful
+
+If the username and password are correct, the user is authenticated.
+
+⬇
+
+Step 8: SecurityContextHolder
+
+Spring Security stores the authenticated user's details in the SecurityContextHolder.
+
+⬇
+
+Step 9: Access Granted
+
+The request reaches the controller, and the user can access the requested resource.
+
+If the credentials are incorrect, Spring Security returns Access Denied or redirects the user back to the login page.
+
+Diagram
+                User Login
+                     │
+                     ▼
+          Security Filter Chain
+                     │
+                     ▼
+        Authentication Manager
+                     │
+                     ▼
+       Authentication Provider
+                     │
+                     ▼
+         UserDetailsService
+                     │
+                     ▼
+             User Database
+                     │
+                     ▼
+          Password Encoder
+                     │
+             Password Match?
+            ┌────────┴────────┐
+            │                 │
+          Yes                No
+            │                 │
+            ▼                 ▼
+ SecurityContextHolder   Access Denied
+            │
+            ▼
+     Request reaches Controller
+            │
+            ▼
+        Response to User
+
+
+Real-World Example:
+
+Imagine entering an airport:
+
+Security Gate → Security Filter Chain
+Security Officer → Authentication Manager
+Passport Verification Desk → Authentication Provider
+Passport Database → UserDetailsService
+Passport Verification → Password Encoder
+Boarding Pass → SecurityContextHolder
+
+If everything is verified successfully, you are allowed to board the flight.
+
+Task 15: What is Thymeleaf? Explain. Why is it Used?
+Answer:
+
+Thymeleaf is a Java template engine used to create dynamic web pages in Spring Boot applications. It allows developers to combine HTML with Java data and display dynamic content to users.
+
+It is mainly used to build the front-end of Spring Boot web applications.
+
+Why is it Used?
+Creates dynamic HTML pages.
+Displays data received from the backend.
+Integrates easily with Spring Boot.
+Makes web pages reusable and easy to maintain.
+Supports form handling and data binding.
+Real-World Example:
+
+Suppose an online shopping website displays a list of products. The product details come from the database, and Thymeleaf inserts those details into an HTML page before sending it to the user's browser.
+
+Example
+
+Controller
+
+@Controller
+public class HomeController {
+
+    @GetMapping("/")
+    public String home(Model model) {
+        model.addAttribute("name", "Harsh");
+        return "home";
+    }
+}
+
+home.html
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<h2>Welcome <span th:text="${name}"></span></h2>
+
+</body>
+</html>
+
+Output:
+
+Welcome Harsh
+
+
+Task 17: What are the advantages of using Thymeleaf?
+
+Easy to learn and use.
+Uses normal HTML, so it is easy to read.
+Integrates well with Spring Boot.
+Supports dynamic web pages.
+Reusable templates reduce code duplication.
+Good support for forms and user input.
+Helps separate Java code from HTML.
+
+
+Task 18: What is Caching in Spring Boot?
+
+Caching is a technique used to store frequently used data in memory so it can be accessed quickly without fetching it again from the database or performing the same calculation.
+
+Example: If employee details are requested many times, they can be stored in the cache to improve performance.
+
+Task 19: What are the features of Spring Boot?
+Auto-Configuration
+Starter Dependencies
+Embedded Tomcat Server
+Spring Boot Actuator
+Easy project setup
+Production-ready features
+External configuration using application.properties or application.yml
+Easy integration with databases and other Spring modules
+
+
+Task 20: What are the types of Caching? Explain each type.
+1. In-Memory Cache
+Data is stored in the application's memory (RAM).
+Very fast but data is lost when the application stops.
+2. Distributed Cache
+Cache is shared across multiple servers.
+Used in large applications.
+Examples: Redis, Hazelcast.
+3. Disk Cache
+Data is stored on disk instead of memory.
+Slower than memory but data can remain after a restart.
+4. Database Cache
+Frequently accessed database data is cached to reduce database queries.
+Improves database performance.
+
+
+Task 21: List down caching annotations with usage.
+@EnableCaching – Enables caching in a Spring Boot application.
+@Cacheable – Stores the result of a method in the cache.
+@CachePut – Updates the cache whenever the method is executed.
+@CacheEvict – Removes data from the cache.
+@Caching – Combines multiple caching annotations in one place.
+@CacheConfig – Defines common cache settings for a class.
+
+Simple Flow to Remember:
+
+User Request
+      ↓
+Check Cache
+      ↓
+Data Found? ── Yes ──→ Return Cached Data
+      │
+      No
+      ↓
+Fetch Data from Database
+      ↓
+Store in Cache
+      ↓
+Return Data
