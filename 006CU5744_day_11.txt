@@ -550,3 +550,188 @@ Fetch Data from Database
 Store in Cache
       ↓
 Return Data
+
+
+Task 22
+What do you think @InjectMocks annotation does?
+
+Answer:
+
+@InjectMocks is a Mockito annotation that creates the actual object of the class we want to test and automatically injects all the mock objects (@Mock) into it.
+
+This saves us from creating the object manually.
+
+Real-world Example
+
+Suppose we are testing a BankService class, and it depends on BankRepository.
+
+Instead of creating BankRepository ourselves, Mockito creates its mock object and injects it into BankService automatically.
+
+@Mock
+BankRepository repository;
+
+@InjectMocks
+BankService service;
+
+Here,
+
+repository is a mock object.
+service is the real object.
+Mockito automatically puts the mock repository inside the service.
+
+
+Task 23
+Write about @Spy annotation and explain the functionality in a small piece of code.
+Answer
+
+@Spy is used when we want to use the real object, but we want to mock only a few methods.
+
+It is called Partial Mocking because some methods work normally while others can be mocked.
+
+Real-world Example
+
+Suppose a calculator has addition and multiplication methods.
+
+We want addition to work normally, but multiplication should return a fake value.
+
+Java Program
+import org.junit.jupiter.api.Test;
+import org.mockito.Spy;
+
+import static org.mockito.Mockito.*;
+
+class Calculator {
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public int multiply(int a, int b) {
+        return a * b;
+    }
+}
+
+public class CalculatorTest {
+
+    @Spy
+    Calculator calculator = new Calculator();
+
+    @Test
+    void testSpy() {
+
+        when(calculator.multiply(2, 3)).thenReturn(100);
+
+        System.out.println(calculator.add(2, 3));       // 5 (Real method)
+
+        System.out.println(calculator.multiply(2, 3));  // 100 (Mocked)
+    }
+}
+
+Output
+
+5
+100
+
+Here,
+
+add() runs the real method.
+multiply() returns the mocked value.
+Task 24
+Why is @Mock annotation used?
+Answer
+
+@Mock is used to create a fake object of a class or interface.
+
+It helps us test a class without depending on the actual implementation of its dependencies.
+
+Using mock objects makes unit testing faster and independent of databases, APIs, or other external resources.
+
+Real-world Example
+
+Suppose a BankService saves data using BankRepository.
+
+While testing BankService, we do not want to connect to the real database.
+
+So we create a mock object of BankRepository.
+
+@Mock
+BankRepository repository;
+
+Now the service uses the fake repository instead of the real one.
+
+Task 25
+What is Partial Mocking? Which annotation is used for partial mocking?
+
+Answer
+
+Partial Mocking means some methods of an object use their real implementation, while some methods are mocked.
+
+Mockito uses the @Spy annotation for Partial Mocking.
+
+Real-world Example
+
+Suppose an employee salary class has:
+
+calculateSalary() → real method
+sendSalaryToBank() → we don't want to call during testing.
+
+Using @Spy, we can run the real salary calculation but mock the bank transfer method.
+
+Task 26
+For the code given what is verify() used for and why do we use it?
+Answer
+
+verify() is used to check whether a particular method of a mock object was called during the execution of the test.
+
+It does not check the returned value.
+
+Instead, it checks the interaction between objects.
+
+We use verify() to ensure that the required method was called the correct number of times.
+
+Real-world Example
+
+Suppose after depositing money, the service should save the transaction.
+
+Using verify(), we can check whether the save() method of the repository was actually called.
+
+Example:
+
+verify(repository).save(account);
+
+This confirms that save() was executed once.
+
+If it was never called, the test fails.
+
+Task 27
+List down few more annotations that we use for mocking.
+Answer
+
+Some commonly used Mockito annotations are:
+
+Annotation	Purpose
+@Mock	Creates a fake (mock) object.
+@InjectMocks	Creates the real object and injects mock objects into it.
+@Spy	Creates a real object but allows selected methods to be mocked (Partial Mocking).
+@Captor	Captures method arguments passed to mock objects for verification.
+@ExtendWith(MockitoExtension.class)	Enables Mockito annotations in JUnit 5 test classes.
+Example
+@ExtendWith(MockitoExtension.class)
+class BankServiceTest {
+
+    @Mock
+    BankRepository repository;
+
+    @InjectMocks
+    BankService service;
+
+    @Captor
+    ArgumentCaptor<String> captor;
+}
+
+In this example:
+
+@Mock creates the fake repository.
+@InjectMocks creates the real service and injects the repository.
+@Captor captures method arguments.
+@ExtendWith(MockitoExtension.class) enables all Mockito annotations in JUnit 5.
