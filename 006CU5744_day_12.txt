@@ -1,0 +1,434 @@
+Day 12 - 31st July 2026
+DBMS
+
+Task 1: Why is there a need for DBMS?
+
+DBMS is used to store, organize, and manage data efficiently.
+
+Need for DBMS:
+
+Stores large amounts of data.
+Reduces duplicate data.
+Improves data security.
+Allows multiple users to access data.
+Makes searching and updating data easy.
+Provides backup and recovery.
+Maintains data consistency.
+
+Example: Banking System, Hospital Management System.
+
+Task 2: Why not Traditional File System?
+
+The traditional file system has many problems:
+
+Data redundancy (duplicate data).
+Data inconsistency.
+Poor security.
+Difficult to search and update data.
+No proper backup and recovery.
+Difficult for multiple users to work together.
+
+DBMS solves all these problems and manages data more efficiently.
+
+Task 3: What is Data Independence in DBMS?
+
+Data Independence means changes in the database do not affect the application.
+
+Types:
+
+Physical Data Independence: Changes in data storage do not affect the application.
+Logical Data Independence: Changes in table structure do not affect the application.
+
+Task 4: Types of Database Models
+
+1. Hierarchical Model
+Data is stored in a tree structure.
+One parent can have many children.
+Example: IBM IMS.
+
+2. Network Model
+Data is stored like a graph.
+Supports many-to-many relationships.
+Example: IDMS.
+
+3. Relational Model
+Data is stored in tables (rows and columns).
+Tables are connected using Primary Key and Foreign Key.
+Examples: MySQL, Oracle, PostgreSQL, SQL Server.
+
+4. Object-Oriented Model (OODBMS)
+Data is stored as objects.
+Objects contain both data and methods.
+Examples: ObjectDB, db4o.
+
+
+Task 5: Describe Concurrency Control in DBMS. Why is it important?
+
+Concurrency Control is a technique that allows multiple users to access the database at the same time without causing data inconsistency.
+
+Why is it important?
+
+Prevents data conflicts.
+Maintains data consistency.
+Ensures correct transaction execution.
+Improves data integrity.
+
+Example: Two users try to withdraw money from the same bank account at the same time. Concurrency control ensures the account balance remains correct.
+
+Task 6: What are Indexes in DBMS? How do they improve query performance?
+
+An Index is a data structure that helps the database find records faster without scanning the entire table.
+
+Advantages:
+
+Speeds up data retrieval.
+Improves query performance.
+Reduces search time.
+Useful for large tables.
+
+Example: Like the index of a book, which helps you find a topic quickly without reading every page.
+
+Task 7: Explain Deadlock in DBMS. What are the strategies for deadlock prevention and detection?
+
+A Deadlock occurs when two or more transactions are waiting for each other to release resources, so none of them can continue.
+
+Example:
+
+Transaction A locks Resource 1 and waits for Resource 2.
+Transaction B locks Resource 2 and waits for Resource 1.
+Both keep waiting forever.
+Deadlock Prevention
+Allocate resources in a fixed order.
+Avoid circular waiting.
+Request all required resources at the beginning of the transaction.
+Deadlock Detection
+The DBMS checks for deadlocks using a Wait-for Graph.
+If a deadlock is detected, one transaction is rolled back (aborted) to break the deadlock.
+
+RDBMS
+Task 8: What do you understand by Relational Model?
+
+The Relational Model stores data in the form of tables (rows and columns). Each table represents an entity, and tables are connected using Primary Keys and Foreign Keys.
+
+Example: A Bank database has separate Customer and Account tables linked using Customer_ID.
+
+Task 9: Specify key terms in RDBMS. Give brief explanation.
+
+Table (Relation): Stores data in rows and columns.
+Row (Tuple): A single record in a table.
+Column (Attribute): A field or property of a table.
+Primary Key: Uniquely identifies each record.
+Foreign Key: Connects one table to another.
+Candidate Key: A column (or set of columns) that can uniquely identify a row.
+Composite Key: Two or more columns together uniquely identify a record.
+Schema: The overall structure of the database.
+Domain: The set of valid values allowed for a column.
+
+Task 10: Different Types of Keys in RDBMS
+1. Primary Key (PK)
+Uniquely identifies each row.
+Cannot contain NULL values.
+Student Table
+
++------------+---------+
+| Student_ID | Name    |
++------------+---------+
+| 101        | Harsh   |
+| 102        | Rahul   |
++------------+---------+
+
+Primary Key → Student_ID
+2. Foreign Key (FK)
+Connects two tables.
+Refers to the Primary Key of another table.
+Customer Table
+
++-------------+--------+
+| Customer_ID | Name   |
++-------------+--------+
+| 101         | Harsh  |
+| 102         | Rahul  |
++-------------+--------+
+
+        │
+        │ Customer_ID
+        ▼
+
+Account Table
+
++------------+-------------+---------+
+| Account_No | Customer_ID | Balance |
++------------+-------------+---------+
+| 5001       | 101         | 10000   |
+| 5002       | 102         | 20000   |
++------------+-------------+---------+
+
+Foreign Key → Customer_ID
+3. Candidate Key
+A column that can uniquely identify a row.
+One candidate key is selected as the Primary Key.
+Employee Table
+
+Employee_ID
+Email
+
+Both are Candidate Keys.
+4. Alternate Key
+Candidate key that is not selected as the Primary Key.
+Candidate Keys
+
+Employee_ID  ← Primary Key
+
+Email        ← Alternate Key
+5. Composite Key
+Two or more columns together uniquely identify a record.
+Enrollment Table
+
++------------+-----------+
+| Student_ID | Course_ID |
++------------+-----------+
+| 101        | C101      |
+| 101        | C102      |
+| 102        | C101      |
++------------+-----------+
+
+Composite Key
+
+(Student_ID + Course_ID)
+6. Super Key
+Any column or combination of columns that can uniquely identify a row.
+It may contain extra columns.
+Student_ID
+
+or
+
+(Student_ID + Name)
+
+Both are Super Keys.
+Quick Revision
+Primary Key → Uniquely identifies a row.
+Foreign Key → Connects two tables.
+Candidate Key → Can become the Primary Key.
+Alternate Key → Candidate Key not chosen as Primary Key.
+Composite Key → Two or more columns together identify a row.
+Super Key → Any unique column or combination of columns.
+
+Task 11: Difference between Primary Key, Foreign Key, and Unique Key
+
+
+| Primary Key                                 | Foreign Key                                        | Unique Key                                |
+| ------------------------------------------- | -------------------------------------------------- | ----------------------------------------- |
+| Uniquely identifies each record in a table. | Connects one table with another.                   | Ensures unique values in a column.        |
+| Cannot contain NULL values.                 | Can contain NULL values (depending on the design). | Can contain NULL values (DBMS-dependent). |
+| Only one Primary Key per table.             | A table can have multiple Foreign Keys.            | A table can have multiple Unique Keys.    |
+
+
+Example:
+
+Primary Key: Student_ID
+Foreign Key: Customer_ID in the Account table.
+Unique Key: Email (no two users can have the same email).
+Task 12: How does Transaction Management work in DBMS? Give an example of Commit and Rollback.
+
+A Transaction is a group of database operations that are executed as a single unit.
+
+If all operations are successful, the transaction is Committed.
+
+If any operation fails, the transaction is Rolled Back to keep the data consistent.
+
+Commit
+Saves all changes permanently.
+
+Example: Money is successfully transferred from one bank account to another, so the transaction is committed.
+
+Rollback
+Cancels all changes made during the transaction if an error occurs.
+
+Example: Money is deducted from Account A, but due to an error it is not credited to Account B. The DBMS rolls back the transaction so the money is returned to Account A.
+
+Task 13: What is Normalization? Why is it necessary in database design?
+
+Normalization is the process of organizing data into multiple tables to reduce data redundancy and improve data consistency.
+
+Why is it necessary?
+Removes duplicate data.
+Reduces data redundancy.
+Maintains data consistency.
+Improves database performance.
+Makes updating and deleting data easier.
+Maintains data integrity.
+
+Example:
+
+Instead of storing customer details repeatedly in every order record, store customer information in one Customer table and orders in a separate Order table, then connect them using a Foreign Key.
+
+Normalization
+Task 14: What do you understand by 1NF? Explain with an example.
+
+First Normal Form (1NF) means each column should contain only one value (atomic value), and there should be no repeating groups.
+
+Example (Not in 1NF)
+| Student_ID | Name  | Subjects   |
+| ---------- | ----- | ---------- |
+| 101        | Harsh | Java, DBMS |
+
+
+Here, the Subjects column contains multiple values.
+
+After 1NF
+| Student_ID | Name  | Subject |
+| ---------- | ----- | ------- |
+| 101        | Harsh | Java    |
+| 101        | Harsh | DBMS    |
+
+
+Now each cell contains only one value, so the table is in 1NF.
+
+Task 15: What do you understand about 2NF? Explain with an example.
+
+Second Normal Form (2NF) means:
+
+The table must already be in 1NF.
+Every non-key column must depend on the entire Primary Key, not just part of it.
+It removes Partial Dependency.
+
+Example (Not in 2NF)
+| Student_ID | Course_ID | Student_Name |
+| ---------- | --------- | ------------ |
+| 101        | C101      | Harsh        |
+| 101        | C102      | Harsh        |
+
+
+Here, the Primary Key is (Student_ID, Course_ID).
+
+But Student_Name depends only on Student_ID, not on the complete key.
+
+After 2NF
+Student Table
+| Student_ID | Student_Name |
+| ---------- | ------------ |
+| 101        | Harsh        |
+
+
+Enrollment Table
+| Student_ID | Course_ID |
+| ---------- | --------- |
+| 101        | C101      |
+| 101        | C102      |
+
+Now every non-key column depends on the whole Primary Key.
+
+Task 16: What do you understand by 3NF? Explain with an example.
+
+Third Normal Form (3NF) means:
+
+The table must already be in 2NF.
+There should be no Transitive Dependency.
+Non-key columns should depend only on the Primary Key.
+
+Example (Not in 3NF)
+| Student_ID | Department_ID | Department_Name  |
+| ---------- | ------------- | ---------------- |
+| 101        | D01           | Computer Science |
+
+Here:
+
+Student_ID → Department_ID
+Department_ID → Department_Name
+
+So, Department_Name depends on Department_ID, not directly on Student_ID. This is a Transitive Dependency.
+
+After 3NF
+| Student_ID | Department_ID |
+| ---------- | ------------- |
+| 101        | D01           |
+
+Department Table
+| Department_ID | Department_Name  |
+| ------------- | ---------------- |
+| D01           | Computer Science |
+
+
+Now there is no transitive dependency, and the tables are in 3NF.
+
+Quick Revision
+1NF → Remove multiple values from a single column (Atomic values only).
+2NF → Remove Partial Dependency (Every non-key column depends on the entire Primary Key).
+3NF → Remove Transitive Dependency (Non-key columns depend only on the Primary Key).
+
+Task 17: What do you understand by Joins? Explain all joins with examples.
+
+Join is used to combine data from two or more tables based on a common column.
+
+Customer Table
+Customer_ID	Name
+101	Harsh
+102	Rahul
+103	Priya
+Account Table
+Account_No	Customer_ID
+A001	101
+A002	102
+A003	104
+1. INNER JOIN
+
+Returns only matching records from both tables.
+
+Customer_ID	Name	Account_No
+101	Harsh	A001
+102	Rahul	A002
+2. LEFT JOIN
+
+Returns all records from the left table and matching records from the right table.
+
+Customer_ID	Name	Account_No
+101	Harsh	A001
+102	Rahul	A002
+103	Priya	NULL
+3. RIGHT JOIN
+
+Returns all records from the right table and matching records from the left table.
+
+Customer_ID	Name	Account_No
+101	Harsh	A001
+102	Rahul	A002
+104	NULL	A003
+4. FULL OUTER JOIN
+
+Returns all records from both tables.
+
+Customer_ID	Name	Account_No
+101	Harsh	A001
+102	Rahul	A002
+103	Priya	NULL
+104	NULL	A003
+5. CROSS JOIN
+
+Returns every possible combination of rows.
+
+Name	Account_No
+Harsh	A001
+Harsh	A002
+Rahul	A001
+Rahul	A002
+6. SELF JOIN
+
+A table is joined with itself.
+
+Employee Table
+
+Employee	Manager_ID
+Amit	2
+Rahul	NULL
+Priya	2
+
+Used to find each employee's manager from the same table.
+
+Quick Revision
+Join Type	Result
+INNER JOIN	Only matching records
+LEFT JOIN	All left records + matching right records
+RIGHT JOIN	All right records + matching left records
+FULL OUTER JOIN	All records from both tables
+CROSS JOIN	Every possible combination of rows
+SELF JOIN	Joins a table with itself
