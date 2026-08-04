@@ -365,6 +365,7 @@ Customer_ID	Name
 101	Harsh
 102	Rahul
 103	Priya
+
 Account Table
 Account_No	Customer_ID
 A001	101

@@ -1,0 +1,367 @@
+Day 13 – 03rd Aug 2026
+Task 1: What is an ER Diagram? Draw an Entity Relationship Diagram with Datatypes.
+Answer:
+
+ER (Entity Relationship) Diagram is a graphical representation of a database that shows entities (tables), attributes (columns), and relationships between them. It is used to design the database before implementation.
+
+Example: Student and Course Database
+                    ┌───────────────────────────┐
+                    │         STUDENT           │
+                    ├───────────────────────────┤
+                    │ PK Student_ID : INT       │
+                    │ Name         : VARCHAR(50)│
+                    │ Age          : INT        │
+                    │ Email        : VARCHAR(100)│
+                    └───────────────────────────┘
+                                │
+                                │ 1
+                                │
+                                │
+                                │ M
+                     ┌───────────────────────────┐
+                     │        ENROLLMENT         │
+                     ├───────────────────────────┤
+                     │ PK Enroll_ID  : INT       │
+                     │ FK Student_ID : INT       │
+                     │ FK Course_ID  : INT       │
+                     │ Enroll_Date   : DATE      │
+                     └───────────────────────────┘
+                                │
+                                │ M
+                                │
+                                │
+                                │ 1
+                     ┌───────────────────────────┐
+                     │          COURSE           │
+                     ├───────────────────────────┤
+                     │ PK Course_ID : INT        │
+                     │ Course_Name  : VARCHAR(50)│
+                     │ Duration     : INT        │
+                     │ Fees         : DECIMAL    │
+                     └───────────────────────────┘
+Small Example:
+
+A student can enroll in multiple courses, and a course can have multiple students.
+
+Task 2: What do you understand by Indexing in DBMS? How does it work?
+Answer:
+
+Indexing is a technique used in DBMS to speed up data retrieval. It creates a separate data structure (called an index) that stores column values along with pointers to the actual rows.
+
+Without an index, the database checks every row (Full Table Scan).
+With an index, the database directly finds the required row, making searches much faster.
+
+Small Example:
+
+Suppose we have an Employee table:
+
+| Emp_ID | Name  | Salary |
+| -----: | ----- | -----: |
+|    101 | Rahul |  50000 |
+|    102 | Priya |  60000 |
+|    103 | Aman  |  55000 |
+
+If we create an index on Emp_ID, searching for Emp_ID = 102 becomes very fast because the database directly jumps to that record instead of checking every row.
+
+Task 3: Do you think Indexing strategy improves query performance? Explain.
+Answer:
+
+Yes, Indexing improves query performance because it helps the database find records quickly without scanning the entire table.
+
+An index works like the index of a book. Instead of reading every page, you directly go to the required page using the index.
+
+Small Example:
+
+If an Employee table has 1,00,000 records and you search for:
+
+SELECT * FROM Employee WHERE Emp_ID = 1050;
+Without Index: Database checks all rows (Full Table Scan).
+With Index: Database directly finds the required row.
+
+Advantages:
+
+Faster SELECT queries.
+Improves search, sorting, and join performance.
+
+Disadvantage:
+
+Takes extra storage.
+Slows down INSERT, UPDATE, and DELETE because the index must also be updated.
+Task 4: What are the ACID Properties in RDBMS? Explain.
+Answer:
+
+ACID properties ensure that every database transaction is safe, accurate, and reliable.
+
+| Property            | Meaning                                                                              | Example                                                                                         |
+| ------------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| **A - Atomicity**   | A transaction is completed fully or not at all.                                      | If money is deducted from Account A but not added to Account B, the transaction is rolled back. |
+| **C - Consistency** | The database remains in a valid state before and after the transaction.              | Bank balance rules are always maintained after a transaction.                                   |
+| **I - Isolation**   | Multiple transactions do not interfere with each other.                              | Two users withdrawing money at the same time do not affect each other's transactions.           |
+| **D - Durability**  | Once a transaction is committed, it is permanently saved even if the system crashes. | After a successful payment, the transaction remains saved even after a power failure.           |
+
+Small Example: Bank Transfer
+
+Suppose ₹1000 is transferred from Account A to Account B.
+
+Atomicity: Both debit and credit happen together; otherwise, rollback.
+Consistency: Total money in the bank remains the same.
+Isolation: Other users cannot see the transaction until it is completed.
+Durability: Once the transfer is successful, it remains saved permanently, even if the server crashes.
+
+Day 13 – PostgreSQL Practice
+
+Step 1: Check Current Database
+SELECT current_database();
+
+Step 2: Create Accounts Table
+CREATE TABLE Accounts (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(10)
+);
+
+Step 3: Insert Records into Accounts
+INSERT INTO Accounts (id, name)
+VALUES
+(101, 'Harsh'),
+(102, 'Rahul'),
+(103, 'Priya'),
+(104, 'Aman'),
+(105, 'Neha');
+
+Step 4: View Accounts Table
+SELECT * FROM Accounts;
+
+Step 5: Create Transactions Table
+CREATE TABLE Transactions (
+    transaction_id SERIAL PRIMARY KEY,
+    account_id INT,
+    amount DECIMAL(10,2),
+    transaction_type VARCHAR(20),
+
+    CONSTRAINT fk_account
+    FOREIGN KEY (account_id)
+    REFERENCES Accounts(id)
+);
+
+Step 6: Insert Transactions
+INSERT INTO Transactions(account_id, amount, transaction_type)
+VALUES
+(101, 5000.00, 'Deposit'),
+(101, 2000.00, 'Withdraw'),
+(102, 10000.00, 'Deposit'),
+(103, 7000.00, 'Deposit'),
+(104, 3000.00, 'Withdraw'),
+(105, 9000.00, 'Deposit');
+
+Step 7: View Transactions
+SELECT * FROM Transactions;
+
+Step 8: INNER JOIN
+SELECT
+a.id,
+a.name,
+t.transaction_id,
+t.amount,
+t.transaction_type
+FROM Accounts a
+INNER JOIN Transactions t
+ON a.id = t.account_id;
+
+Step 9: Add Email Column
+ALTER TABLE Accounts
+ADD COLUMN email VARCHAR(100);
+
+Step 10: Add UNIQUE Constraint
+ALTER TABLE Accounts
+ADD CONSTRAINT unique_email
+UNIQUE(email);
+
+Step 11: Update Email Addresses
+UPDATE Accounts
+SET email='harsh@gmail.com'
+WHERE id=101;
+
+UPDATE Accounts
+SET email='rahul@gmail.com'
+WHERE id=102;
+
+UPDATE Accounts
+SET email='priya@gmail.com'
+WHERE id=103;
+
+
+Step 12: Add Balance Column
+ALTER TABLE Accounts
+ADD COLUMN balance DECIMAL(10,2);
+
+Step 13: Add CHECK Constraint
+ALTER TABLE Accounts
+ADD CONSTRAINT check_balance
+CHECK(balance > 0);
+
+Step 14: Update Balance
+UPDATE Accounts
+SET balance=5000
+WHERE id=101;
+
+UPDATE Accounts
+SET balance=8000
+WHERE id=102;
+
+UPDATE Accounts
+SET balance=12000
+WHERE id=103;
+
+UPDATE Accounts
+SET balance=3000
+WHERE id=104;
+
+UPDATE Accounts
+SET balance=9000
+WHERE id=105;
+
+
+Step 15: Test CHECK Constraint
+Invalid Update
+UPDATE Accounts
+SET balance=-1000
+WHERE id=101;
+
+Invalid Insert
+INSERT INTO Accounts(id,name,email,balance)
+VALUES
+(106,'Rohan','rohan@gmail.com',-500);
+
+Step 16: Insert Valid Records
+INSERT INTO Accounts(id,name,email,balance)
+VALUES
+(106,'Rohan','rohan@gmail.com',7000);
+
+INSERT INTO Accounts(id,name,email,balance)
+VALUES
+(107,'Rohit','rohit@gmail.com',6000);
+
+Step 17: WHERE Clause Examples
+SELECT *
+FROM Accounts
+WHERE id=101;
+
+SELECT *
+FROM Accounts
+WHERE balance > 5000
+ORDER BY balance DESC;
+
+SELECT id
+FROM Accounts
+ORDER BY id;
+
+Step 18: Transaction (COMMIT / ROLLBACK)
+Create Table
+CREATE TABLE BankTransactions (
+    transaction_id INT PRIMARY KEY,
+    account_id INT,
+    amount DECIMAL(10,2),
+    transaction_type VARCHAR(20)
+);
+
+Start Transaction
+BEGIN;
+
+Insert Records
+INSERT INTO BankTransactions
+VALUES
+(1,101,5000,'Deposit');
+
+INSERT INTO BankTransactions
+VALUES
+(2,102,3000,'Withdraw');
+
+INSERT INTO BankTransactions
+VALUES
+(2,103,7000,'Deposit');
+
+Commit
+COMMIT;
+
+Check Data
+SELECT * FROM BankTransactions;
+
+Step 19: JOIN Practice
+Remove Foreign Key
+ALTER TABLE Transactions
+DROP CONSTRAINT fk_account;
+
+Insert Unmatched Transaction
+INSERT INTO Transactions(account_id,amount,transaction_type)
+VALUES
+(999,12000,'Deposit');
+
+View Transactions
+SELECT * FROM Transactions;
+
+INNER JOIN
+SELECT
+a.id,
+a.name,
+t.transaction_id,
+t.amount
+FROM Accounts a
+INNER JOIN Transactions t
+ON a.id=t.account_id;
+
+LEFT JOIN
+SELECT
+a.id,
+a.name,
+t.transaction_id,
+t.amount
+FROM Accounts a
+LEFT JOIN Transactions t
+ON a.id=t.account_id;
+
+RIGHT JOIN
+SELECT
+a.id,
+a.name,
+t.transaction_id,
+t.amount
+FROM Accounts a
+RIGHT JOIN Transactions t
+ON a.id=t.account_id;
+
+FULL OUTER JOIN
+SELECT
+a.id,
+a.name,
+t.transaction_id,
+t.amount
+FROM Accounts a
+FULL OUTER JOIN Transactions t
+ON a.id=t.account_id;
+
+Step 20: Indexing
+Create Index
+CREATE INDEX idx_accounts_name
+ON Accounts(name);
+
+Search Using WHERE
+SELECT *
+FROM Accounts
+WHERE name='Rahul';
+
+Check Query Plan
+EXPLAIN
+SELECT *
+FROM Accounts
+WHERE name='Rahul';
+
+Drop Index
+DROP INDEX idx_accounts_name;
+
+Step 21: Schema
+Create Schema
+CREATE SCHEMA BankSchema;
+
+View Schemas
+SELECT schema_name
+FROM information_schema.schemata;
