@@ -1,0 +1,437 @@
+Day 15 - 05th Aug 2026
+Task 1: What is Angular? Explain briefly.
+
+Answer:
+
+Angular is a TypeScript-based front-end framework developed by Google. It is used to build dynamic, fast, and Single Page Applications (SPAs). Angular provides built-in features like routing, data binding, dependency injection, and form handling, which make web development easier.
+
+Real-world Example:
+Netflix, Gmail, or an online banking website where pages update without reloading the entire website.
+
+Task 2: What is Data Binding? Explain. How many types of data binding are there?
+What is Data Binding?
+
+Answer:
+
+Data Binding is the process of connecting the data (TypeScript) with the user interface (HTML). Whenever data changes in the component or the UI, Angular can automatically update the other side.
+
+Real-world Example:
+In a registration form, when a user types their name in a textbox, the same name can instantly appear in a welcome message.
+
+Example:
+Textbox: Harsh
+
+Output:
+Welcome Harsh
+
+Types of Data Binding in Angular
+
+There are 4 types of Data Binding.
+
+1. Interpolation ({{ }})
+Used to display data from the component to HTML.
+One-way data binding.
+
+Example:
+Name = "Harsh"
+
+HTML:
+<h1>{{name}}</h1>
+
+Output:
+Harsh
+
+2. Property Binding ([ ])
+Used to set the value of an HTML element property.
+One-way data binding.
+
+Example:
+<button [disabled]="isDisabled">
+Submit
+</button>
+
+If isDisabled = true, the button becomes disabled.
+
+3. Event Binding (( ))
+Used to call a method when an event occurs (click, keypress, etc.).
+One-way data binding (HTML → Component).
+
+Example:
+<button (click)="save()">
+Save
+</button>
+
+When the button is clicked, the save() method is executed.
+
+4. Two-Way Data Binding ([( )])
+Data moves in both directions.
+If the user changes the input, the component updates automatically.
+If the component changes, the UI also updates.
+
+Example:
+<input [(ngModel)]="name">
+
+Output:
+Hello Harsh
+
+As the user types, the output changes instantly.
+
+Task 3: Why do we need Angular? Give some advantages.
+
+Answer:
+
+Angular is used to build modern, interactive, and scalable web applications. It reduces development time and provides many built-in features.
+
+Advantages of Angular
+1. Single Page Application (SPA)
+
+Pages update without reloading, making the application faster.
+
+Example: Gmail updates emails without refreshing the whole page.
+
+2. Two-Way Data Binding
+
+Keeps data and UI synchronized automatically.
+
+Example: Typing in a textbox immediately updates the displayed value.
+
+3. Component-Based Architecture
+
+The application is divided into small reusable components.
+
+Example: A website may have separate Header, Footer, and Login components.
+
+4. Built-in Routing
+
+Angular allows navigation between pages without refreshing the browser.
+
+Example: Moving from Home → Profile → Settings smoothly.
+
+5. Better Performance
+
+Angular updates only the required part of the page instead of reloading everything.
+
+6. Easy Maintenance
+
+Since the code is organized into components, large projects become easier to manage and maintain.
+
+Task 4: What is REST API?
+
+Answer:
+
+REST API (Representational State Transfer API) is a way for different applications to communicate over the internet using HTTP methods like GET, POST, PUT, and DELETE.
+
+It allows the frontend (Angular, React, etc.) to exchange data with the backend (Spring Boot, Node.js, etc.).
+
+Real-world Example:
+A food delivery app requests restaurant data from the server. The server sends the data through a REST API, and the app displays the menu.
+
+Task 5: Why do we use REST API?
+
+Answer:
+
+We use REST APIs to allow different applications to communicate and share data easily.
+
+Advantages of REST API
+Enables communication between frontend and backend.
+Supports CRUD operations (Create, Read, Update, Delete).
+Works on different platforms and programming languages.
+Easy to develop and maintain.
+Faster because it uses lightweight JSON data.
+
+Real-world Example:
+When you log in to an online banking application, the Angular frontend sends your username and password to the Spring Boot backend through a REST API. The backend verifies the details and sends the response back.
+
+Task 6: What are Single Page Applications (SPA)?
+
+Answer:
+
+A Single Page Application (SPA) is a web application that loads only one HTML page initially. After that, only the required content changes without reloading the entire webpage.
+
+This makes the application faster and provides a smooth user experience.
+
+Real-world Example:
+Gmail, Google Maps, Netflix, and Facebook are Single Page Applications. When you switch between sections, the page does not reload completely; only the required content changes.
+
+Advantages of SPA
+Faster user experience.
+No full-page refresh.
+Less load on the server.
+Smooth navigation between pages.
+Better performance for modern web applications.
+
+Task 7: Explain Modules, Components and Services in Angular.
+1. Module
+
+Answer:
+
+A Module is a container that groups related components, directives, pipes, and services together. Every Angular application has at least one root module called AppModule.
+
+It helps organize the application into different parts.
+
+Real-world Example:
+Think of a shopping website.
+
+User Module
+Product Module
+Order Module
+Payment Module
+
+Each module manages its own functionality.
+
+2. Component
+
+Answer:
+
+A Component is the basic building block of an Angular application. It controls a part of the user interface (UI). A component contains HTML, CSS, and TypeScript code.
+
+Real-world Example:
+
+In an e-commerce website:
+
+Header Component
+Login Component
+Product List Component
+Footer Component
+
+Each part of the webpage is a separate component.
+
+3. Service
+
+Answer:
+
+A Service is used to write business logic or share data between multiple components. Services help keep the component code clean and reusable.
+
+Real-world Example:
+
+In a banking application, a Transaction Service can fetch account details from the server and provide them to different components like Dashboard and Transaction History.
+
+Task 8: Explain Property Binding, Event Binding, String Interpolation and Two-Way Data Binding.
+1. String Interpolation ({{ }})
+
+Answer:
+String Interpolation is used to display data from the TypeScript component into the HTML page.
+
+It is a one-way data binding (Component → View).
+Example:
+<h2>{{name}}</h2>
+
+If
+name = "Harsh"
+
+Output
+Harsh
+
+Real-world Example:
+Displaying the logged-in user's name on the dashboard.
+
+2. Property Binding ([ ])
+
+Answer:
+Property Binding is used to set the value of an HTML element's property using data from the component.
+
+It is also one-way data binding (Component → View).
+Example:
+<button [disabled]="isDisabled">
+Submit
+</button>
+
+If
+isDisabled = true
+
+The button becomes disabled.
+
+Real-world Example:
+Disable the "Pay Now" button until all payment details are entered.
+
+3. Event Binding (( ))
+
+Answer:
+Event Binding is used to call a method when a user performs an action like clicking a button or pressing a key.
+
+It is one-way data binding (View → Component).
+
+Example:
+<button (click)="saveData()">
+Save
+</button>
+
+When the button is clicked, the saveData() method runs.
+
+Real-world Example:
+
+Clicking the Login button to verify user credentials.
+
+4. Two-Way Data Binding ([( )])
+
+Answer:
+Two-Way Data Binding allows data to move in both directions between the component and the HTML.
+
+If the user changes the input, the component updates automatically. If the component changes, the UI also updates.
+
+Example:
+<input [(ngModel)]="name">
+<h2>{{name}}</h2>
+
+As the user types, the displayed name changes instantly.
+
+Real-world Example:
+In a registration form, typing your name immediately updates a live preview.
+
+Task 9: What are Decorators? Explain the types of decorators.
+
+Answer:
+Decorators are special TypeScript functions that provide metadata (extra information) to Angular classes, properties, methods, or parameters. They tell Angular how a class or member should behave.
+Decorators always start with the @ symbol.
+
+@Component({
+  selector: 'app-home'
+})
+
+Types of Decorators in Angular
+1. Class Decorator
+Used to define a class as a Component, Module, Directive, Pipe, or Injectable Service.
+
+Examples:
+@Component
+@NgModule
+@Directive
+@Pipe
+@Injectable
+
+Real-world Example:
+@Component tells Angular that a class represents a webpage component.
+
+2. Property Decorator
+Used to decorate class properties.
+
+Examples:
+@Input()
+@Output()
+
+Real-world Example:
+Passing data from a parent component to a child component using @Input().
+
+3. Method Decorator
+Used to decorate methods.
+
+Example:
+@HostListener
+
+Real-world Example:
+Running a method whenever a button is clicked or a keyboard key is pressed.
+
+4. Parameter Decorator
+Used to decorate constructor parameters.
+
+Example:
+@Inject()
+
+Real-world Example:
+Injecting a service into a component through the constructor.
+
+Task 10: What are Annotations in Angular?
+
+Answer:
+Annotations are metadata added to a class to tell Angular how that class should behave. They are written using decorators (with the @ symbol).
+
+In modern Angular, decorators provide the annotation information.
+
+Common annotations include:
+@Component
+@NgModule
+@Injectable
+@Directive
+
+Real-world Example:
+
+When you write:
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html'
+})
+
+Angular understands that this class is a component and should display the specified HTML page.
+
+Note: In Angular, the terms annotations and decorators are often used interchangeably because decorators are the mechanism used to attach annotation metadata to classes.
+
+Task 11: Explain the below Angular code snippet.
+Answer:
+
+In this example, data is being passed from the Parent Component to the Child Component using Property Binding and the @Input() decorator.
+
+The parent component has a variable named parentMessage with the value:
+
+message from parent
+
+This value is passed to the child component using:
+
+<app-child [childMessage]="parentMessage"></app-child>
+
+Here,
+
+[childMessage] is Property Binding.
+parentMessage is the value from the parent component.
+
+In the child component, we use the @Input() decorator:
+
+@Input() childMessage: string;
+
+This tells Angular that the child component can receive data from its parent.
+
+Finally, the child displays the message:
+
+Say {{ childMessage }}
+
+Output:
+
+Say message from parent
+Real-world Example
+
+Suppose an e-commerce website has:
+
+Parent Component → Product List
+Child Component → Product Card
+
+The parent sends product details (name, price, image) to each child component using @Input(), and every child displays a different product.
+
+Task 12: Create a TypeScript class with a constructor and a function.
+Answer:
+class Student {
+
+    name: string;
+    age: number;
+
+    // Constructor
+    constructor(name: string, age: number) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Function
+    displayDetails(): void {
+        console.log("Name: " + this.name);
+        console.log("Age: " + this.age);
+    }
+}
+
+// Creating an object
+let student1 = new Student("Harsh", 22);
+
+// Calling the function
+student1.displayDetails();
+
+Task 13: What do you mean by Eager Loading and Lazy Loading?
+1. Eager Loading
+
+Answer:
+
+Eager Loading means all required modules are loaded when the application starts.
+
+This makes the application ready immediately, but the initial loading time is higher because everything is loaded at once.
+
+Real-world Example
+
+Imagine opening a book where all chapters are loaded at once. It takes more time to open the book, but after that, every chapter is available instantly.
+
+
