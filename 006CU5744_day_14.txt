@@ -1,0 +1,199 @@
+Day 14 - 04th Aug 2026
+Task 1: What do you understand about Git Collaboration?
+
+Answer:
+
+Git Collaboration means multiple developers working together on the same project using Git. Every developer works on their own branch, shares changes, and combines them into the main project.
+
+Example:
+
+In an online shopping website:
+
+Developer A works on Login.
+Developer B works on Payment.
+Developer C works on Cart.
+
+All of them push their work to the same Git repository without affecting each other's code.
+
+Task 2: Why is collaboration necessary while working on Git?
+
+Answer:
+
+Collaboration is necessary because it allows multiple developers to work on the same project at the same time. It helps in:
+
+Saving time
+Avoiding code conflicts
+Tracking changes
+Working as a team
+
+Example:
+
+Instead of one person building the entire banking application, different developers build different modules together, making development faster.
+
+Task 3: What are the commands that we use while collaborating?
+
+| Command                   | Purpose                                            |
+| ------------------------- | -------------------------------------------------- |
+| `git clone`               | Copy a remote repository to your computer.         |
+| `git branch`              | Create or view branches.                           |
+| `git checkout`            | Switch to another branch.                          |
+| `git pull`                | Get the latest changes from the remote repository. |
+| `git add .`               | Stage changes.                                     |
+| `git commit -m "message"` | Save changes locally.                              |
+| `git push`                | Upload changes to GitHub.                          |
+| `git merge`               | Merge one branch into another.                     |
+| `git fetch`               | Download changes without merging them.             |
+| `git status`              | Check the current status of files.                 |
+
+
+Task 4: Can you show the typical workflow while working on Git?
+
+Answer:
+
+A typical Git workflow is:
+
+Clone Repository
+        ↓
+Create a New Branch
+        ↓
+Write Code
+        ↓
+git add .
+        ↓
+git commit -m "message"
+        ↓
+git pull
+        ↓
+Resolve conflicts (if any)
+        ↓
+git push
+        ↓
+Create Pull Request
+        ↓
+Code Review
+        ↓
+Merge into Main Branch
+
+Example:
+
+You are adding a Profile Page.
+
+Task 5: Give some good practices that we need to follow while working on a Git Repository daily.
+
+Answer:
+
+Some good Git practices are:
+
+Pull the latest code before starting work.
+Create a separate branch for every new feature or bug fix.
+Write meaningful commit messages.
+Commit small changes regularly.
+Push your code daily.
+Resolve merge conflicts carefully.
+Never work directly on the main branch.
+Review your code before creating a Pull Request.
+
+Example:
+Instead of committing:
+
+Updated code
+
+Write:
+
+Added user login validation
+
+This makes it easier for other developers to understand your changes.
+
+Task 12:
+
+Whenever you start a new TypeScript project, always remember this sequence:
+
+Install Node.js (only once on your system).
+Install TypeScript globally (only once on your system).
+Create a project folder.
+Run npm init -y.
+Run tsc --init.
+Create a src folder and write your .ts files there.
+Compile using tsc.
+Run the generated JavaScript using node.
+
+Task 14: What are Type Annotations in TypeScript?
+
+Definition:
+
+Type annotations are used to explicitly specify the data type of variables, function parameters, return values, and object properties. They help TypeScript detect type errors during development.
+
+Syntax:
+
+let variableName: dataType;
+
+let name: string = "Harsh";
+let age: number = 22;
+let isStudent: boolean = true;
+
+Task 15: What is the purpose of the any keyword in TypeScript?
+
+Definition:
+
+The any keyword allows a variable to store any type of value. It disables TypeScript's type checking for that variable.
+
+Purpose:
+
+Used when the data type is unknown.
+Useful when working with third-party libraries or dynamic data.
+Should be used sparingly because it removes type safety.
+
+Example:
+let value: any;
+
+value = 100;
+value = "Harsh";
+value = true;
+
+Here, the same variable stores a number, then a string, then a boolean without any errors.
+
+Task 16: Difference between any and unknown
+| `any`                                       | `unknown`                                                    |
+| ------------------------------------------- | ------------------------------------------------------------ |
+| Can store any type of value.                | Can also store any type of value.                            |
+| No type checking is performed.              | Type checking is required before using the value.            |
+| Less safe.                                  | More type-safe.                                              |
+| Suitable when you don't want type checking. | Suitable when the type is unknown but you still want safety. |
+
+
+Example using any
+let data: any = "Hello";
+
+console.log(data.toUpperCase()); // Works
+
+data = 100;
+
+console.log(data.toUpperCase()); // Runtime Error
+
+Here, TypeScript allows calling toUpperCase() even when data becomes a number, which can cause a runtime error.
+
+Example using unknown
+let data: unknown = "Hello";
+
+if (typeof data === "string") {
+    console.log(data.toUpperCase());
+}
+
+Here, TypeScript requires you to check the type first using typeof, making the code safer.
+
+Key Difference
+any → No type checking (unsafe).
+unknown → Type checking required before use (safe).
+
+Task 17: What is the tsconfig.json file used for?
+
+Definition:
+
+The tsconfig.json file is the configuration file for the TypeScript compiler. It tells the TypeScript compiler how to compile TypeScript code into JavaScript.
+
+Purpose
+Specifies the TypeScript compiler options.
+Defines the source (src) and output (dist) folders.
+Sets the JavaScript version to generate.
+Enables or disables type-checking rules.
+Determines which files or folders should be compiled.

@@ -365,3 +365,114 @@ CREATE SCHEMA BankSchema;
 View Schemas
 SELECT schema_name
 FROM information_schema.schemata;
+
+Home Tasks
+Task 1: What are Window Functions in PostgreSQL?
+
+Answer:
+
+Window functions are special SQL functions that perform calculations across a group of rows while keeping each row separate. Unlike GROUP BY, they do not combine rows into one.
+
+Example:
+
+Finding the salary rank of each employee without hiding individual employee records.
+
+Task 2: What are the keywords that we use in Window Functions?
+
+Answer:
+
+Common keywords used are:
+
+OVER
+PARTITION BY
+ORDER BY
+ROWS
+RANGE
+
+Example:
+SELECT name, salary,
+RANK() OVER (ORDER BY salary DESC)
+FROM Employee;
+
+Task 3: What are the types of Window Functions in PostgreSQL?
+
+Answer:
+
+There are mainly three types of window functions:
+| Type                | Examples                                           |
+| ------------------- | -------------------------------------------------- |
+| Ranking Functions   | `RANK()`, `DENSE_RANK()`, `ROW_NUMBER()`           |
+| Aggregate Functions | `SUM()`, `AVG()`, `COUNT()`, `MAX()`, `MIN()`      |
+| Value Functions     | `LAG()`, `LEAD()`, `FIRST_VALUE()`, `LAST_VALUE()` |
+
+
+Task 4: What are the rules while working on Window Functions?
+
+Answer:
+
+Some important rules are:
+
+Always use the OVER() clause.
+Window functions do not reduce the number of rows.
+They are applied after WHERE, GROUP BY, and HAVING.
+PARTITION BY is optional.
+ORDER BY is used when row order matters (like ranking).
+
+Example:
+
+ROW_NUMBER() needs an ORDER BY to decide the row numbers.
+
+Task 5: Do we have JSON/JSONB data types in PostgreSQL? What is the difference between them?
+
+Answer:
+
+Yes, PostgreSQL supports both JSON and JSONB.
+| JSON                      | JSONB                                    |
+| ------------------------- | ---------------------------------------- |
+| Stores data as plain text | Stores data in binary format             |
+| Faster to insert          | Faster to search and query               |
+| Keeps original formatting | Removes extra spaces and sorts keys      |
+| Slower for searching      | Better performance for most applications |
+
+Example:
+
+Store customer details like name, email, and address in a JSON document.
+
+Task 6: What is Full Text Search in PostgreSQL? Explain briefly.
+
+Answer:
+
+Full Text Search is a PostgreSQL feature that allows you to search words or phrases efficiently inside large text data.
+
+It is much faster and more accurate than using the LIKE operator.
+
+Example:
+
+Searching for the word "Java" in thousands of blog articles.
+
+Task 7: What do you understand by Full Text Search in PostgreSQL?
+
+Answer:
+
+Full Text Search helps find relevant words in text documents by understanding words instead of matching exact characters. It supports fast searching in large amounts of text.
+
+Example:
+
+An e-commerce website searching products using keywords like "wireless mouse".
+
+Task 8: What does SAVEPOINT do in PostgreSQL?
+
+Answer:
+
+A SAVEPOINT creates a temporary checkpoint inside a transaction. If an error occurs later, you can roll back to that savepoint instead of canceling the entire transaction.
+
+Example:
+
+In a bank transaction:
+
+Money is deposited.
+A SAVEPOINT is created.
+The next operation fails.
+Roll back only to the savepoint instead of canceling the whole transaction.
+
+This saves the successful work done before the savepoint.
