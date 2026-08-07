@@ -435,3 +435,72 @@ Real-world Example
 Imagine opening a book where all chapters are loaded at once. It takes more time to open the book, but after that, every chapter is available instantly.
 
 
+Task 14: What is an Observable response?
+Answer:
+
+An Observable is a feature provided by RxJS (Reactive Extensions for JavaScript). It is used to handle asynchronous data such as data coming from a REST API, user events, or timers.
+
+An Observable sends data over time, and we use the subscribe() method to receive that data.
+
+Real-world Example:
+
+Suppose an Angular application requests a list of students from a Spring Boot server.
+
+Angular sends a request to the server.
+The server processes the request.
+The server returns the student data.
+The Observable receives the response.
+subscribe() reads the response and displays it on the webpage.
+
+Example:
+this.studentService.getStudents().subscribe(data => {
+    this.students = data;
+});
+
+Task 15: What is the flow of an Angular project? Explain with an example.
+Answer:
+
+The flow of an Angular project starts when the user opens the application. Angular loads the application, displays the required component, and communicates with the backend whenever data is needed.
+
+Angular Project Flow
+User
+   ↓
+Browser
+   ↓
+main.ts
+   ↓
+App Component
+   ↓
+Routing
+   ↓
+Requested Component
+   ↓
+Service
+   ↓
+HTTP Client
+   ↓
+REST API
+   ↓
+Backend (Spring Boot / Node.js)
+   ↓
+Database
+   ↓
+Response
+   ↓
+Service
+   ↓
+Component
+   ↓
+HTML Page Updated
+
+Explanation of the Flow
+The user opens the Angular application in the browser.
+main.ts starts the Angular application.
+Angular loads the App Component, which is the root component.
+The router opens the required page (Home, Login, Dashboard, etc.).
+The component calls a service to fetch or save data.
+The service uses HttpClient to send a request to the backend through a REST API.
+The backend processes the request and interacts with the database.
+The backend sends the response back to Angular.
+The service receives the response and passes it to the component.
+The component updates the HTML using data binding, and the user sees the latest data.

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BankService, Transaction } from './bank.service';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-transactions',
@@ -8,7 +9,9 @@ import { BankService, Transaction } from './bank.service';
   imports: [CommonModule],
   template: `
     <h3>Transaction History</h3>
-    <table border="1">
+    <p *ngIf="currentAccount">Viewing account: <strong>{{ currentAccount.accountHolderName }} ({{ currentAccount.accountNumber }})</strong></p>
+    <p *ngIf="!transactions.length" style="color: gray;">No transactions yet. New transactions will appear here.</p>
+    <table *ngIf="transactions.length" border="1">
       <tr>
         <th>Date</th>
         <th>Description</th>
@@ -36,9 +39,13 @@ import { BankService, Transaction } from './bank.service';
   `]
 })
 export class TransactionComponent {
-  constructor(public bankService: BankService) {}
+  constructor(public bankService: BankService, public authService: AuthService) {}
 
   get transactions(): Transaction[] {
     return this.bankService.transactions;
+  }
+
+  get currentAccount() {
+    return this.authService.getActiveAccount();
   }
 }

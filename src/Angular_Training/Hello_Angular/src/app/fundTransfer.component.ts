@@ -2,20 +2,21 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators, AbstractControl, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
 import { BankService } from './bank.service';
+import { SharedModule } from './shared.module';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-fund-transfer',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, SharedModule],
   template: `
     <h3>Fund Transfer</h3>
-    <p>Current Balance: <strong style="color: green;">₹ {{ balance | number:'1.2-2' }}</strong></p>
+    <p>Current Balance: <strong style="color: green;">{{ balance | currency:'INR' }}</strong></p>
     <form [formGroup]="transferForm" (ngSubmit)="submitTransfer()">
       <div>
         <label>Sender Account Number</label><br />
-        <input type="text" formControlName="senderAccountNumber" readonly />
+        <strong>{{ bankService.senderAccountNumber | maskAccount }}</strong>
       </div>
 
       <div>
@@ -23,7 +24,7 @@ import { Observable, of } from 'rxjs';
         <input type="text" formControlName="receiverAccountNumber" placeholder="Enter receiver account" />
         <div *ngIf="receiverAccountControl.touched || receiverAccountControl.dirty">
           <small *ngIf="receiverAccountControl.hasError('required')" style="color: red;">Receiver account is required.</small>
-          <small *ngIf="receiverAccountControl.hasError('pattern')" style="color: red;">Receiver account must be 10–16 digits.</small>
+          <small *ngIf="receiverAccountControl.hasError('pattern')" style="color: red;">Receiver account must be 12 digits.</small>
           <small *ngIf="receiverAccountControl.hasError('sameAccount')" style="color: red;">Receiver account cannot be the same as sender account.</small>
           <small *ngIf="receiverAccountControl.hasError('receiverNotFound')" style="color: red;">Receiver account does not exist.</small>
           <small *ngIf="receiverAccountControl.pending" style="color: blue;">Checking receiver account...</small>
@@ -98,11 +99,11 @@ export class FundTransferComponent {
   message = '';
   messageColor = 'green';
 
-  constructor(private bankService: BankService, private fb: FormBuilder) {
+  constructor(public bankService: BankService, private fb: FormBuilder) {
     this.transferForm = this.fb.group({
       senderAccountNumber: [this.bankService.senderAccountNumber],
       receiverAccountNumber: ['', {
-        validators: [Validators.required, Validators.pattern(/^[0-9]{10,16}$/), this.notSameAccountValidator()],
+        validators: [Validators.required, Validators.pattern(/^[0-9]{12}$/), this.notSameAccountValidator()],
         asyncValidators: [this.receiverAccountValidator()],
         updateOn: 'blur'
       }],
@@ -142,7 +143,7 @@ export class FundTransferComponent {
   createBeneficiary(name = '', accountNumber = '', ifscCode = '') {
     return this.fb.group({
       name: [name, Validators.required],
-      accountNumber: [accountNumber, [Validators.required, Validators.pattern(/^[0-9]{10,16}$/)]],
+      accountNumber: [accountNumber, [Validators.required, Validators.pattern(/^[0-9]{12}$/)]],
       ifscCode: [ifscCode, Validators.required]
     });
   }
@@ -204,14 +205,7 @@ export class FundTransferComponent {
     const receiverAccountNumber = formValue.receiverAccountNumber;
     const remarks = formValue.remarks;
 
-    this.bankService.withdraw(amount);
-    this.bankService.addTransaction({
-      date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
-      description: `Transfer to ${receiverAccountNumber}`,
-      amount: -amount,
-      type: 'Debit',
-      remarks
-    });
+    this.bankService.transfer(receiverAccountNumber, amount, remarks);
 
     this.message = `₹ ${amount} transferred successfully to ${receiverAccountNumber}`;
     this.messageColor = 'green';

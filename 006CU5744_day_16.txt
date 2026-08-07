@@ -1,0 +1,1 @@
+Day 16 tasks was mostly coding tasks that you can see in src/Angular_Training/Hello_Angular location.

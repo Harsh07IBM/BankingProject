@@ -1,46 +1,80 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
+import { delay } from 'rxjs/operators';
+import { AppTransaction, AuthService } from './auth.service';
 
-export interface Transaction {
-  date: string;
-  description: string;
-  amount: number;
-  type: 'Credit' | 'Debit';
-  remarks?: string;
-}
+export type Transaction = AppTransaction;
 
 @Injectable({ providedIn: 'root' })
 export class BankService {
-  // Sender account number is fixed for the logged-in user.
-  senderAccountNumber = '123456789012';
+  constructor(private authService: AuthService) {}
 
-  balance = 185430;
+  get isLoggedIn(): boolean {
+    return this.authService.isAuthenticated;
+  }
 
-  // Transaction history is stored in the service so multiple components can share it.
-  transactions: Transaction[] = [
-    { date: '04 Aug 2025', description: 'Salary - IBM India', amount: 95000, type: 'Credit' },
-    { date: '03 Aug 2025', description: 'Amazon Shopping', amount: -2499, type: 'Debit' },
-    { date: '02 Aug 2025', description: 'Electricity Bill', amount: -1850, type: 'Debit' },
-    { date: '01 Aug 2025', description: 'Freelance Payment', amount: 15000, type: 'Credit' },
-  ];
+  get senderAccountNumber(): string {
+    return this.authService.selectedAccount ?? this.authService.session?.accountNumber ?? '';
+  }
+
+  get balance(): number {
+    return this.authService.getBalance();
+  }
+
+  get transactions(): Transaction[] {
+    return this.authService.getTransactions();
+  }
+
+  authenticate(username: string, password: string): boolean {
+    return this.authService.authenticate(username, password);
+  }
+
+  logout() {
+    this.authService.logout();
+  }
 
   deposit(amount: number) {
-    this.balance += amount;
+    this.authService.updateBalance(amount);
   }
 
   withdraw(amount: number) {
-    this.balance -= amount;
+    this.authService.updateBalance(-amount);
   }
 
   addTransaction(transaction: Transaction) {
-    // Add the newest transaction at the top of the list.
-    this.transactions.unshift(transaction);
+    this.authService.addTransaction(transaction);
+  }
+
+  transfer(receiverAccountNumber: string, amount: number, remarks: string) {
+    const senderAccountNumber = this.senderAccountNumber;
+    if (!senderAccountNumber) {
+      return;
+    }
+
+    const transferDate = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+    this.authService.updateBalance(-amount);
+    this.authService.addTransaction({
+      date: transferDate,
+      description: `Transfer to ${receiverAccountNumber}`,
+      amount: -amount,
+      type: 'Debit',
+      remarks
+    });
+
+    this.authService.updateAccountBalance(receiverAccountNumber, amount);
+    this.authService.addTransactionToAccount(receiverAccountNumber, {
+      date: transferDate,
+      description: `Transfer from ${senderAccountNumber}`,
+      amount,
+      type: 'Credit',
+      remarks
+    });
   }
 
   receiverExists(accountNumber: string): Observable<boolean> {
-    const validAccounts = ['987654321098', '998877665544', '112233445566'];
-    return of(validAccounts.includes(accountNumber)).pipe(delay(700));
+    const valid12Digit = /^[0-9]{12}$/.test(accountNumber);
+    return of(valid12Digit).pipe(delay(700));
   }
 
   hasSufficientBalance(amount: number): Observable<boolean> {
