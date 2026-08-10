@@ -1,0 +1,22 @@
+.history-page {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: rgba(33, 17, 17, 0.384);
+  color: white;
+}
+
+.history-page ul {
+  list-style: none;
+  padding: 0;
+}
+
+.history-page li {
+  padding: 10px;
+  margin-bottom: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  font-size: 14px;
+}

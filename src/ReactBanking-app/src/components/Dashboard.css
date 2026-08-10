@@ -1,0 +1,36 @@
+.dashboard {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.balance {
+  font-size: 24px;
+  color: green;
+  font-weight: bold;
+}
+
+.dashboard .description {
+  color: rgb(156, 0, 129);
+}
+
+.transaction {
+  margin-top: 15px;
+}
+
+.transaction input {
+  padding: 8px;
+  margin-right: 10px;
+  width: 150px;
+}
+
+.transaction button {
+  padding: 8px 16px;
+  margin: 0 5px;
+  cursor: pointer;
+}
