@@ -1,0 +1,551 @@
+Task 1: What is Data Binding?
+
+Data binding means connecting the data (usually from JavaScript/React) with the UI (HTML).
+
+It helps us display data in the UI and, in some cases, update the data when the user changes something in the UI.
+
+Example:
+
+const name = "Harsh";
+
+return <h1>Hello {name}</h1>;
+
+Here, the value of name is connected to the UI.
+
+Task 2: What is One-Way and Two-Way Data Binding?
+One-Way Data Binding
+
+In one-way data binding, data flows in only one direction:
+
+Data → UI
+
+If the data changes, the UI can be updated, but changing the UI does not automatically change the original data.
+
+Example:
+
+const name = "Harsh";
+
+return <h1>{name}</h1>;
+
+Here, name is used to display data in the UI.
+
+Two-Way Data Binding
+
+In two-way data binding, data can flow in both directions:
+
+Data ↔ UI
+
+If the data changes, the UI changes.
+If the user changes the UI, the data also changes.
+
+Example:
+
+const [name, setName] = useState("");
+
+<input
+  value={name}
+  onChange={(e) => setName(e.target.value)}
+/>
+
+When the user types in the input, name is updated.
+When name changes, the input value is also updated.
+
+Task 3: When do we use One-Way and Two-Way Data Binding?
+One-Way Data Binding
+
+We use one-way binding when we mainly need to display data.
+
+For example, displaying a user's account balance:
+
+<h2>Balance: ₹5000</h2>
+
+The balance comes from the application data and is displayed on the screen.
+
+Common use cases:
+
+Displaying user information
+Showing product details
+Displaying transaction history
+Showing API response data
+
+Two-Way Data Binding
+We use two-way binding when the user needs to enter or modify data through the UI.
+
+For example, a login form:
+
+const [email, setEmail] = useState("");
+
+<input
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+/>
+
+When the user types an email, the state is updated automatically.
+
+Common use cases:
+
+Login forms
+Registration forms
+Search boxes
+Profile editing forms
+Settings forms
+
+Note: React mainly follows one-way data flow. Two-way binding in React is usually implemented using state + value + onChange.
+
+Task 4: What is State in React?
+
+State is data that belongs to a React component and can change over time.
+
+When the state changes, React automatically re-renders the component and updates the UI.
+
+Example:
+
+const [count, setCount] = useState(0);
+
+<button onClick={() => setCount(count + 1)}>
+  Count: {count}
+</button>
+
+Here:
+
+count → current state value
+setCount() → function used to update the state
+0 → initial value
+
+When the button is clicked, the count changes and the UI updates.
+
+Task 5: What is SPA?
+
+SPA (Single Page Application) is a web application where the browser loads one main HTML page, and the content is updated dynamically without completely reloading the page.
+
+For example, in a banking SPA:
+
+Banking App
+   |
+   ├── Dashboard
+   ├── Transactions
+   └── Fund Transfer
+
+When the user moves from Dashboard → Transactions, the whole webpage does not reload. Only the required content changes.
+
+Examples of SPA technologies:
+
+React
+Angular
+Vue
+
+Example: Gmail behaves like an SPA because switching between Inbox, Sent, and other sections usually does not require a full page reload.
+
+Task 6: What is DOM?
+
+DOM (Document Object Model) is a tree-like representation of an HTML page created by the browser.
+
+For example:
+
+<html>
+  <body>
+    <h1>Hello</h1>
+    <button>Click</button>
+  </body>
+</html>
+
+The browser represents it approximately like:
+
+Document
+   |
+   └── html
+        |
+        └── body
+             ├── h1
+             └── button
+
+JavaScript can use the DOM to read, change, add, or remove HTML elements.
+
+Example:
+
+document.querySelector("h1").textContent = "Hello Harsh";
+
+This changes the text of the <h1> element.
+
+Task 7: What is Virtual DOM?
+
+Virtual DOM is a lightweight JavaScript representation of the actual DOM.
+
+React uses it to efficiently update the UI.
+
+For example, suppose the page contains:
+
+Name: Harsh
+Balance: ₹5000
+
+If only the balance changes:
+
+Name: Harsh
+Balance: ₹6000
+
+React compares the previous Virtual DOM with the new Virtual DOM, identifies what changed, and updates the necessary part of the real DOM.
+
+Simple flow:
+State Changes
+     ↓
+New Virtual DOM
+     ↓
+Compare with Previous Virtual DOM
+     ↓
+Find Changes
+     ↓
+Update Real DOM
+
+Main benefit: It helps React update the UI efficiently instead of unnecessarily changing the entire page.
+
+Task 8: What are Props in React? Explain Prop Drilling.
+Props
+
+Props (Properties) are used to pass data from one React component to another component.
+
+Props are normally passed from a parent component to a child component.
+
+Example:
+function User({ name }) {
+  return <h2>Hello, {name}</h2>;
+}
+
+function App() {
+  return <User name="Harsh" />;
+}
+
+Here, name="Harsh" is a prop passed from App to User.
+
+Props are read-only, meaning a child component should not directly modify the props it receives.
+
+What is Prop Drilling?
+
+Prop drilling happens when we pass props through multiple components just to reach a component that actually needs the data.
+
+Example:
+
+App
+ ↓
+Dashboard
+ ↓
+Profile
+ ↓
+UserDetails
+
+Suppose UserDetails needs the user's name, but App has the name.
+
+We may have to pass it like this:
+
+<App>
+   ↓ name
+<Dashboard>
+   ↓ name
+<Profile>
+   ↓ name
+<UserDetails>
+
+This can become difficult to manage when there are many components.
+
+In simple words:
+Prop drilling means passing data through components that don't actually need the data, just so another component can receive it.
+
+For larger applications, solutions such as Context API, Redux, or other state-management libraries can help avoid excessive prop drilling.
+
+Task 9: Why do we use React? Give importance and describe in detail.
+
+React is a JavaScript library used for building user interfaces, especially for modern web applications.
+
+React was developed by Facebook (now Meta).
+
+Why do we use React?
+1. Component-Based Development
+
+React allows us to divide a large UI into small reusable components.
+
+For example, a banking application can have:
+
+Banking App
+ ├── Navbar
+ ├── Dashboard
+ ├── Balance
+ ├── Transactions
+ └── FundTransfer
+
+Each part can be developed as a separate component.
+
+2. Reusable Components
+
+Once we create a component, we can reuse it in different places.
+
+For example:
+
+<Button text="Login" />
+<Button text="Transfer" />
+<Button text="Logout" />
+
+The same Button component can be reused with different data.
+
+3. Efficient UI Updates
+
+React uses the Virtual DOM to efficiently update the UI.
+
+Instead of unnecessarily updating the whole page, React identifies what has changed and updates the required part.
+
+4. Supports SPA Development
+
+React is commonly used to build Single Page Applications (SPAs).
+
+For example, in a banking application:
+
+Dashboard → Transactions → Fund Transfer
+
+The user can move between different views without completely reloading the webpage.
+
+5. Easy Data Management
+
+React provides concepts such as:
+
+Props
+State
+Hooks
+Context
+
+These help us manage and share data between components.
+
+6. Reusable and Maintainable Code
+
+Breaking an application into small components makes the code easier to:
+
+Understand
+Test
+Debug
+Maintain
+Reuse
+7. Large Ecosystem
+
+React has a large ecosystem and many supporting libraries for:
+
+Routing
+State management
+Forms
+API calls
+Testing
+UI components
+Importance of React
+
+React is important because it makes it easier to build large, interactive, and maintainable user interfaces by using reusable components and efficient UI updates.
+
+In simple words:
+
+React helps developers build complex web applications by breaking the UI into small reusable components and efficiently updating the screen when data changes.
+
+Task 10: What is Component-Based Architecture?
+
+Component-Based Architecture means building an application by dividing it into small, independent and reusable components.
+
+Each component is responsible for a particular part of the application.
+
+Example: Banking Application
+
+Instead of creating one huge component, we can divide it like this:
+
+Banking Application
+        |
+        ├── Navbar
+        |
+        ├── Dashboard
+        |      └── Balance
+        |
+        ├── Transactions
+        |
+        └── FundTransfer
+
+Each component has its own responsibility.
+
+For example:
+
+Balance Component
+       ↓
+Displays account balance
+
+Transaction Component
+       ↓
+Displays transaction history
+
+FundTransfer Component
+       ↓
+Handles money transfer
+Benefits
+Reusability – components can be reused.
+Maintainability – easier to modify individual parts.
+Testing – components can be tested separately.
+Organization – large applications become easier to understand.
+Scalability – easier to add new features.
+
+In simple words:
+
+Component-based architecture means building a large application by combining many small, reusable and independent UI components.
+
+Task 11: Explain the Lifecycle of a React Component.
+
+The lifecycle of a React component describes the different stages a component goes through from its creation to its removal from the UI.
+
+The main stages are:
+
+             Component Created
+                    |
+                    ↓
+              MOUNTING
+                    |
+                    ↓
+             Component Visible
+                    |
+                    ↓
+              UPDATING
+          (State/Props Change)
+                    |
+                    ↓
+             Component Updated
+                    |
+                    ↓
+             UNMOUNTING
+                    |
+                    ↓
+            Component Removed
+
+There are mainly three important stages:
+
+1. Mounting
+
+Mounting means the component is being created and added to the DOM for the first time.
+
+For example, when we open the Dashboard page:
+
+Dashboard Component
+       ↓
+Created
+       ↓
+Added to DOM
+       ↓
+Displayed on screen
+
+In functional components, useEffect() can be used to perform actions after the component is mounted.
+
+Example:
+
+useEffect(() => {
+    console.log("Component mounted");
+}, []);
+
+The empty [] means this effect runs when the component is initially mounted.
+
+2. Updating
+
+A component enters the updating phase when its state or props change.
+
+Example:
+
+const [count, setCount] = useState(0);
+
+setCount(count + 1);
+
+When count changes:
+
+State changes
+     ↓
+Component re-renders
+     ↓
+UI gets updated
+
+Example:
+
+Count: 0
+
+     ↓ Button Click
+
+Count: 1
+3. Unmounting
+
+Unmounting means the component is removed from the DOM.
+
+For example:
+
+Dashboard
+   ↓
+User opens Transactions
+   ↓
+Dashboard component removed
+   ↓
+Transactions component displayed
+
+We can use the cleanup function of useEffect() to perform cleanup when a component is unmounted.
+
+Example:
+
+useEffect(() => {
+
+    console.log("Mounted");
+
+    return () => {
+        console.log("Unmounted");
+    };
+
+}, []);
+
+The function returned from useEffect() is called during cleanup, such as when the component is unmounted.
+
+Complete React Component Lifecycle
+                 CREATE COMPONENT
+                        |
+                        ↓
+                   MOUNTING
+                        |
+                        ↓
+                 Render to DOM
+                        |
+                        ↓
+                  COMPONENT
+                   DISPLAYED
+                        |
+                        ↓
+              State/Props Change
+                        |
+                        ↓
+                   UPDATING
+                        |
+                        ↓
+                Re-render UI
+                        |
+                        ↓
+              Component continues
+                        |
+                        ↓
+              Component Removed
+                        |
+                        ↓
+                  UNMOUNTING
+                        |
+                        ↓
+               Cleanup performed
+Easy way to remember:
+Mounting   → Component is created and displayed
+
+Updating   → Component changes because state/props changed
+
+Unmounting → Component is removed from the UI
+
+Real-world example:
+
+In a banking application:
+
+Open Dashboard
+      ↓
+Dashboard mounts
+
+Balance changes
+      ↓
+Dashboard updates
+
+Go to Transactions
+      ↓
+Dashboard unmounts
