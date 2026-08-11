@@ -1,0 +1,778 @@
+Task 1: SED
+What is sed?
+
+sed stands for Stream Editor. It is mainly used to search, replace, delete, and print specific lines from a file.
+
+First, create a file:
+
+nano filename.txt
+
+Paste some dummy text from Lorem Ipsum and save it.
+
+1. Display file using sed
+sed '' filename.txt
+
+This displays the contents of the file.
+
+Note: sed filename.txt is not the usual syntax. sed expects a command/script first.
+
+2. Replace a word
+sed 's/old/new/' filename.txt
+
+s = substitute.
+
+It replaces the first occurrence of old with new on each line.
+
+3. Replace all occurrences
+sed 's/old/new/g' filename.txt
+
+g means global.
+
+It replaces all occurrences of old with new.
+
+4. Delete lines containing a word
+sed '/word/d' filename.txt
+
+d means delete.
+
+It deletes every line containing word.
+
+5. Print a specific line
+sed -n '3p' filename.txt
+
+Prints line number 3.
+
+-n → don't print everything
+3p → print line 3
+6. Print a range of lines
+sed -n '2,5p' filename.txt
+
+Prints lines 2 through 5.
+
+Task 2: AWK
+What is awk?
+
+awk is used for pattern scanning and processing text, especially when working with columns and conditions.
+
+Example:
+
+John 25 80
+Mike 30 60
+Sam 22 90
+
+Here:
+
+$1 = John
+$2 = 25
+$3 = 80
+1. Print entire file
+awk '{print}' filename.txt
+
+Prints every line of the file.
+
+2. Print a specific column
+awk '{print $2}' filename.txt
+
+Prints the second column.
+
+3. Print multiple columns
+awk '{print $1, $3}' filename.txt
+
+Prints the first and third columns.
+
+4. Filter using a condition
+awk '$3 > 50 {print $1, $3}' filename.txt
+
+Prints column 1 and column 3 only when column 3 is greater than 50.
+
+5. Use comma as delimiter
+
+For a file like:
+
+John,25,80
+Mike,30,60
+Sam,22,90
+
+Use:
+
+awk -F, '{print $1, $2}' filename.txt
+
+-F, tells awk that comma is the field separator/delimiter.
+
+6. Count number of lines
+awk 'END {print NR}' filename.txt
+
+NR = Number of Records (lines processed).
+
+So this prints the total number of lines.
+
+Task 3: Network Commands
+1. Ping Google
+ping google.com
+
+Checks whether Google is reachable from your system and shows response time.
+
+To stop it:
+
+Ctrl + C
+2. Curl Google
+curl https://google.com
+
+Sends an HTTP/HTTPS request to Google and displays the response.
+
+curl is commonly used to test APIs and web servers.
+
+3. Netstat
+netstat -an
+
+Displays network connections, listening ports, and IP addresses.
+
+-a → show all connections/listening ports
+-n → show addresses and ports numerically
+Task 4: OpenSSL and HTTPS
+What is OpenSSL?
+
+OpenSSL is a tool/library used for encryption, certificates, keys, and TLS/SSL communication.
+
+Step 1: Install OpenSSL
+
+Install OpenSSL for Windows and verify:
+
+openssl version
+
+If it shows something like:
+
+OpenSSL 3.x.x
+
+OpenSSL is installed correctly.
+
+Step 2: Generate a private key
+openssl genrsa -out localhost.key 2048
+
+Creates a 2048-bit RSA private key.
+
+File created:
+
+localhost.key
+Step 3: Generate CSR
+
+A CSR is a Certificate Signing Request.
+
+openssl req -new -key localhost.key -out localhost.csr
+
+File created:
+
+localhost.csr
+
+It contains information that will be used to create/request a certificate.
+
+Step 4: Generate a self-signed certificate
+openssl x509 -req -days 365 -in localhost.csr -signkey localhost.key -out localhost.crt
+
+Creates a certificate valid for 365 days.
+
+File created:
+
+localhost.crt
+Important
+
+Your task's Python command uses:
+
+cert.pem
+key.pem
+
+but the commands above create:
+
+localhost.crt
+localhost.key
+
+So the filenames need to match. Also, Python's built-in http.server SSL options vary by Python version; if your Python version doesn't support --ssl-certfile/--ssl-keyfile, you'll need a small Python HTTPS server script instead.
+
+Step 5: Start HTTPS server
+
+The intended command is:
+
+python -m http.server 4443 --bind 127.0.0.1 --ssl-certfile cert.pem --ssl-keyfile key.pem
+
+Then open:
+
+https://localhost:4443
+
+Or test using:
+
+curl -k https://localhost:4443
+
+-k tells curl to ignore certificate trust warnings, which is necessary for a self-signed certificate.
+
+Step 6: Observe TLS handshake
+openssl s_client -connect localhost:4443
+
+This can show information about the TLS connection, certificate, cipher, and handshake.
+
+Step 7: Certificate trust
+
+A self-signed certificate is not trusted by default.
+
+Therefore, browsers usually show a warning.
+
+In real applications, certificates are normally issued by a trusted Certificate Authority (CA).
+
+
+Quick Revision :
+
+SED
+→ Search, replace, delete, print lines
+
+AWK
+→ Process text, columns, conditions
+
+PING
+→ Check network connectivity
+
+CURL
+→ Send requests to web servers/APIs
+
+NETSTAT
+→ View network connections and ports
+
+OPENSSL
+→ Encryption, keys, certificates and TLS
+
+TREE
+→ Store hierarchical data
+
+Task 5: Trees
+What is a Tree?
+
+A Tree is a non-linear data structure that stores data in a hierarchical form.
+
+Example:
+
+          Company
+         /       \
+     Manager    Manager
+      /   \        |
+   Dev1   Dev2    Dev3
+
+Here:
+
+Company → Root
+Manager → Parent
+Dev1, Dev2 → Children
+Dev1/Dev2/Dev3 → Leaf nodes
+Where are Trees used?
+
+Trees are commonly used in:
+
+File systems → folders and files
+Database indexes → B-Trees/B+ Trees
+HTML DOM → webpage structure
+Binary Search Trees → searching/sorting
+Heaps → priority queues
+Compilers → syntax/parse trees
+AI → decision trees
+Simple definition for notes
+
+A tree is a hierarchical data structure where nodes are connected through parent-child relationships. It is used when data naturally has a hierarchy.
+
+Task 6: Types of Trees
+
+There are many types of trees used in computer science:
+
+Binary Tree – Each node can have at most 2 children.
+Binary Search Tree (BST) – Left side contains smaller values and right side contains larger values.
+AVL Tree – A self-balancing Binary Search Tree.
+Red-Black Tree – A self-balancing BST used in many libraries.
+Heap – A tree used for priority-based operations.
+B-Tree – Commonly used in databases and file systems.
+B+ Tree – Used heavily for database indexing.
+Trie – Used for storing/searching strings and prefixes.
+Easy way to remember
+Tree
+│
+├── Binary Tree
+│   └── Binary Search Tree
+│       ├── AVL Tree
+│       └── Red-Black Tree
+│
+├── Heap
+├── B-Tree
+├── B+ Tree
+└── Trie
+Task 7: What is Binary Search Tree?
+
+A Binary Search Tree (BST) is a binary tree where each node follows a specific ordering rule:
+
+Left child < Parent < Right child
+
+For example:
+
+        50
+       /  \
+     30    70
+    / \    / \
+   20 40  60 80
+
+Here:
+
+Values smaller than 50 go to the left
+Values greater than 50 go to the right
+The same rule continues for every node.
+Why use BST?
+
+BST makes searching, insertion and deletion efficient when the tree is reasonably balanced.
+
+Average case:
+
+Search    → O(log n)
+Insert    → O(log n)
+Delete    → O(log n)
+
+Worst case, if the tree becomes like a linked list:
+
+10
+  \
+   20
+     \
+      30
+        \
+         40
+
+Operations can become:
+
+O(n)
+Task 8: Create a Binary Tree in Java
+
+We can create a simple Node class:
+
+class Node {
+    int val;
+    Node left, right;
+
+    Node(int val) {
+        this.val = val;
+    }
+}
+
+Now let's create a BST and insert values.
+
+class Node {
+    int val;
+    Node left, right;
+
+    Node(int val) {
+        this.val = val;
+    }
+}
+
+public class BinarySearchTree {
+
+    Node root;
+
+    // Insert a value into the BST
+    Node insert(Node root, int val) {
+
+        // If there is no node, create one
+        if (root == null) {
+            return new Node(val);
+        }
+
+        // Smaller values go to the left
+        if (val < root.val) {
+            root.left = insert(root.left, val);
+        }
+
+        // Larger values go to the right
+        else if (val > root.val) {
+            root.right = insert(root.right, val);
+        }
+
+        return root;
+    }
+
+    // Inorder traversal
+    void inorder(Node root) {
+
+        if (root == null) {
+            return;
+        }
+
+        inorder(root.left);
+        System.out.print(root.val + " ");
+        inorder(root.right);
+    }
+
+    public static void main(String[] args) {
+
+        BinarySearchTree tree = new BinarySearchTree();
+
+        // Insert values
+        tree.root = tree.insert(tree.root, 50);
+        tree.insert(tree.root, 30);
+        tree.insert(tree.root, 70);
+        tree.insert(tree.root, 20);
+        tree.insert(tree.root, 40);
+        tree.insert(tree.root, 60);
+        tree.insert(tree.root, 80);
+
+        System.out.println("Inorder Traversal:");
+
+        tree.inorder(tree.root);
+    }
+}
+How the insertion works
+
+We insert:
+
+50, 30, 70, 20, 40, 60, 80
+
+First:
+
+50
+
+50 becomes the root.
+
+Then 30:
+
+   50
+  /
+30
+
+Because:
+
+30 < 50
+
+Then 70:
+
+   50
+  /  \
+30    70
+
+Because:
+
+70 > 50
+
+Then 20:
+
+      50
+     /  \
+   30    70
+  /
+20
+
+Because:
+
+20 < 50
+20 < 30
+
+Finally, after inserting all values:
+
+        50
+       /  \
+     30    70
+    / \    / \
+   20 40  60 80
+Displaying the values
+
+We use inorder traversal:
+
+Left → Root → Right
+
+For this tree:
+
+20 → 30 → 40 → 50 → 60 → 70 → 80
+
+So the output is:
+
+Inorder Traversal:
+20 30 40 50 60 70 80
+
+Important: One nice property of a BST is that inorder traversal gives the values in sorted order.
+
+Task 9: Search a Number in BST
+
+In a Binary Search Tree, we can search efficiently because:
+
+If the value is smaller than the current node → go left.
+If the value is larger → go right.
+If equal → value is found.
+
+Add this method to the previous code:
+
+boolean search(Node root, int val) {
+
+    // Value not found
+    if (root == null) {
+        return false;
+    }
+
+    // Value found
+    if (root.val == val) {
+        return true;
+    }
+
+    // Search in left subtree
+    if (val < root.val) {
+        return search(root.left, val);
+    }
+
+    // Search in right subtree
+    return search(root.right, val);
+}
+
+Use it in main():
+
+int value = 60;
+
+if (tree.search(tree.root, value)) {
+    System.out.println(value + " found");
+} else {
+    System.out.println(value + " not found");
+}
+
+Output:
+
+60 found
+Example
+
+For this tree:
+
+        50
+       /  \
+     30    70
+    / \    / \
+   20 40  60 80
+
+Search 60:
+
+60 > 50  → go right
+60 < 70  → go left
+60 = 60  → FOUND
+Task 10: Inorder Traversal in BST
+
+Inorder traversal means:
+
+Left → Root → Right
+
+Method:
+
+void inorder(Node root) {
+
+    if (root == null) {
+        return;
+    }
+
+    inorder(root.left);
+
+    System.out.print(root.val + " ");
+
+    inorder(root.right);
+}
+
+For this tree:
+
+        50
+       /  \
+     30    70
+    / \    / \
+   20 40  60 80
+
+Inorder traversal gives:
+
+20 30 40 50 60 70 80
+Important point
+
+Inorder traversal of a BST gives values in sorted order.
+
+Task 11: Fundamental Difference Between BFS and DFS
+
+Both are graph traversal algorithms, but their approach is different.
+
+BFS — Breadth First Search
+
+BFS explores level by level.
+
+        A
+       / \
+      B   C
+     / \   \
+    D   E   F
+
+BFS:
+
+A → B → C → D → E → F
+
+It explores the nearest nodes first.
+
+DFS — Depth First Search
+
+DFS goes as deep as possible first, then backtracks.
+
+One possible DFS:
+
+A → B → D → E → C → F
+Main difference
+
+BFS = Explore wide/level by level
+DFS = Explore deep first
+
+Task 12: Data Structures Used by BFS and DFS
+BFS
+
+BFS uses a Queue.
+
+BFS → Queue → FIFO
+
+FIFO means:
+
+First In, First Out
+
+DFS
+
+DFS uses a Stack.
+
+DFS → Stack → LIFO
+
+LIFO means:
+
+Last In, First Out
+
+DFS can also be implemented using recursion, because recursion internally uses the call stack.
+
+Easy way to remember
+BFS → Queue
+DFS → Stack / Recursion
+Task 13: Shortest Path in an Unweighted Graph
+
+For an unweighted graph, we use BFS to find the shortest path.
+
+Why?
+
+Because BFS visits nodes according to their distance from the starting node.
+
+Example:
+
+        B
+       / \
+      A   D
+       \ /
+        C
+
+Starting from A:
+
+Distance 0 → A
+
+Distance 1 → B, C
+
+Distance 2 → D
+
+Therefore, the shortest path from A to D is:
+
+A → B → D
+
+or
+
+A → C → D
+
+Both have 2 edges.
+
+Important note
+
+BFS finds the shortest path in an unweighted graph because it explores nodes level by level.
+
+For a weighted graph, BFS is generally not enough. Algorithms such as Dijkstra's algorithm are commonly used when edge weights are non-negative.
+
+Task 14: How to Detect a Cycle in a Graph?
+
+A cycle exists when we can start from a node, follow edges, and eventually come back to a previously visited node.
+
+Example:
+
+A → B
+↑   ↓
+C ←
+
+There is a cycle:
+
+A → B → C → A
+
+The method used depends on whether the graph is directed or undirected.
+
+1. Cycle detection in an undirected graph
+
+We can use DFS + visited array.
+
+While doing DFS:
+
+Mark the current node as visited.
+Visit its neighbors.
+If a neighbor is already visited and it is not the parent, then a cycle exists.
+
+Example:
+
+A ---- B
+ \     /
+   \ /
+    C
+
+When visiting C, we can see that A is already visited and is not simply the parent → cycle detected.
+
+2. Cycle detection in a directed graph
+
+We commonly use:
+
+DFS + recursion stack
+
+Keep track of nodes currently present in the DFS path.
+
+If we reach a node that is already in the current recursion stack, a cycle exists.
+
+Example:
+
+A → B → C
+    ↑   |
+    |___|
+
+B → C → B creates a cycle.
+
+Simple notes
+Cycle Detection
+
+Undirected Graph
+→ DFS + visited[] + parent
+
+Directed Graph
+→ DFS + visited[] + recursion stack
+
+Quick Revision of Tasks 9–14
+
+| Task                   | Answer                                  |
+| ---------------------- | --------------------------------------- |
+| 9. Search in BST       | Compare value and move left/right       |
+| 10. Inorder            | Left → Root → Right                     |
+| 11. BFS vs DFS         | BFS explores wide; DFS explores deep    |
+| 12. BFS data structure | Queue                                   |
+| 12. DFS data structure | Stack / Recursion                       |
+| 13. Shortest path      | BFS for unweighted graph                |
+| 14. Cycle detection    | DFS + visited/parent or recursion stack |
+
+
+Most important things to remember
+BST Search
+Smaller → Left
+Larger  → Right
+
+Inorder
+Left → Root → Right
+
+BFS
+Queue
+Level by level
+Shortest path in unweighted graph
+
+DFS
+Stack / Recursion
+Go deep first
+
+Cycle
+DFS + visited
