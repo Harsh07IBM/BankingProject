@@ -1,0 +1,1273 @@
+Day 19 – 11th Aug 2026
+Task 1: What are Wrapper Classes?
+
+Wrapper classes are classes in Java that convert primitive data types into objects.
+
+Example:
+
+int → Integer
+double → Double
+char → Character
+boolean → Boolean
+
+They are useful when we need to work with primitive values as objects, such as in collections like ArrayList.
+
+Task 2: What is Auto Boxing and Unboxing?
+
+Autoboxing: Converting a primitive value into its corresponding wrapper object automatically.
+
+int a = 10;
+Integer b = a;   // Autoboxing
+
+Unboxing: Converting a wrapper object back into a primitive value automatically.
+
+Integer b = 20;
+int a = b;       // Unboxing
+
+So, simply:
+
+Primitive → Object = Autoboxing
+Object → Primitive = Unboxing
+
+Task 3: Program to Show the Use of Wrapper Classes
+public class WrapperExample {
+    public static void main(String[] args) {
+
+        // Autoboxing
+        int num = 10;
+        Integer obj = num;
+
+        // Unboxing
+        Integer value = 20;
+        int number = value;
+
+        System.out.println("Primitive value: " + num);
+        System.out.println("Wrapper object: " + obj);
+        System.out.println("Wrapper value: " + value);
+        System.out.println("Primitive value after unboxing: " + number);
+    }
+}
+
+Output:
+
+Primitive value: 10
+Wrapper object: 10
+Wrapper value: 20
+Primitive value after unboxing: 20
+
+Note: Wrapper classes are mainly used when Java needs an object instead of a primitive value.
+
+Task 4: Where do we use Wrapper Classes?
+
+Wrapper classes are used when we need to treat primitive values as objects.
+
+Common uses:
+
+In collections like ArrayList<Integer>.
+When working with Generics.
+To convert strings into numbers, e.g. Integer.parseInt("10").
+When an object is required instead of a primitive value.
+They also provide useful methods for primitive data types.
+
+
+Task 5: Program to Show Abstraction and Encapsulation
+
+Abstraction means hiding implementation details and showing only the necessary features.
+
+Encapsulation means wrapping data and methods together and protecting data using access modifiers like private.
+
+// Abstraction
+abstract class Vehicle {
+    abstract void start();
+}
+
+// Encapsulation
+class Car extends Vehicle {
+    private String name;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    void start() {
+        System.out.println("Car starts with a key");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Car car = new Car();
+
+        // Encapsulation
+        car.setName("BMW");
+        System.out.println("Car name: " + car.getName());
+
+        // Abstraction
+        car.start();
+    }
+}
+
+In short:
+
+Abstraction → Hides implementation details.
+Encapsulation → Protects and controls access to data.
+
+Task 6: What is Executor Framework in Java 5?
+
+The Executor Framework was introduced in Java 5 to make it easier to create and manage threads.
+
+Instead of manually creating threads using new Thread(), we can submit tasks to an Executor.
+
+Why do we use it?
+
+Makes thread management easier.
+Allows reuse of threads.
+Improves performance using thread pools.
+Reduces the complexity of multithreaded programs.
+
+Where do we use it?
+
+It is commonly used in applications that need to perform multiple tasks concurrently, such as:
+
+Web servers
+Background tasks
+File processing
+Database operations
+Large-scale applications
+
+Task 7: Executor, ExecutorService and Executors
+
+There are three important parts:
+
+1. Executor
+
+Executor is a simple interface used to execute tasks.
+
+Executor executor = command -> command.run();
+executor.execute(() -> System.out.println("Task executed"));
+
+2. ExecutorService
+
+ExecutorService extends Executor and provides more features like:
+
+Submitting tasks
+Managing threads
+Getting results
+Shutting down the executor
+
+Example:
+
+ExecutorService service = Executors.newFixedThreadPool(2);
+
+service.submit(() -> {
+    System.out.println("Task is running");
+});
+
+service.shutdown();
+
+3. Executors
+
+Executors is a utility class used to create different types of thread pools.
+
+Example:
+
+ExecutorService service = Executors.newFixedThreadPool(3);
+
+Here, Executors creates an ExecutorService with 3 threads.
+
+Easy way to remember:
+
+Executor → Executes tasks
+ExecutorService → Executes + manages tasks
+Executors → Creates ExecutorService/thread pools
+
+Task 8: When do we use Callable Interface with Future?
+
+We use Callable with Future when a task needs to return a result or may throw an exception.
+
+Runnable does not return a result, but Callable can return a value.
+
+Example:
+ExecutorService service = Executors.newSingleThreadExecutor();
+
+Callable<Integer> task = () -> {
+    return 10 + 20;
+};
+
+Future<Integer> result = service.submit(task);
+
+System.out.println("Result: " + result.get());
+
+service.shutdown();
+
+Output:
+
+Result: 30
+
+Here:
+
+Callable → Performs the task and returns a result.
+Future → Represents the result that will be available later.
+get() → Gets the result from the task.
+
+In short:
+Use Callable + Future when you want to run a task in another thread and get its result later.
+
+Task 9: ExecutorService Flow
+
+The basic flow of ExecutorService is:
+
+Create → Submit → Execute → Get Result → Shutdown
+
+Create ExecutorService – Create a thread pool.
+Submit Tasks – Give tasks to the executor using submit().
+Manage Results – Use Future to get the result.
+Shutdown – Stop the executor after all tasks are completed.
+
+import java.util.concurrent.*;
+
+public class ExecutorExample {
+    public static void main(String[] args) throws Exception {
+
+        // 1. Create ExecutorService
+        ExecutorService service = Executors.newFixedThreadPool(2);
+
+        // 2. Submit tasks
+        Future<Integer> result = service.submit(() -> {
+            return 10 + 20;
+        });
+
+        // 3. Get and manage result
+        System.out.println("Result: " + result.get());
+
+        // 4. Shutdown ExecutorService
+        service.shutdown();
+    }
+}
+
+Flow:
+
+Create ExecutorService
+        ↓
+Create/Submit Task
+        ↓
+Thread Pool executes Task
+        ↓
+Future stores the Result
+        ↓
+get() retrieves Result
+        ↓
+shutdown()
+        ↓
+ExecutorService stops
+
+
+Task 10: Character I/O and Buffered I/O in File Handling
+
+Character I/O is used to read and write character data from files.
+Common classes are FileReader and FileWriter.
+
+Character I/O Example
+import java.io.*;
+
+public class CharacterIO {
+    public static void main(String[] args) throws Exception {
+
+        FileWriter writer = new FileWriter("data.txt");
+        writer.write("Hello Java!");
+        writer.close();
+
+        FileReader reader = new FileReader("data.txt");
+
+        int ch;
+        while ((ch = reader.read()) != -1) {
+            System.out.print((char) ch);
+        }
+
+        reader.close();
+    }
+}
+
+Buffered I/O uses a buffer to reduce direct file access and improve performance.
+
+Common classes are BufferedReader and BufferedWriter.
+
+import java.io.*;
+
+public class BufferedIO {
+    public static void main(String[] args) throws Exception {
+
+        BufferedWriter writer =
+                new BufferedWriter(new FileWriter("data.txt"));
+
+        writer.write("Hello Java");
+        writer.newLine();
+        writer.write("Buffered I/O Example");
+        writer.close();
+
+        BufferedReader reader =
+                new BufferedReader(new FileReader("data.txt"));
+
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
+
+        reader.close();
+    }
+}
+
+In short:
+
+FileReader/FileWriter → Character-based file I/O
+BufferedReader/BufferedWriter → Buffered and generally more efficient I/O
+
+Task 11: What is Object Class?
+
+Object is the root class of Java's class hierarchy.
+
+Every Java class directly or indirectly inherits from Object.
+
+We use it because it provides common methods such as:
+
+toString()
+equals()
+hashCode()
+getClass()
+
+Diagram:
+                 Object
+                    |
+        -------------------------
+        |           |           |
+      String      Animal       Employee
+                    |
+                  Dog
+                    |
+                  Puppy
+
+class Animal {
+}
+
+class Dog extends Animal {
+}
+
+Here:
+
+Dog → Animal → Object
+
+So Dog can use methods provided by Object.
+
+Task 12: Methods in Object Class
+
+Important methods provided by the Object class are:
+
+toString()
+equals(Object obj)
+hashCode()
+getClass()
+clone()
+finalize()       // Deprecated
+wait()
+wait(long timeout)
+wait(long timeout, int nanos)
+notify()
+notifyAll()
+
+Some important ones:
+
+toString() → Returns string representation of an object.
+equals() → Compares objects.
+hashCode() → Returns hash value of an object.
+getClass() → Returns the runtime class of an object.
+clone() → Creates a copy of an object.
+wait() → Makes a thread wait.
+notify() → Wakes one waiting thread.
+notifyAll() → Wakes all waiting threads.
+
+Note: finalize() is deprecated in modern Java and should not be used in new programs.
+
+Task 13: What are Generics?
+
+Generics allow us to specify the type of data that a class, interface, or method can work with.
+
+They provide type safety and reduce the need for type casting.
+
+Example without Generics:
+ArrayList list = new ArrayList();
+
+list.add("Hello");
+
+String value = (String) list.get(0);
+
+With Generics:
+
+ArrayList<String> list = new ArrayList<>();
+
+list.add("Hello");
+
+String value = list.get(0);
+
+Here, <String> tells Java that the list can contain only String values.
+
+Benefits of Generics
+Type Safety – Prevents incorrect data types.
+No unnecessary type casting.
+Code Reusability – Same code can work with different data types.
+Errors are detected at compile time.
+
+Example:
+ArrayList<Integer> numbers = new ArrayList<>();
+
+numbers.add(10);
+numbers.add(20);
+
+// numbers.add("Hello");  // Error
+
+Here, Java knows that numbers can contain only Integer values.
+
+In short:
+Generics = Type Safety + Reusability + Less Casting
+
+Task 14 – Java 8 Features
+1. Why were Lambda Expressions introduced in Java 8?
+
+Lambda expressions were introduced to write shorter and cleaner code, especially when working with functional interfaces and collections.
+
+Before Java 8:
+Runnable r = new Runnable() {
+    public void run() {
+        System.out.println("Hello");
+    }
+};
+
+With Lambda:
+Runnable r = () -> System.out.println("Hello");
+
+In short: Lambda → less code + easier functional programming.
+
+2. What is a Functional Interface?
+
+A functional interface is an interface that contains only one abstract method.
+
+Two examples from Java API:
+
+Runnable → run()
+Callable<T> → call()
+
+Example:
+@FunctionalInterface
+interface Calculator {
+    int add(int a, int b);
+}
+
+It can be used with a lambda:
+
+Calculator c = (a, b) -> a + b;
+
+3. Difference between Streams and Collections
+
+Collection is used to store and manage data.
+
+Stream is used to process data from a collection.
+
+Example:
+
+List<Integer> numbers = Arrays.asList(10, 20, 30, 40);
+
+numbers.stream()
+       .filter(n -> n > 20)
+       .forEach(System.out::println);
+
+| Collections             | Streams                            |
+| ----------------------- | ---------------------------------- |
+| Store data              | Process data                       |
+| Data structure          | Data processing pipeline           |
+| Can add/remove elements | Doesn't normally modify the source |
+| Example: `ArrayList`    | Example: `stream()`                |
+
+
+Easy way: Collection = Data, Stream = Processing.
+
+4. What problem does Optional solve?
+
+Optional helps avoid NullPointerException when a value may or may not be present.
+
+Instead of:
+
+String name = null;
+
+we can use:
+
+Optional<String> name = Optional.empty();
+
+Example:
+Optional<String> name = Optional.of("Harsh");
+
+System.out.println(name.orElse("Unknown"));
+
+In short: Optional clearly represents that a value may be absent.
+
+5. Why were Default Methods added to Interfaces?
+
+Default methods were introduced so that we could add new methods to existing interfaces without breaking old implementations.
+
+Example:
+interface Vehicle {
+
+    void drive();
+
+    default void start() {
+        System.out.println("Vehicle started");
+    }
+}
+
+A class implementing Vehicle automatically gets the start() implementation.
+
+This helped Java add new functionality to existing APIs while maintaining backward compatibility.
+
+6. What are Method References?
+
+Method references provide a shorter way to write a lambda expression when an existing method can be used directly.
+
+Lambda:
+
+numbers.forEach(n -> System.out.println(n));
+
+Method reference:
+
+numbers.forEach(System.out::println);
+
+:: is called the method reference operator.
+
+Benefit: Makes code shorter and more readable.
+
+7. Improvements in Date-Time API
+
+Java 8 introduced the java.time package, which is much better than the old java.util.Date and Calendar.
+
+Main improvements:
+
+Classes are immutable and thread-safe.
+API is easier to understand.
+Better support for time zones.
+Separate classes for date and time.
+Easier date calculations.
+
+Example:
+LocalDate today = LocalDate.now();
+
+System.out.println(today);
+
+Some important classes:
+LocalDate       → Date only
+LocalTime       → Time only
+LocalDateTime   → Date + Time
+ZonedDateTime   → Date + Time + Time Zone
+
+8. How does Base64 API simplify encoding/decoding?
+
+Java 8 introduced the Base64 class to easily encode and decode data.
+
+Example:
+String text = "Hello Java";
+
+String encoded = Base64.getEncoder()
+                       .encodeToString(text.getBytes());
+
+System.out.println(encoded);
+
+Decode:
+
+byte[] decoded = Base64.getDecoder().decode(encoded);
+System.out.println(new String(decoded));
+
+In short: Base64 provides ready-made methods for encoding and decoding without writing our own logic.
+
+9. Real-world use of Static Methods in Interfaces
+
+Static methods in interfaces are useful for providing utility/helper methods related to that interface.
+
+For example:
+interface Payment {
+
+    void pay();
+
+    static boolean isValidAmount(double amount) {
+        return amount > 0;
+    }
+}
+
+We can directly call:
+
+if (Payment.isValidAmount(500)) {
+    System.out.println("Valid payment");
+}
+
+Real-world example: A Payment interface can provide static validation or utility methods related to payments without requiring an object.
+
+Quick Revision
+Lambda            → Shorter code
+Functional Interface → One abstract method
+Stream             → Process data
+Optional           → Handle missing values
+Default Method     → Add methods without breaking old code
+Method Reference   → Shorter lambda syntax
+Date-Time API      → Better date/time handling
+Base64             → Easy encoding/decoding
+Static Interface Method → Utility methods
+
+Task 15:
+
+1. What is happening here?
+public record Customer(String name, int age) {}
+
+This single line automatically provides several things for us:
+
+name and age fields
+Constructor
+Getter-like methods: name() and age()
+toString()
+equals()
+hashCode()
+
+So:
+
+Customer c = new Customer("Prasunamba", 30);
+
+creates a Customer object.
+
+Then:
+
+c.name()
+
+returns:
+
+Prasunamba
+
+And:
+
+System.out.println(c);
+
+automatically calls the generated toString() method:
+
+Customer[name=Prasunamba, age=30]
+2. Traditional code without Record
+
+Before records, we would have to write something like this:
+
+public class Customer {
+
+    private final String name;
+    private final int age;
+
+    public Customer(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer[name=" + name + ", age=" + age + "]";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+
+        if (!(obj instanceof Customer))
+            return false;
+
+        Customer other = (Customer) obj;
+
+        return age == other.age &&
+               name.equals(other.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(name, age);
+    }
+}
+
+That's a lot of boilerplate code just to store two values.
+
+With a record:
+
+public record Customer(String name, int age) {}
+
+we get most of that automatically.
+
+3. Record vs Traditional Class
+Traditional Class
+       ↓
+Fields
+       ↓
+Constructor
+       ↓
+Getters
+       ↓
+toString()
+       ↓
+equals()
+       ↓
+hashCode()
+       ↓
+Lots of code
+
+Record
+   ↓
+record Customer(String name, int age)
+   ↓
+Java generates the common code automatically
+
+Important point
+
+Record components are implicitly final, so records are mainly intended for immutable data carriers.
+
+Also, record accessors are:
+
+c.name()
+c.age()
+
+not traditional getters:
+
+c.getName()
+c.getAge()
+In one line:
+
+A Java Record is a concise way to create an immutable data-carrying class without writing repetitive boilerplate code.
+
+Task 16 :
+
+Given code
+public sealed class Transaction permits Credit, Debit {}
+
+final class Credit extends Transaction {}
+
+final class Debit extends Transaction {}
+
+Here, Transaction is a sealed class, meaning it explicitly controls which classes are allowed to extend it.
+
+Only these two classes are permitted:
+
+Transaction
+   ├── Credit
+   └── Debit
+Now try to create FD
+final class FD extends Transaction {}
+
+❌ This will NOT compile.
+
+You will get an error similar to:
+
+class is not allowed to extend sealed class: Transaction
+Why?
+
+Because Transaction says:
+
+permits Credit, Debit
+
+This means:
+
+"Only Credit and Debit are allowed to directly extend me."
+
+FD is not mentioned in the permits list.
+
+If we want FD to extend Transaction
+
+We need to explicitly add it:
+
+public sealed class Transaction permits Credit, Debit, FD {}
+
+final class Credit extends Transaction {}
+
+final class Debit extends Transaction {}
+
+final class FD extends Transaction {}
+
+Now the hierarchy becomes:
+
+              Transaction
+            /      |       \
+           /       |        \
+       Credit     Debit      FD
+Why do we use sealed classes?
+
+Sealed classes are useful when we want controlled inheritance.
+
+For example, in a banking application:
+
+public sealed class Transaction
+    permits Credit, Debit, FD {
+}
+
+We can make sure that only the transaction types we have defined are allowed.
+
+Important rule
+
+Every class directly extending a sealed class must be one of these:
+
+final
+sealed
+non-sealed
+
+For example:
+
+final class Credit extends Transaction {}
+
+means Credit cannot be extended further.
+
+So the main idea is:
+
+sealed controls who can inherit, while final prevents further inheritance.
+
+Task 17 :
+
+Your traditional switch usually works with values like int, char, String, etc. But here:
+
+static void process(Object obj) {
+    switch (obj) {
+        case String s -> System.out.println("String: " + s.toUpperCase());
+        case Integer i -> System.out.println("Integer x10: " + i * 10);
+        default -> System.out.println("Unknown type");
+    }
+}
+
+the switch is checking both the value and its type.
+
+What's happening?
+
+Suppose we call:
+
+process("hello");
+process(10);
+process(5.5);
+
+The obj parameter has type:
+
+Object obj
+
+Since every Java class ultimately extends Object, it can hold different types:
+
+Object
+ ├── String
+ ├── Integer
+ ├── Double
+ └── ...
+
+So yes, this method can receive heterogeneous data.
+
+How does the switch work?
+Case 1: String
+case String s ->
+
+This means:
+
+"If obj is a String, match it and store it in variable s."
+
+So:
+
+process("hello");
+
+becomes approximately:
+
+obj → "hello"
+       ↓
+Is it String? YES
+       ↓
+s = "hello"
+       ↓
+s.toUpperCase()
+       ↓
+HELLO
+
+Output:
+
+String: HELLO
+Case 2: Integer
+case Integer i ->
+
+means:
+
+"If obj is an Integer, match it and store it in i."
+
+So:
+
+process(10);
+
+gives:
+
+Integer: 100
+
+because:
+
+i * 10
+
+is:
+
+10 * 10 = 100
+Case 3: Something else
+default ->
+
+handles everything that isn't a String or Integer.
+
+For example:
+
+process(5.5);
+
+Output:
+
+Unknown type
+What did we traditionally have to do?
+
+Before pattern matching, you would typically need instanceof checks:
+
+static void process(Object obj) {
+
+    if (obj instanceof String) {
+        String s = (String) obj;
+        System.out.println("String: " + s.toUpperCase());
+
+    } else if (obj instanceof Integer) {
+        Integer i = (Integer) obj;
+        System.out.println("Integer x10: " + i * 10);
+
+    } else {
+        System.out.println("Unknown type");
+    }
+}
+
+Notice the extra casting:
+
+String s = (String) obj;
+
+Modern Java does this for you:
+
+case String s ->
+
+The variable s is automatically cast to String.
+
+So your understanding is correct
+
+Your traditional switch:
+
+switch
+  ↓
+Compare VALUES
+  ↓
+case 1
+case 2
+case 3
+
+Modern pattern-matching switch:
+
+switch(Object)
+      ↓
+Check TYPE + VALUE
+      ↓
+String  → s
+Integer → i
+Double  → ...
+
+So yes, modern Java's switch can effectively handle heterogeneous data by matching different types.
+
+The important feature here is:
+
+Pattern Matching for switch — it allows switch to match an object against different types and automatically bind the matched object to a variable.
+
+Task 18:
+
+Yes 😄 — this is Virtual Threads, introduced as a major feature in Java 21. They are not imaginary threads; they are lightweight threads managed largely by the JVM, rather than each requiring a dedicated OS thread.
+
+What is happening here?
+try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+
+This creates an ExecutorService that creates a new virtual thread for every submitted task.
+
+Then:
+
+executor.submit(() ->
+    System.out.println("Running on virtual thread")
+);
+
+means:
+
+"Run this task using a virtual thread."
+
+So the flow is:
+
+Main Thread
+    ↓
+Virtual Thread Executor
+    ↓
+Create Virtual Thread
+    ↓
+Run Task
+    ↓
+Print message
+But what is a Virtual Thread?
+
+Traditional Java threads are closely associated with OS/platform threads.
+
+Traditional Thread
+
+Java Thread
+     ↓
+OS Thread
+     ↓
+CPU
+
+Creating thousands of traditional threads can become expensive because each thread consumes significant resources.
+
+Virtual threads are much lighter:
+
+Virtual Threads
+
+Virtual Thread ─┐
+Virtual Thread ─┤
+Virtual Thread ─┤
+Virtual Thread ─┤
+Virtual Thread ─┘
+        ↓
+      JVM
+        ↓
+  OS/Platform Threads
+        ↓
+       CPU
+
+The JVM schedules many virtual threads onto a much smaller number of platform threads.
+
+Why were Virtual Threads introduced?
+
+Imagine a web server receiving:
+
+10,000 requests
+
+Each request might spend most of its time waiting for:
+
+Database response
+Network response
+File I/O
+Another service
+
+With traditional threads, creating one thread per request can be expensive.
+
+Virtual threads make it practical to have very large numbers of concurrent tasks.
+
+So why does the code look weird?
+
+This:
+
+Executors.newVirtualThreadPerTaskExecutor()
+
+basically means:
+
+"Create a lightweight virtual thread for each submitted task."
+
+So if we do:
+
+executor.submit(task1);
+executor.submit(task2);
+executor.submit(task3);
+
+conceptually:
+
+task1 → Virtual Thread 1
+task2 → Virtual Thread 2
+task3 → Virtual Thread 3
+
+No need to manually create:
+
+new Thread(...)
+What is try doing here?
+
+This is try-with-resources.
+
+ExecutorService is an AutoCloseable resource, so when the try block finishes, the executor is automatically closed.
+
+Instead of:
+
+ExecutorService executor =
+        Executors.newVirtualThreadPerTaskExecutor();
+
+executor.submit(task);
+
+executor.shutdown();
+
+you can write:
+
+try (var executor =
+        Executors.newVirtualThreadPerTaskExecutor()) {
+
+    executor.submit(task);
+}
+
+Java automatically handles the cleanup.
+
+One important thing
+
+Virtual threads are not imaginary 😄.
+
+They are real Java threads represented by the JVM, but they are much cheaper and lighter than traditional platform threads.
+
+Think of them like:
+
+Platform Thread
+= Heavy worker
+
+Virtual Thread
+= Lightweight worker managed by JVM
+In one line
+
+Virtual threads allow Java applications to run huge numbers of concurrent tasks efficiently, especially when those tasks spend a lot of time waiting for I/O.
+
+Task 19 – Code Smells
+1. What is a Code Smell? How is it different from a Bug or Error?
+
+A code smell is a sign that the code may have a design or structural problem. It does not necessarily mean the program is producing wrong output.
+
+Code Smell → Code works, but its design can be improved.
+Bug → Program behaves incorrectly.
+Error → A problem that may prevent the program from compiling or running correctly.
+
+Example:
+// Code smell: method is doing too many things
+void processUser() {
+    // validate user
+    // save user
+    // send email
+    // generate report
+    // ...
+}
+
+The code may work correctly, but the method is difficult to maintain.
+
+2. Why are Code Smells indicators of deeper design problems?
+
+A code smell usually indicates that the code is too complicated, poorly organized, or has too many responsibilities.
+
+For example, if one class handles:
+
+User
+ ↓
+Database
+ ↓
+Email
+ ↓
+Payment
+ ↓
+Reports
+
+the class probably has too many responsibilities.
+
+So, code smells can indicate violations of good design principles such as Single Responsibility Principle (SRP).
+
+3. How do Code Smells affect software?
+
+Code smells can make software:
+
+Less maintainable
+→ Changes become difficult.
+
+Less scalable
+→ Adding new features becomes harder.
+
+Less readable
+→ Other developers take more time to understand the code.
+
+They can also increase the chance of introducing bugs when modifying existing code.
+
+4. Long Method vs Large Class
+Long Method
+
+A Long Method occurs when a single method contains too much code or performs too many tasks.
+
+void processOrder() {
+    // validate order
+    // calculate price
+    // calculate tax
+    // process payment
+    // send email
+    // update database
+    // generate invoice
+}
+
+Problem: The method becomes difficult to understand, test, and modify.
+
+Large Class
+
+A Large Class occurs when a class contains too many responsibilities, methods, or data members.
+
+UserManager
+ ├── User registration
+ ├── Login
+ ├── Payment
+ ├── Email
+ ├── Reports
+ └── Database operations
+
+Problem: The class becomes difficult to maintain and violates the idea of having focused responsibilities.
+
+Easy difference:
+Long Method → Too much code in ONE METHOD
+
+Large Class → Too many responsibilities in ONE CLASS
+5. How does Duplicated Code affect development?
+
+Duplicated Code means the same or very similar logic exists in multiple places.
+
+Example:
+
+// Class A
+calculateTax();
+
+// Class B
+calculateTax();
+
+// Class C
+calculateTax();
+
+If the tax calculation changes, we may have to change it in all three places.
+
+This can cause:
+
+More development work.
+Higher chance of missing one copy.
+Bugs when different copies behave differently.
+Difficult maintenance.
+
+Better approach: Put common logic in one reusable method/class.
+
+Duplicated Code
+      ↓
+Same logic in many places
+      ↓
+Change required everywhere
+      ↓
+More maintenance + more bugs
+Quick Revision
+Code Smell     → Design problem warning
+Bug            → Incorrect program behavior
+Long Method    → Method doing too much
+Large Class    → Class doing too much
+Duplicated Code → Same logic repeated
+
+Remember: A code smell is not necessarily a bug. It is a warning sign that the code may become difficult to maintain in the future.
+
+
