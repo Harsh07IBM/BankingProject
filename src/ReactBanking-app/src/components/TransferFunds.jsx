@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './TransactionForm.css';
 
-function TransactionForm({ balance, onTransfer }) {
+function TransferFunds({ balance, onTransfer }) {
   const [toAccount, setToAccount] = useState('');
   const [amount, setAmount] = useState('');
 
@@ -44,4 +44,4 @@ function TransactionForm({ balance, onTransfer }) {
   );
 }
 
-export default TransactionForm;
+export default TransferFunds;

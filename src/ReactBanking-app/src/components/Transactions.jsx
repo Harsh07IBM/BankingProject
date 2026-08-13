@@ -1,6 +1,6 @@
 import './TransactionHistory.css';
 
-function TransactionHistory({ history }) {
+function Transactions({ history }) {
   return (
     <div className="history-page">
       <h2>Transaction History</h2>
@@ -22,4 +22,4 @@ function TransactionHistory({ history }) {
   );
 }
 
-export default TransactionHistory;
+export default Transactions;

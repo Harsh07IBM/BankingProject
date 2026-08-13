@@ -1,0 +1,104 @@
+Task 1: What do you understand about Integration Testing?
+
+Integration Testing is testing two or more modules together to check whether they work and communicate correctly.
+
+Example:
+In a banking app, checking whether the Fund Transfer API correctly updates the database.
+
+Task 2: Where do you use it and when?
+
+It is used when different modules or systems interact with each other.
+
+It is usually done after Unit Testing and before System Testing.
+
+Example:
+Testing whether Frontend → Backend API → Database works correctly together.
+
+Task 4: What are Test Containers?
+
+Testcontainers is a tool/library that creates temporary containers (usually Docker containers) for testing applications with real dependencies.
+
+Example:
+We can start a temporary MySQL container to test our application with a real database.
+
+Task 5: When do we use it and what is the need?
+
+We use Testcontainers during integration testing when our application depends on external services like databases, Kafka, Redis, etc.
+
+Need: It provides a real and isolated environment for testing without installing or manually configuring those services.
+
+Example:
+Instead of using our local MySQL database, testing can start a temporary MySQL Docker container, run tests, and remove it after testing.
+
+Task 7: What is Code Coverage?
+
+Code coverage tells us how much of our source code is executed while running tests.
+
+It is usually shown as a percentage.
+
+Example:
+If our tests execute 80 out of 100 lines of code, the code coverage is 80%.
+
+Task 8: What’s the need for Code Coverage?
+
+Code coverage helps us find which parts of the code are not being tested.
+
+It helps improve the quality and completeness of testing.
+
+Example:
+If an if-else condition is never tested, code coverage can show that the else part is not covered.
+
+Task 10: What is Redux used for?
+
+Redux is a state management library used to store and manage application data in one central place.
+
+Example:
+In a banking app, Redux can store the user's balance and transaction data so different components can access it.
+
+Task 11: Why do we need to maintain state throughout the app?
+
+We maintain state so that different components can access and share the same data without passing it through many components.
+
+Example:
+If the user's balance is stored in Redux, both the Dashboard and Transaction components can use the same balance.
+
+Task 12: What is useSelector used for?
+
+useSelector is a React-Redux hook used to read/access data from the Redux store.
+
+Example:
+
+const balance = useSelector(state => state.account.balance);
+
+Here, balance gets the user's balance from the Redux store.
+
+Task 14: What is Node.js for?
+
+Node.js is a runtime environment that allows us to run JavaScript outside the browser, mainly for building backend applications and APIs.
+
+Example:
+Using Node.js to create a REST API for a banking application.
+
+Task 15: Why use Node.js?
+
+Node.js is used because it is fast, lightweight, scalable, and uses JavaScript for both frontend and backend.
+
+Example:
+We can use React for frontend + Node.js for backend using JavaScript/TypeScript.
+
+Task 16: What are Common and Modern Modules in Node.js?
+
+Node.js mainly has two module systems:
+
+CommonJS: Uses require() and module.exports.
+ES Modules (Modern): Uses import and export.
+
+Example:
+
+// CommonJS
+const fs = require("fs");
+
+// ES Module
+import fs from "fs";
+
+In short: CommonJS is the older module system, while ES Modules are the modern JavaScript standard.

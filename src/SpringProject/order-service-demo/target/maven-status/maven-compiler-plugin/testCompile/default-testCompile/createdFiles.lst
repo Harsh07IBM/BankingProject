@@ -1,1 +1,3 @@
+com\example\orderservice\OrderServiceIntegrationTest.class
 OrderServiceImplTest.class
+com\example\orderservice\OrderRepositoryContainerTest.class

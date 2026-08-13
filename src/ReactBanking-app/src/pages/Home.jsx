@@ -1,8 +1,8 @@
-import './Dashboard.css';
+import '../components/Dashboard.css';
 import React, { useEffect, useLayoutEffect, useInsertionEffect, useRef } from 'react';
-import Account from './Account';
+import AccountDetails from '../components/AccountDetails';
 
-function Dashboard({ account, amount, setAmount, handleCredit, handleDebit }) {
+function Home({ account, amount, setAmount, handleCredit, handleDebit }) {
   const balanceRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -38,7 +38,7 @@ function Dashboard({ account, amount, setAmount, handleCredit, handleDebit }) {
     <div className="dashboard">
       <h1 style={{ color: 'black' }}>{account.bankName}</h1>
       <h2 className="description">Secure, Transparent Blockchain-Powered Digital Banking.</h2>
-      <Account balance={account.balance} />
+      <AccountDetails balance={account.balance} />
       <h3>Account Holder: {account.holderName}</h3>
       <p>Account Type: {account.accountType}</p>
       <p className="balance" ref={balanceRef}>Balance: ₹{account.balance}</p>
@@ -58,4 +58,4 @@ function Dashboard({ account, amount, setAmount, handleCredit, handleDebit }) {
   );
 }
 
-export default Dashboard;
+export default Home;

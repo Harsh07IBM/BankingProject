@@ -1,3 +1,5 @@
+package com.example.orderservice.model;
+
 public class Order {
     private String orderId;
     private double amount;
