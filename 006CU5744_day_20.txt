@@ -102,3 +102,92 @@ const fs = require("fs");
 import fs from "fs";
 
 In short: CommonJS is the older module system, while ES Modules are the modern JavaScript standard.
+
+
+Node.js — Home Task Notes
+1. Difference between Node.js and Apache/Nginx
+
+Node.js is a JavaScript runtime used to run backend code.
+Apache/Nginx are mainly web servers used to serve web pages, files, and handle HTTP requests.
+
+Example: Node.js can run an Express API, while Nginx can serve static files or act as a reverse proxy.
+
+2. Event-driven architecture of Node.js
+
+Node.js works on an event-driven model, where actions happen in response to events.
+
+Example: When a user sends a request, Node.js starts the operation and handles the response when the operation is completed.
+
+3. How does single-threaded Node.js handle concurrency?
+
+Node.js uses a single main thread and an event loop to handle many requests without creating a new thread for each request.
+
+Example: While one request waits for a database response, Node.js can handle another request.
+
+4. Role of V8 engine in Node.js
+
+V8 is Google's JavaScript engine used by Node.js to execute JavaScript code.
+
+Example: V8 converts JavaScript code into machine-level instructions so it can run efficiently.
+
+5. Why is Node.js considered non-blocking?
+
+Node.js is non-blocking because it does not wait for slow operations like file reading or database requests to finish before handling other work.
+
+Example: Node.js can handle another request while waiting for a file to be read.
+
+6. Difference between callbacks, promises, and async/await
+
+All three are ways to handle asynchronous operations.
+
+Callback: Function executed after an operation finishes.
+Promise: Represents the future result of an asynchronous operation.
+Async/await: Cleaner and easier way to work with promises.
+
+Example: async/await makes asynchronous code look similar to normal synchronous code.
+
+7. How does the Event Loop work and what are its phases?
+
+The Event Loop continuously checks for completed asynchronous operations and executes their callbacks.
+
+Main phases include:
+
+Timers → Pending Callbacks → Poll → Check → Close Callbacks
+
+Example: setTimeout() callbacks are handled in the Timers phase.
+
+8. Difference between process.nextTick() and setImmediate()
+process.nextTick() runs before the Event Loop continues to its next phase.
+setImmediate() runs during the Check phase of the Event Loop.
+
+Example: process.nextTick() generally executes before setImmediate().
+
+9. How does Node.js handle I/O operations asynchronously?
+
+Node.js sends I/O operations such as file reading, database requests, and network requests to the underlying system/libuv instead of blocking the main thread.
+
+When the operation finishes, its callback or promise is handled by the Event Loop.
+
+10. How does require() work internally?
+
+require() is used in CommonJS to import modules.
+
+Node.js finds the requested module, loads and executes it, caches it, and returns its exported value.
+
+Example:
+
+const fs = require("fs");
+11. Purpose of package.json and package-lock.json
+package.json: Contains project information, scripts, and required dependencies.
+package-lock.json: Records the exact versions of installed packages and their dependencies.
+
+Example: package.json may specify Express, while package-lock.json records the exact Express version installed.
+
+12. Difference between dependencies and devDependencies
+dependencies: Packages required when the application runs.
+devDependencies: Packages mainly required during development and testing.
+
+Example:
+
+express → dependencies
+jest → devDependencies
