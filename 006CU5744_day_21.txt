@@ -1,0 +1,47 @@
+Task 6: What is Mongoose? What are its key features? Why do we use it?
+
+Answer:
+Mongoose is an ODM (Object Data Modeling) library for MongoDB and Node.js. It provides a structured way to define, store, validate, and work with MongoDB data using JavaScript/Node.js.
+
+Key Features:
+Schema – Defines the structure of documents.
+Validation – Validates data before saving it.
+Models – Provides an easy way to interact with MongoDB collections.
+CRUD Operations – Makes creating, reading, updating, and deleting data easier.
+Middleware – Allows functions to run before or after database operations.
+Query Support – Provides a convenient API for MongoDB queries.
+Small Example:
+const mongoose = require("mongoose");
+
+const userSchema = new mongoose.Schema({
+    name: String,
+    age: Number,
+    email: String
+});
+
+const User = mongoose.model("User", userSchema);
+
+Here, userSchema defines the structure of a user, and User is the model used to interact with the MongoDB collection.
+
+Why do we use Mongoose?
+
+We use Mongoose because it makes MongoDB development with Node.js more organized, structured, and easier to maintain, especially for applications with complex data models and validation requirements.
+
+Task 7: True or False?
+
+"Mongoose acts as a bridge between Node.js and MongoDB, giving you a structured way to manage your data."
+
+✅ Answer: TRUE
+
+This statement is true.
+
+Mongoose connects Node.js applications to MongoDB and provides features such as schemas, models, validation, middleware, and easier database operations.
+
+Example:
+Node.js Application
+        ↓
+     Mongoose
+        ↓
+     MongoDB
+
+So, you can think of Mongoose as a convenient layer between your Node.js application and MongoDB.
