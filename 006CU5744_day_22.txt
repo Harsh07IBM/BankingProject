@@ -1,0 +1,500 @@
+Spring JDBC & Stereotype Annotations — Notes
+Task 1: What are Stereotype Annotations?
+
+Stereotype annotations are special Spring annotations used to tell Spring what a class is and what role it plays in the application.
+
+They also tell Spring that the class should be managed as a Spring Bean.
+
+The main stereotype annotations are:
+
+@Component → General-purpose Spring component.
+@Service → Used for business/service logic.
+@Repository → Used for database/DAO logic.
+@Controller → Used for handling web requests.
+@RestController → Used for REST APIs. It is basically @Controller + @ResponseBody.
+
+Small Example
+@Repository
+public class CustomerRepository {
+    // Database related code
+}
+
+@Service
+public class CustomerService {
+    // Business logic
+}
+
+@RestController
+public class CustomerController {
+    // API/request handling
+}
+
+Here Spring automatically detects these classes and creates their objects (Beans) because of the stereotype annotations.
+
+In simple words:
+
+Stereotype annotations help Spring identify the responsibility of a class and manage it as a Bean.
+
+Task 2: What Stereotype Annotations have you used in Spring?
+
+The main ones I have used are:
+
+| Annotation        | Purpose                      |
+| ----------------- | ---------------------------- |
+| `@Component`      | General Spring-managed class |
+| `@Service`        | Business logic               |
+| `@Repository`     | Database access logic        |
+| `@Controller`     | Handles web requests         |
+| `@RestController` | Handles REST API requests    |
+
+Example from a Customer Application
+@Repository
+public interface CustomerRepository 
+        extends JpaRepository<Customer, Long> {
+}
+
+Here @Repository represents the data access layer.
+
+@Service
+public class CustomerService {
+
+    public String getCustomer() {
+        return "Customer data";
+    }
+}
+
+Here @Service represents the business logic layer.
+
+@RestController
+public class CustomerController {
+
+    @GetMapping("/customer")
+    public String getCustomer() {
+        return "Customer";
+    }
+}
+
+Here @RestController handles the HTTP request.
+
+Typical flow
+Client
+   ↓
+Controller
+   ↓
+Service
+   ↓
+Repository
+   ↓
+Database
+
+So, stereotype annotations also help us maintain a clean layered architecture.
+
+Task 3: Key Concepts of JDBC Connection
+
+JDBC (Java Database Connectivity) is a Java API used to connect a Java application with a relational database such as MySQL, PostgreSQL, or Oracle.
+
+Basic JDBC flow
+Java Application
+       ↓
+JDBC Driver
+       ↓
+Database
+
+The important JDBC concepts are:
+
+1. JDBC Driver
+
+The driver allows Java to communicate with a particular database.
+
+For example, for PostgreSQL we use the PostgreSQL JDBC driver.
+
+2. Connection
+
+Connection represents the connection between our Java application and the database.
+
+Connection connection =
+    DriverManager.getConnection(url, username, password);
+3. Statement / PreparedStatement
+
+Used to execute SQL queries.
+
+Prefer PreparedStatement because it is safer and helps prevent SQL Injection.
+
+PreparedStatement ps =
+    connection.prepareStatement(
+        "SELECT * FROM customer WHERE id = ?"
+    );
+
+ps.setInt(1, 10);
+4. ResultSet
+
+ResultSet contains the data returned by a SELECT query.
+
+ResultSet rs = ps.executeQuery();
+
+while (rs.next()) {
+    System.out.println(rs.getString("name"));
+}
+5. Transactions
+
+A transaction is a group of database operations treated as one unit.
+
+For example:
+
+Transfer ₹1000
+   ↓
+Debit from Account A
+   ↓
+Credit to Account B
+
+Both operations should succeed, otherwise we should rollback.
+
+connection.setAutoCommit(false);
+
+try {
+    // debit
+    // credit
+
+    connection.commit();
+} catch (Exception e) {
+    connection.rollback();
+}
+6. Closing Resources
+
+JDBC resources should always be closed after use.
+
+The common resources are:
+
+Connection
+PreparedStatement
+ResultSet
+
+Usually we use try-with-resources to handle this safely.
+
+JDBC in simple words
+
+JDBC provides the basic mechanism for connecting Java applications to databases, executing SQL queries, handling results, and managing transactions.
+
+Task 4: Best Practices When Modernising an Application Using Spring JDBC
+
+When modernising a legacy application, we should not blindly rewrite everything. We should gradually improve the existing application while keeping the existing functionality stable.
+
+1. Understand the Existing Application First
+
+Before changing code, understand:
+
+Existing architecture
+Existing database
+Existing SQL queries
+Existing dependencies
+Existing business rules
+Existing integrations
+
+Otherwise, we may accidentally break important functionality.
+
+2. Use Spring's JdbcTemplate
+
+Instead of writing repetitive JDBC code manually, use Spring's JdbcTemplate.
+
+Without JdbcTemplate, we may have to manually handle:
+
+Connection
+PreparedStatement
+ResultSet
+Exception handling
+Closing resources
+
+With JdbcTemplate:
+
+String sql = "SELECT name FROM customer WHERE id = ?";
+
+String name = jdbcTemplate.queryForObject(
+    sql,
+    String.class,
+    customerId
+);
+
+This makes the code much cleaner.
+
+3. Use PreparedStatement
+
+Avoid building SQL using string concatenation.
+
+❌ Bad:
+
+String sql =
+    "SELECT * FROM customer WHERE name = '" + name + "'";
+
+✅ Better:
+
+String sql =
+    "SELECT * FROM customer WHERE name = ?";
+
+jdbcTemplate.query(sql, rowMapper, name);
+
+This helps prevent SQL injection.
+
+4. Keep Database Code Separate
+
+Follow a layered architecture:
+
+Controller
+    ↓
+Service
+    ↓
+Repository/DAO
+    ↓
+Database
+
+For example:
+
+@Repository
+public class CustomerRepository {
+
+    private final JdbcTemplate jdbcTemplate;
+
+    public CustomerRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+}
+
+Database-related code should stay inside the repository/DAO layer rather than being written directly inside controllers.
+
+5. Manage Transactions Properly
+
+For operations involving multiple database changes, use Spring's transaction management.
+
+@Transactional
+public void transferMoney() {
+    // debit account
+    // credit account
+}
+
+If something fails, Spring can rollback the transaction.
+
+6. Don't Change Everything at Once
+
+During modernization, prefer an incremental approach.
+
+For example:
+
+Legacy JDBC
+     ↓
+Introduce Spring
+     ↓
+JdbcTemplate
+     ↓
+Better Repository layer
+     ↓
+Transaction management
+     ↓
+Testing
+     ↓
+Gradually remove legacy code
+
+This reduces the risk of breaking the production application.
+
+7. Handle Exceptions Properly
+
+Don't simply do:
+
+catch (Exception e) {
+    e.printStackTrace();
+}
+
+Use proper logging and meaningful exception handling.
+
+Spring JDBC also provides a useful hierarchy of database-related exceptions.
+
+8. Use Connection Pooling
+
+Creating a new database connection for every request can be expensive.
+
+Modern Spring applications generally use a connection pool, such as HikariCP, to reuse database connections.
+
+Application
+     ↓
+Connection Pool
+ ↓   ↓   ↓   ↓
+DB Connections
+     ↓
+ Database
+
+This improves performance.
+
+9. Test Before and After Modernization
+
+Before changing legacy JDBC code, make sure existing functionality is covered by tests.
+
+After modernization:
+
+Old behavior
+     ↓
+Run tests
+     ↓
+Modernize code
+     ↓
+Run tests again
+     ↓
+Compare results
+
+The goal is:
+
+Improve the internal code without changing the expected business behavior.
+
+10. Monitor Technical Debt
+
+During modernization, look for:
+
+Duplicate SQL
+Very long methods
+Hard-coded database credentials
+Poor exception handling
+No transaction management
+Old JDBC APIs
+Tight coupling
+Missing tests
+Poor database connection management
+
+These are signs of technical debt that should gradually be addressed.
+
+Quick Revision
+Stereotype Annotations
+        ↓
+Tell Spring the role of a class
+        ↓
+@Component
+@Service
+@Repository
+@Controller
+@RestController
+JDBC
+ ↓
+Driver
+ ↓
+Connection
+ ↓
+PreparedStatement
+ ↓
+Execute Query
+ ↓
+ResultSet
+ ↓
+Transaction
+ ↓
+Close Resources
+Spring JDBC Modernization
+        ↓
+Understand legacy system
+        ↓
+Use JdbcTemplate
+        ↓
+Use PreparedStatement
+        ↓
+Separate layers
+        ↓
+Manage transactions
+        ↓
+Use connection pooling
+        ↓
+Add tests
+        ↓
+Modernize incrementally
+
+Task 5: How does Spring integrate with Hibernate or JPA?
+
+Spring integrates with JPA/Hibernate to make database operations easier using Java objects instead of writing SQL/JDBC code manually.
+
+Benefits:
+
+Less boilerplate code
+Easy CRUD operations
+Object-to-table mapping
+Easy transaction management
+
+Example:
+
+@Repository
+public interface CustomerRepository
+        extends JpaRepository<Customer, Long> {
+}
+
+In simple words:
+
+Spring + JPA/Hibernate makes database operations simpler and more object-oriented.
+
+Task 6: What is the role of @PersistenceContext?
+
+@PersistenceContext is used to inject an EntityManager into a Spring class.
+
+@PersistenceContext
+private EntityManager entityManager;
+
+The EntityManager is used to perform database operations like insert, update, delete, and find.
+
+In simple words:
+
+@PersistenceContext gives us an EntityManager managed by Spring.
+
+Task 7: How does Spring's transaction management improve ORM usage?
+
+Spring uses @Transactional to automatically manage database transactions.
+
+@Transactional
+public void transferMoney() {
+    // debit account
+    // credit account
+}
+
+If everything succeeds → COMMIT
+If something fails → ROLLBACK
+
+In simple words:
+
+Spring transaction management keeps database operations safe and consistent by automatically handling commit and rollback.
+
+Task 8: What is the role of DispatcherServlet in Spring MVC?
+
+DispatcherServlet is the front controller of Spring MVC. It receives incoming HTTP requests and sends them to the correct Controller.
+
+Flow:
+
+Client → DispatcherServlet → Controller → Service → DAO
+
+In simple words:
+
+DispatcherServlet receives the request and decides which Controller should handle it.
+
+Task 9: How does Spring MVC achieve separation of concerns?
+
+Each layer has a different responsibility:
+
+Controller → Handles HTTP requests/responses.
+Service → Contains business logic.
+DAO/Repository → Handles database operations.
+Controller
+    ↓
+Service
+    ↓
+DAO/Repository
+    ↓
+Database
+
+In simple words:
+
+Separation of concerns keeps each layer focused on one specific job, making the application easier to maintain.
+
+Task 10: Difference between @RequestMapping and @GetMapping / @PostMapping
+
+@RequestMapping is a general-purpose annotation that can handle different HTTP methods.
+
+@RequestMapping(value="/customers", method=RequestMethod.GET)
+
+@GetMapping and @PostMapping are shorter and more specific annotations.
+
+@GetMapping("/customers")
+@PostMapping("/customers")
+
+In simple words:
+
+@GetMapping and @PostMapping are convenient, more readable versions for specific HTTP methods.
