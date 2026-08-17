@@ -1,0 +1,458 @@
+Task 1: Brownfield vs Greenfield
+Brownfield: An existing application is already there, so we have to work with its old code, database, users, and existing business rules.
+Greenfield: A new application is built from scratch, so we have more freedom to choose the technology, design, and architecture.
+
+Example:
+Updating an old banking system = Brownfield.
+Building a new banking app from scratch = Greenfield.
+
+Task 2: Why Brownfield modernization is more complex?
+
+Brownfield modernization is harder because we cannot simply replace everything. We must keep the existing system working while changing its old technology and code.
+
+Example:
+If a bank has an old Java application with millions of customer records, modernizing it requires protecting existing data, avoiding downtime, and maintaining old functionality.
+
+In short:
+
+Greenfield = more freedom, fewer constraints.
+Brownfield = existing constraints, but less risk of starting from zero.
+
+Task 3: How do business drivers influence migration decisions?
+
+Business drivers help decide why and how a system should be migrated.
+
+Cost reduction: Move to cheaper infrastructure and reduce maintenance costs.
+Agility: Modern systems make it easier to add features and respond quickly to customers.
+Compliance: Modernization may be needed to meet new security or legal requirements.
+
+Example: A bank may modernize its old system to reduce maintenance costs and meet new security regulations.
+
+Task 4: Can modernization be justified only on technical grounds?
+
+Usually, No. Technical improvements are useful, but modernization also needs a business benefit to justify its cost and effort.
+
+Example: Replacing an old system with newer technology may make the code cleaner, but if it doesn't reduce cost, improve performance, or solve a business problem, the company may not want to spend money on it.
+
+In short:
+
+Technical reasons explain how to improve; business drivers explain why it is worth improving.
+
+Task 5: Purpose of Application Portfolio Assessment
+
+It helps us understand which applications should be migrated, modernized, replaced, or retired before starting the migration.
+
+Example: A company may find that 2 out of 10 old applications are no longer used, so they can be retired instead of migrated.
+
+Task 6: How does inventorying applications and dependencies reduce risk?
+
+It shows which applications depend on each other, so we don't accidentally break another system during migration.
+
+Example: If a banking application depends on an old database, we must migrate or update the database carefully before changing the application.
+
+In short:
+
+Inventory = Know what you have and what depends on what → fewer surprises during migration.
+
+Task 7: Why is mapping integration points critical?
+
+It helps identify how an application communicates with other systems, such as APIs, databases, or external services. This prevents breaking those connections during migration.
+
+Example: A banking app connects to a payment gateway. We must know this connection before migrating the app.
+
+Task 8: How can overlooked dependencies derail a migration?
+
+If we miss a dependency, the migrated application may stop working or lose important functionality.
+
+Example: If an application depends on an old database and we don't know about it, moving the application may cause database connection errors.
+
+In short:
+
+Know all dependencies before migration → fewer failures and unexpected problems.
+
+Task 9: How does technical debt impact modernization strategy?
+
+Technical debt means old, messy, or difficult-to-maintain code. More technical debt may require deeper modernization, such as rewriting or replacing the application instead of simply migrating it.
+
+Example: An old banking application with outdated code may be better to rewrite than simply move to the cloud.
+
+Task 10: Role of evaluating runtime dependencies
+
+It helps identify what the application needs to run, such as databases, libraries, servers, APIs, and other services. This helps plan the migration without missing anything.
+
+Example: If an application needs a specific old Java version to run, we must consider that before moving it to a new server.
+
+In short:
+
+Technical debt → helps choose the modernization approach.
+Runtime dependencies → help ensure the application works after migration.
+
+Task 11: Main risks in database migration
+
+Common risks are data loss, data corruption, downtime, compatibility issues, and security problems.
+
+How to mitigate: Take backups, test the migration, validate data, use a rollback plan, and migrate during low-traffic periods.
+
+Example: Before moving a bank's customer database, take a backup and test the migrated data first.
+
+Task 12: How does hosting infrastructure assessment influence cloud-readiness?
+
+It checks whether the current servers, operating systems, applications, network, and hardware are suitable for moving to the cloud.
+
+Example: If an application depends on an old server or outdated OS, it may need modernization before moving to the cloud.
+
+In short:
+
+Infrastructure assessment → tells us whether the application is ready for cloud migration or needs changes first.
+
+Task 13: Why reassess security and compliance during migration?
+
+Because the environment changes during migration. New cloud services, networks, access controls, and configurations can introduce new security risks, even if the old system was compliant.
+
+Example: A banking app was secure on its old server, but after moving to the cloud, its access settings must be checked again.
+
+Task 14: How does modernization affect risk posture?
+
+Modernization can reduce risks by removing outdated technology and improving security, but it can also introduce new risks during the migration.
+
+Example: Replacing an old server with a modern cloud system can improve security, but a wrong cloud configuration could create a new security risk.
+
+In short:
+
+Modernization can reduce old risks, but new risks must also be identified and managed.
+
+Task 15: How do the 6 R’s provide a framework for decision-making?
+
+The 6 R’s help decide what to do with an existing application during migration:
+
+Rehost – Move as it is.
+Replatform – Move with small improvements.
+Refactor – Modify the code to use modern technology.
+Repurchase – Replace with a ready-made product.
+Retire – Remove the application if no longer needed.
+Retain – Keep it as it is for now.
+
+Example: An old application that is still useful but has outdated code may be refactored instead of simply moved.
+
+Task 16: When is refactoring preferable to rehosting?
+
+Refactoring is better when the application needs major improvements in performance, scalability, maintainability, or cloud capabilities.
+
+Example: An old banking application cannot handle increasing users. Instead of simply moving it to the cloud (rehosting), we redesign parts of its code to make it scalable (refactoring).
+
+In short:
+
+Rehosting = Move first, change little.
+Refactoring = Change the code to get bigger improvements.
+
+Task 17: TCO vs Upfront Migration Cost
+Upfront migration cost: Money spent during the migration, such as development, tools, and setup.
+TCO (Total Cost of Ownership): The overall cost of running and maintaining the system over time, including infrastructure, support, licenses, and maintenance.
+
+Example: Moving an app to the cloud may cost ₹5 lakh initially, but its 5-year TCO could be ₹20 lakh.
+
+Task 18: Why are effort, complexity, and risk scoring important?
+
+They help decide which applications should be migrated first and which ones need more planning.
+
+Effort: How much work is required?
+Complexity: How difficult is the migration?
+Risk: How likely is something to go wrong?
+
+Example: A simple application with low risk can be migrated first, while a complex banking system with high risk may be migrated later.
+
+In short:
+
+Scoring helps prioritize migration in a safe and practical order.
+
+Task 19: What factors determine wave planning?
+
+Wave planning means grouping applications into batches (waves) for migration.
+
+Main factors:
+
+Business priority
+Application dependencies
+Complexity and effort
+Risk level
+Team/resources available
+Required downtime
+
+Example: A company may migrate 5 simple, low-risk applications in Wave 1 and a critical banking system in Wave 2.
+
+Task 20: How does prioritization balance business urgency with technical feasibility?
+
+It compares how urgently the business needs the migration with how realistically and safely it can be done.
+
+Example: A business urgently needs to modernize its payment system, but the system has many dependencies. It may be prioritized highly but migrated only after proper preparation.
+
+In short:
+
+Business urgency tells us what is important; technical feasibility tells us what is practical and safe.
+
+Task 21: How does target-state architecture guide modernization?
+
+Target-state architecture defines what the modern system should look like after modernization. It helps decide which technologies, databases, APIs, and migration strategies should be used.
+
+Example: If the target is a cloud-based microservices system, an old monolithic application may be gradually converted into microservices.
+
+Task 22: Strangler Fig vs Anti-Corruption Layer
+|                | **Strangler Fig**                            | **Anti-Corruption Layer (ACL)**                                |
+| -------------- | -------------------------------------------- | -------------------------------------------------------------- |
+| Purpose        | Gradually **replace the old system**         | Protect the **new system from old-system design**              |
+| Risk reduction | Reduces risk by migrating **piece by piece** | Reduces risk by **isolating old and new systems**              |
+| Example        | Replace old banking modules one by one       | Create a translation layer between old and new banking systems |
+
+
+In short:
+
+Strangler Fig = replace gradually.
+ACL = isolate and translate between old and new.
+
+Task 23: Key indicators that an application is cloud-ready
+
+An application is cloud-ready if it can run reliably in a cloud environment with minimal changes.
+
+Key indicators:
+
+Supports scaling when users increase.
+Has few dependencies on specific hardware.
+Can use cloud-based databases/services.
+Has good security and monitoring.
+Can be deployed and updated easily.
+
+Example: A web application that can run on multiple servers and scale when traffic increases is generally cloud-ready.
+
+Task 24: How does containerization support modernization?
+
+Containerization packages an application along with its required libraries and dependencies into a container, making it easier to run consistently across environments.
+
+Example: A Java application packaged in a Docker container can run consistently on a developer's laptop, test server, and cloud.
+
+In short:
+
+Containerization = portable, consistent, and easier deployment, which supports cloud migration and modernization.
+
+Task 25: Why are KPIs critical in measuring migration success?
+
+KPIs (Key Performance Indicators) provide measurable values to check whether the migration achieved its goals.
+
+Common KPIs:
+
+Cost reduction
+Application performance
+Downtime
+Security incidents
+User satisfaction
+
+Example: If the goal is to reduce costs by 20%, the KPI helps check whether the migration actually achieved that.
+
+Task 26: How does a migration roadmap align technical execution with the business case?
+
+A migration roadmap connects technical activities with business goals by showing what will be migrated, when, why, and what benefits are expected.
+
+Example: If the business wants to reduce cloud costs, the roadmap may prioritize migrating expensive on-premise applications first.
+
+In short:
+
+Roadmap = technical work + business goals + timeline.
+
+Task 27: Role of assessment tools in reducing subjectivity
+
+Assessment tools collect data about applications, such as dependencies, performance, cost, and complexity. This helps teams make decisions based on facts instead of guesses or personal opinions.
+
+Example: A tool shows that an application has 50 dependencies, so we can objectively classify it as high-complexity.
+
+In short:
+
+Assessment tools → data-based decisions instead of assumptions.
+
+Task 28: Why is documenting findings important for stakeholder buy-in?
+
+Documentation clearly shows what was discovered, why a decision was made, and what benefits are expected. This helps stakeholders understand and trust the modernization plan.
+
+Example: If we document that an old server costs ₹10 lakh/year to maintain, management can better understand why migration is needed.
+
+In short:
+
+Good documentation → clear evidence → better stakeholder trust and approval.
+
+Redis — Notes
+Task 1: What is Redis used for? Why?
+
+Redis is an in-memory data store mainly used for storing and retrieving data very quickly.
+
+Why? Because Redis keeps data primarily in RAM, so it is much faster than reading from a traditional disk-based database for many use cases.
+
+Common uses:
+
+Caching frequently used data
+Storing user sessions
+Real-time applications
+Counters and rate limiting
+Pub/Sub messaging
+
+Small example:
+An e-commerce website stores product information in Redis. When 10,000 users request the same product, the application can get it quickly from Redis instead of querying the database every time.
+
+Redis = Very fast temporary/frequently accessed data storage.
+
+Task 2: Redis Architecture
+
+The basic flow is:
+
+             User / Client
+                  |
+                  ↓
+          Application Server
+                  |
+                  ↓
+             ┌─────────┐
+             │  Redis  │
+             │  Server │
+             └────┬────┘
+                  |
+          ┌───────┴────────┐
+          ↓                ↓
+       RAM/Data          Persistence
+      (very fast)       (optional)
+                           |
+                           ↓
+                    Disk / Storage
+
+How it works:
+
+Client sends a request to the application.
+Application checks Redis first.
+If data is available → Redis returns it quickly (cache hit).
+If data is not available → application gets it from the main database (cache miss).
+Application can then store that data in Redis for future requests.
+Application
+    |
+    ↓
+ Check Redis
+   /     \
+ Hit     Miss
+  |        |
+  ↓        ↓
+Return   Database
+Data       |
+           ↓
+        Redis
+           |
+           ↓
+        Return
+Task 3: Advantages and Disadvantages of Redis
+Advantages	Disadvantages
+⚡ Very fast	RAM is more expensive than disk
+Simple key-value data access	Limited by available memory
+Excellent for caching	Not always suitable as the main database
+Supports real-time applications	Data can be lost depending on persistence configuration
+Supports Pub/Sub	Requires additional setup/management at scale
+
+In short:
+
+Advantages: Fast, simple, real-time, excellent caching.
+Disadvantages: Memory cost, memory limits, and persistence considerations.
+
+Redis — Tasks 17–22
+Task 17: Cache-Aside — freshness vs performance
+
+Cache-Aside first checks Redis. If data is not there, it gets data from the database and stores it in Redis.
+
+Advantage: Very fast and reduces database load.
+Risk: If the database changes frequently, Redis may contain old/stale data.
+
+Example: A product price changes in the database, but Redis still has the old price until the cache expires or is invalidated.
+
+More caching = better performance, but potentially less freshness.
+
+Task 18: Write-Behind vs Write-Through consistency
+
+Write-Behind updates Redis first and writes to the database later.
+
+It can cause consistency problems when data changes very frequently or when losing Redis data would be serious.
+
+Example: In a banking system, a transaction is written to Redis but the database update is delayed. If Redis fails before the database is updated, the transaction could be lost.
+
+Write-Behind = faster writes, but higher consistency risk.
+Write-Through = safer consistency, but writes can be slower.
+
+Task 19: Why LFU can be better than LRU for recommendation systems?
+LRU (Least Recently Used): Removes data that hasn't been accessed recently.
+LFU (Least Frequently Used): Removes data that is accessed the least number of times.
+
+Recommendation systems often have popular items that are accessed repeatedly. LFU keeps these popular items in the cache even if they haven't been accessed very recently.
+
+Example: A popular movie is viewed 10,000 times. LFU is likely to keep it cached because it is frequently requested.
+
+LFU is useful when popularity/frequency matters more than recent access.
+
+Task 20: Time-Based vs Event-Based Invalidation
+Time-Based	Event-Based
+Cache expires after a fixed time (TTL)	Cache is removed/updated when data changes
+Simple to implement	More complex
+May serve stale data until expiry	Usually provides fresher data
+No dependency on update events	Requires reliable events
+
+Example:
+Product information can use 10-minute TTL.
+Stock prices should use event-based invalidation when the price changes.
+
+Time-based = simple but can be stale.
+Event-based = fresher but more complex.
+
+Task 21: Cache invalidation for a real-time stock trading system
+
+For stock prices, freshness is extremely important.
+
+A simple design:
+
+Stock Exchange
+      ↓
+ Price Update Event
+      ↓
+   Application
+      ↓
+ Update Redis
+      ↓
+ WebSocket
+      ↓
+   Users
+
+When a stock price changes:
+
+Receive the new price.
+Immediately update the corresponding Redis key.
+Publish the update to connected users through WebSocket/Pub/Sub.
+Use a short TTL as a backup in case an update event is missed.
+
+Example:
+stock:AAPL → ₹200 changes to ₹201 → Redis is immediately updated to ₹201.
+
+For real-time trading, use event-based updates + short TTL as a safety mechanism.
+
+Task 22: Redis Sharding
+
+Sharding means splitting Redis data across multiple Redis nodes instead of keeping everything on one server.
+
+              Redis Cluster
+                  |
+        ┌─────────┼─────────┐
+        ↓         ↓         ↓
+      Node 1    Node 2    Node 3
+      A–F       G–M       N–Z
+Advantages
+More memory: Data is distributed across multiple machines.
+Better scalability: More nodes can handle more data and requests.
+Better performance: Requests can be distributed across nodes.
+Added complexity
+
+Keys are distributed across different nodes, so applications must understand how keys are mapped.
+
+Example:
+user:101 may be on Node 1, while user:500 may be on Node 3.
+
+Problems can occur when an operation needs multiple related keys that are stored on different nodes.
+
+Sharding = more scalability, but more complexity in key distribution and multi-key operations.
