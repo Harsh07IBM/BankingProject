@@ -1,0 +1,279 @@
+ORM Concepts and JPA
+Task 1: How does ORM bridge the gap between OOP and relational databases?
+
+ORM (Object-Relational Mapping) connects Java objects with database tables. It allows developers to work with Java objects instead of writing SQL for every operation.
+
+JPA is a Java specification/standard that defines how ORM should work. Hibernate is one of the popular implementations of JPA.
+
+Example:
+
+Java Class → Database Table
+   User    →    users
+   id      →    id
+   name    →    name
+
+ORM = connects objects with tables.
+JPA = standard/rules for ORM.
+Hibernate = implementation of JPA.
+
+Hibernate Fundamentals
+Task 2: Why is Hibernate a powerful JPA implementation?
+
+Hibernate provides the actual functionality required to implement JPA, such as:
+
+Automatically converting Java objects ↔ database records.
+Generating SQL queries.
+Managing relationships between entities.
+Supporting caching.
+Managing transactions and database connections.
+How does caching improve performance?
+
+Hibernate can keep frequently used data in memory. When the same data is requested again, Hibernate can return it from the cache instead of querying the database again.
+
+Example:
+
+First request → Hibernate → Database → User data
+Second request → Hibernate Cache → User data
+
+This reduces database queries and improves performance.
+
+Hibernate = JPA implementation + ORM features + caching + database management.
+
+🔹 Entity Mapping & Relationships
+Task 3: How do entity relationships affect database design and query complexity?
+One-to-One (1:1): One record relates to one record. Usually simple to design and query.
+Example: User → Passport
+One-to-Many (1:N): One record relates to many records. Requires foreign keys and can produce more complex queries.
+Example: Author → Books
+Many-to-Many (N:M): Many records relate to many records. Requires a join table, making queries and management more complex.
+Example: Students ↔ Courses
+
+1:1 = simplest, 1:N = moderate, N:M = most complex.
+
+
+JPQL: Works with Java entities, not directly with tables.
+
+Criteria API: Useful when queries need to be built dynamically.
+
+Native SQL: Gives complete control over database-specific SQL.
+
+JPQL → simple/common queries
+Criteria → dynamic queries
+Native SQL → complex or database-specific queries
+
+🔹 Spring Data JPA
+Task 5: How does Spring Data JPA simplify repositories?
+
+Spring Data JPA automatically provides common database operations, so we don't have to write the implementation ourselves.
+
+public interface UserRepository
+        extends JpaRepository<User, Long> {
+}
+
+Methods like save(), findById(), findAll(), and delete() are already available.
+
+We can also create derived queries:
+
+findByName(String name)
+Risk of too many derived queries
+
+Very long derived method names can become hard to read and maintain.
+
+findByNameAndAgeAndCityAndStatusAndDepartment(...)
+
+Spring Data JPA = less boilerplate, but too many complex derived queries can make code confusing.
+
+🔹 Task 6: When does LazyInitializationException occur?
+
+LazyInitializationException occurs with LAZY loading, not because of EAGER loading.
+
+It happens when you try to access a lazy-loaded relationship after the Hibernate session/transaction is closed.
+
+Example:
+Author author = authorRepository.findById(1L).get();
+
+
+// Transaction/session is now closed
+
+
+author.getBooks().size();  // ❌ LazyInitializationException
+
+Why?
+
+LAZY:
+Author loaded
+    ↓
+Books NOT loaded
+    ↓
+Transaction closes
+    ↓
+getBooks() called
+    ↓
+Hibernate cannot access DB
+    ↓
+❌ LazyInitializationException
+
+With EAGER, the related data is loaded earlier, so this particular lazy-initialization problem normally does not occur.
+
+Remember:
+LAZY + access after session closes = LazyInitializationException
+
+Task 02: Distributed Caching
+
+Q: How does replication lag affect consistency, and how can it be mitigated?
+
+Replication lag means a Redis replica may not have the latest data from the primary yet. Therefore, a read from the replica can return old/stale data.
+
+Example:
+Primary Redis has balance = ₹10,000, but the replica still has ₹9,000. A user reading from the replica may see ₹9,000.
+
+Ways to reduce the problem:
+
+Read critical data from the primary.
+Use replicas mainly for less-critical read operations.
+Monitor replication lag.
+Use appropriate consistency settings when necessary.
+
+Replication lag = faster/scalable reads but possible stale data.
+
+Task 03: Redis for Session Management
+
+Redis is preferred for sessions because it is very fast, supports high request volumes, and provides centralized session storage that can be shared by multiple application servers.
+
+Example:
+
+User → Server 1 ─┐
+                 ├→ Redis → Session
+User → Server 2 ─┘
+
+Both servers can access the same user's session.
+
+Risk if persistence is not configured
+
+Redis primarily stores data in memory. If Redis crashes or restarts without persistence, session data may be lost, causing users to be logged out.
+
+Redis sessions = fast + shared across servers, but persistence is important if losing sessions is unacceptable.
+
+Task 04: Cache Stampede
+
+A cache stampede happens when a popular cache entry expires and many requests simultaneously try to get the same data from the database.
+
+Example:
+
+Cache expires
+     ↓
+1,000 users request same product
+     ↓
+1,000 requests → Database
+     ↓
+Database overloaded
+How to prevent it?
+
+1. Request Coalescing:
+Allow only one request to fetch the missing data from the database. Other requests wait for that result.
+
+2. Probabilistic Early Expiration:
+Some requests refresh the cache slightly before it expires, reducing the chance that many requests hit the database at exactly the same time.
+
+Cache stampede = many requests hit the database at once after cache expiration.
+Request coalescing + early refresh = fewer database spikes.
+
+Task 05: Managing Migrations Across Environments
+Q1: Why should migration scripts be applied sequentially across Dev, Test, Staging, and Production?
+
+Using the same migration scripts in the same order keeps all environments consistent.
+
+Example: If Dev has migration V1 → V2 → V3, Production should also follow V1 → V2 → V3.
+
+If environments drift, an application may work in Dev but fail in Production because the database structures are different.
+
+Same scripts + same order = consistent environments and fewer surprises.
+
+Q2: When is rollback preferable to fix-forward? How do Liquibase and Flyway differ?
+
+Rollback is preferable when a migration causes a serious problem and restoring the previous database state is safer and faster.
+
+Fix-forward means fixing the problem by creating a new migration instead of undoing the old one.
+
+Example: A migration accidentally removes important data → rollback may be safer.
+
+Liquibase: Provides explicit rollback support where rollback changes can be defined for migrations.
+Flyway: Primarily follows forward-only migrations; rollback is generally handled through new corrective migrations or other recovery strategies.
+
+Rollback = go back. Fix-forward = create a new fix.
+
+Q3: How does Expand/Contract support zero-downtime migrations?
+
+The Expand/Contract pattern changes the database in stages so old and new application versions can work together.
+
+Expand:
+Add the new column/table without removing the old one.
+
+Migrate:
+Update the application and gradually move data to the new structure.
+
+Contract:
+Remove the old column/table after the application no longer needs it.
+
+Example:
+
+Old: name
+
+
+Expand → name + full_name
+         ↓
+Migrate → application uses full_name
+         ↓
+Contract → remove name
+
+Trade-off: The old database structure must be maintained for some time, increasing storage, code complexity, and maintenance.
+
+Expand → Migrate → Contract = safer schema changes without downtime.
+
+Q4: Role of data validation in ETL migrations
+
+Data validation checks whether the migrated data is complete, correct, and consistent.
+
+Common checks:
+
+Row counts: Same number of records.
+Checksums/hashes: Detect changed data.
+Referential integrity: Foreign-key relationships remain valid.
+Data type/range checks: Values remain valid.
+
+Automation can run these checks automatically after migration, reducing manual mistakes and missed errors.
+
+Example: If the source has 1,000,000 customers but the target has 999,500, validation immediately identifies a problem.
+
+Validation ensures migrated data is trustworthy.
+
+Q5: Why is datatype mapping difficult between different databases?
+
+Different database engines may represent the same type of data differently.
+
+Example:
+
+MySQL      → PostgreSQL
+TINYINT    → SMALLINT/BOOLEAN
+DATETIME   → TIMESTAMP
+
+Incorrect mapping can cause data loss, conversion errors, slower queries, or increased storage usage.
+
+Example: Choosing an unnecessarily large datatype for millions of records can increase storage and potentially affect performance.
+
+Correct datatype mapping = data correctness + better performance.
+
+Q6: How can we validate data integrity after migration?
+
+Row counts alone are not enough. We can also use:
+
+Checksums/hashes to compare data.
+Primary-key and foreign-key validation.
+Duplicate detection.
+NULL and constraint checks.
+Aggregate comparisons such as totals and averages.
+Application-level tests to verify that the application behaves correctly with the migrated data.
+
+Example: A banking database may have the same number of accounts after migration, but we should also verify that account balances, transactions, and account-to-transaction relationships are correct.
+
+Database checks verify the data; application tests verify that the migrated data actually works correctly in the real application.
