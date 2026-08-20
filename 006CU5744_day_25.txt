@@ -1,0 +1,146 @@
+Task 1 — Cloud-Native & 12-Factor Alignment
+
+12-Factor App is a set of best practices for building cloud-friendly applications. It keeps configuration, dependencies, logs, processes, and deployment separate from the application code. This makes the application portable, scalable, and resilient, so it can run easily across different environments like AWS, Azure, or local systems.
+
+Configuration & Dependencies
+
+Externalizing configuration means keeping things like database URLs, passwords, API keys, and environment-specific settings outside the code. In Spring Boot, we can use profiles such as application-dev.properties and application-prod.properties.
+
+This helps maintain dev/prod parity because the same application code can run in different environments with different configurations.
+
+Difference:
+
+Configuration → Settings that can change between environments, e.g., DB URL, port, passwords.
+Dependencies → Libraries/frameworks required by the application, managed using tools like Maven or Gradle.
+
+In simple words: Configuration tells the application “how and where to run,” while dependencies tell it “what libraries it needs to run.”
+
+Task 2
+1. What Makes an Application Cloud-Native
+
+Q1. How does cloud-native design differ from traditional monolithic application design in terms of scalability and resilience?
+Cloud-native applications are usually built as small, independent services that can be scaled separately and can recover from failures. Monolithic applications are more tightly connected, so scaling or fixing one part can affect the whole application.
+
+Q2. Why is containerization considered a key enabler of cloud-native applications?
+Containers package the application along with its dependencies, so it can run consistently in different environments. They are lightweight, easy to deploy, scale, and manage.
+
+2. Introduction to the 12-Factor App Methodology
+
+Q1. How does the 12-Factor methodology ensure portability across cloud platforms?
+It keeps the application independent of a specific environment by separating configuration, dependencies, processes, and services from the code. Therefore, the same application can run on different cloud platforms with minimal changes.
+
+Q2. Which factors directly address developer productivity versus operational stability?
+
+Developer productivity: Dependencies, Dev/Prod Parity, Development/Production environments, and backing services.
+Operational stability: Processes, Logs, Disposability, Port Binding, and Config.
+
+In simple words: 12-Factor principles help developers build and deploy faster while also making applications stable and easier to operate.
+
+Code & Configuration
+1. Codebase and Dependency Management
+
+Q1. Why is maintaining a single codebase with multiple deploys critical for consistency?
+A single codebase ensures that Dev, Test, and Production use the same application code. Only the configuration may change, reducing bugs and environment differences.
+
+Q2. How does explicit dependency declaration improve application reliability?
+It clearly defines which libraries and versions the application needs. This prevents missing or incompatible dependencies and makes the application easier to build and deploy consistently.
+
+2. Externalized Configuration
+
+Q1. Why should configuration be externalized instead of hardcoded in the application?
+Configuration such as database URLs, passwords, API keys, and ports can change between environments. Keeping them outside the code makes the application more secure and easier to manage.
+
+Q2. How does externalized configuration support dev/prod parity?
+The same application code can be used in both Dev and Production while only the configuration changes. This keeps the environments similar and reduces “works on my machine” problems.
+
+Services & Resources
+1. Backing Services as Attached Resources
+
+Q1. Why should backing services like databases or queues be treated as attached resources?
+They should be treated as separate resources so the application is not tightly dependent on a specific database or queue. This makes it easier to replace, scale, or manage them independently.
+
+Q2. How does this principle simplify migration between environments?
+We can simply change the configuration to point to a different database or queue. The application code does not need to change when moving from Dev → Test → Production.
+
+2. Build, Release, Run Separation
+
+Q1. Why is it important to separate build, release, and run stages in deployment pipelines?
+Each stage has a different purpose:
+
+Build: Creates the application/package.
+Release: Combines the build with environment-specific configuration.
+Run: Starts the application.
+
+This makes deployments organized, repeatable, and easier to manage.
+
+Q2. How does this separation reduce risk during production deployments?
+The build is tested before production deployment. If something goes wrong, we can deploy a previously tested release without rebuilding the application, reducing the chance of production failures.
+
+Processes & Scaling
+1. Stateless Processes and Statelessness
+
+Q1. Why is statelessness essential for horizontal scaling in cloud-native systems?
+In a stateless application, each request can be handled by any server because the server does not store user-specific data locally. This makes it easy to add or remove servers when the load changes.
+
+Q2. How can session data be managed in a stateless architecture?
+Session data can be stored in an external service such as Redis or a database. This allows any server to access the same session data.
+
+2. Port Binding and Self-Contained Services
+
+Q1. Why does the 12-Factor methodology recommend port binding for service exposure?
+Port binding allows an application to expose itself directly through a port instead of depending on a separate web server. This makes deployment simpler and more portable.
+
+Q2. How does port binding enable microservices to remain self-contained?
+Each microservice can run its own server and listen on its own port. Therefore, it can start, stop, and communicate independently without depending on another application server.
+
+3. Concurrency and Scaling Out
+
+Q1. How does process concurrency differ from vertical scaling?
+Process concurrency means running multiple instances/processes of an application to handle more requests. Vertical scaling means increasing the CPU, RAM, or other resources of a single server.
+
+Q2. Why is scaling out preferred over scaling up in cloud-native systems?
+Scaling out adds more servers/instances, which improves capacity and availability. If one instance fails, others can continue serving users, making the system more resilient and scalable.
+
+Reliability & Parity
+1. Disposability and Graceful Shutdown
+
+Q1. Why should processes be disposable in cloud-native environments?
+Processes should be easy to start, stop, restart, and replace. This helps systems handle failures and scaling quickly without affecting the whole application.
+
+Q2. How does graceful shutdown improve reliability during scaling events?
+Graceful shutdown allows a process to finish ongoing requests before stopping. This prevents data loss, incomplete operations, and sudden request failures.
+
+2. Dev/Prod Parity
+
+Q1. Why is minimizing differences between development and production environments critical?
+If Dev and Production are very different, an application may work in Dev but fail in Production. Keeping them similar reduces unexpected bugs and deployment problems.
+
+Q2. How does continuous deployment support Dev/Prod parity?
+Continuous deployment frequently moves the same tested code through environments. This reduces differences between Dev and Production and helps detect problems earlier.
+
+Observability & Config
+1. Logs as Event Streams
+
+Q1. Why should logs be treated as event streams rather than files?
+Logs should be treated as continuous streams of application events because cloud-native applications can run on many temporary servers/containers. Log files on one server may disappear when the server is replaced.
+
+Q2. How does centralized log aggregation improve debugging in distributed systems?
+It collects logs from multiple servers and services in one place, making it easier to search, track errors, and understand what happened across the entire system.
+
+2. Externalizing Config & Secrets in Spring Boot (Profiles)
+
+Q1. How do Spring Boot profiles help manage environment-specific configurations?
+Profiles such as dev, test, and prod allow us to use different configurations for different environments without changing the application code.
+
+Q2. Why should secrets be externalized instead of stored in application code?
+Secrets like passwords, API keys, and database credentials should not be hardcoded because they can be exposed through source code or Git. Externalizing them improves security and makes them easier to manage.
+
+3. Health, Readiness and Liveness Endpoints (Actuator)
+
+Q1. What is the difference between readiness and liveness probes in Spring Boot Actuator?
+
+Liveness: Checks whether the application is alive and running. If it fails, the application may need to be restarted.
+Readiness: Checks whether the application is ready to receive traffic. If it fails, traffic can be temporarily stopped.
+
+Q2. How do health endpoints contribute to automated monitoring and alerting?
+Health endpoints provide the application's current health status. Monitoring tools can check these endpoints automatically and generate alerts or restart services when problems are detected.
