@@ -1,0 +1,374 @@
+Understanding Legacy and Monolithic Applications
+Task 1: Why are legacy systems often resistant to change?
+
+Legacy systems are difficult to change because they often use old technologies, complex code, and outdated dependencies. Sometimes no one fully understands how the old system works. Changing one part can also break another part.
+
+Example: A bank uses a 15-year-old application. Adding a new payment feature may accidentally affect existing account transactions.
+
+Task 2: What are common challenges when integrating legacy applications with modern platforms?
+
+Common challenges include incompatible technologies, old APIs, data format differences, security issues, and lack of documentation. Modern systems may not easily communicate with old applications.
+
+Example: A new cloud application may need customer data from an old system that only provides data through an outdated API.
+
+Task 3: How does technical debt accumulate in monolithic systems?
+
+Technical debt accumulates when developers choose quick fixes instead of proper long-term solutions. Over time, the code becomes more complex, tightly coupled, and difficult to maintain.
+
+Example: Developers keep adding new features directly to one large application without refactoring. After years, even a small change becomes difficult and risky.
+
+Task 4: Refactoring Legacy Monolithic Code
+
+The OrderService is doing too many things. We can separate its responsibilities into smaller services:
+
+class OrderService {
+    void processOrder(Order order) {
+        orderValidator.validate(order);
+        discountService.applyDiscount(order);
+        inventoryService.updateInventory(order);
+        emailService.sendConfirmation(order);
+    }
+}
+
+
+class OrderValidator {
+    void validate(Order order) { }
+}
+
+
+class DiscountService {
+    void applyDiscount(Order order) { }
+}
+
+
+class InventoryService {
+    void updateInventory(Order order) { }
+}
+
+
+class EmailService {
+    void sendConfirmation(Order order) { }
+}
+
+Responsibilities separated:
+
+OrderValidator → validates the order
+DiscountService → handles discounts
+InventoryService → manages stock
+EmailService → sends notifications
+OrderService → coordinates the overall process
+
+Real-world example: An e-commerce system keeps payment, inventory, and email logic separate instead of putting everything inside one OrderService.
+
+Task 5: Bug vs Code Smell
+
+A bug causes the application to behave incorrectly, while a code smell is a sign that the code may be poorly designed or difficult to maintain.
+
+Example:
+
+Bug → Payment amount is calculated incorrectly.
+Code smell → One method contains 200 lines of code.
+Task 6: Why is duplicated code harmful?
+
+Duplicated code makes maintenance difficult because the same change must be made in multiple places. Developers may update one copy and forget another, causing inconsistent behavior.
+
+Example: If tax calculation exists in 5 different places, changing the tax rate requires updating all 5 places.
+
+Task 7: What is Feature Envy?
+
+Feature Envy occurs when one class frequently accesses the data or methods of another class instead of using its own responsibilities.
+
+It indicates that some logic may belong in the other class.
+
+Example: OrderService constantly accesses Customer's internal data to calculate something. That calculation may belong inside the Customer class.
+
+Task 8: Shotgun Surgery vs Divergent Change
+Shotgun Surgery: One small change requires modifying many different classes/files.
+Divergent Change: One class needs to be modified for many different types of changes.
+
+Example:
+
+Shotgun Surgery → Changing tax rules requires editing 10 classes.
+Divergent Change → OrderService must be changed whenever payment, email, inventory, or discount requirements change.
+
+In short:
+Shotgun Surgery = one change → many classes
+Divergent Change = many changes → one class
+
+Refactoring and Legacy Code — Brief Notes
+Task 8: Shotgun Surgery vs Divergent Change
+
+Shotgun Surgery means one small change requires changes in many classes/files.
+
+Divergent Change means one class needs to be changed for many different reasons.
+
+Example:
+
+Shotgun Surgery → Changing tax rules requires editing 10 classes.
+Divergent Change → OrderService handles payment, email, and inventory, so changes to any of them require modifying OrderService.
+
+In short:
+Shotgun Surgery → One change → Many classes
+Divergent Change → Many changes → One class
+
+Task 9: Refactoring Duplication
+
+The duplicated age-checking logic can be extracted into a common method:
+
+boolean isAdult(int age) {
+    return age > 18;
+}
+
+Then:
+
+if (isAdult(user.getAge())) { }
+if (isAdult(customer.getAge())) { }
+
+Technique: Extract Method / Remove Duplication
+
+For the long parameter list:
+
+createUser(String fn, String ln, String addr, String city,
+           String state, String zip, String phone)
+
+Create a User object containing these details:
+
+createUser(User user)
+
+Technique: Introduce Parameter Object
+
+Refactoring Techniques and Catalog
+Task 10: How does Extract Method improve readability?
+
+Extract Method takes a large block of code and moves it into a separate, well-named method.
+
+Example:
+
+void processOrder() {
+    validateOrder();
+    calculateDiscount();
+    sendEmail();
+}
+
+This makes the code shorter, easier to understand, test, and maintain.
+
+Task 11: Apply SRP
+
+The BankSystem class has too many responsibilities. Split it into separate services:
+
+class AccountService {
+    void createAccount() {}
+}
+
+
+class InterestService {
+    void calculateInterest() {}
+}
+
+
+class ReportService {
+    void generateReport() {}
+}
+
+
+class EmailService {
+    void sendEmail() {}
+}
+
+Each class now has one main responsibility, following the Single Responsibility Principle (SRP).
+
+Magic Number
+
+Instead of:
+
+double area = radius * radius * 3.14159;
+
+Use a constant:
+
+private static final double PI = 3.14159;
+
+
+double area = radius * radius * PI;
+
+Technique: Replace Magic Number with Constant
+
+Working Effectively with Legacy Code
+Task 12: What is a seam in legacy code?
+
+A seam is a place where we can change or replace part of the code's behavior without modifying the rest of the system.
+
+It is useful for testing because we can replace real dependencies with mock or fake dependencies.
+
+Example: Replacing a real database with a fake database during testing.
+
+Task 13: How do test harnesses help with legacy systems?
+
+A test harness provides a controlled environment for running tests against existing legacy code.
+
+It helps us understand current behavior and detect unexpected changes while refactoring.
+
+Example: Before changing an old payment system, create tests that verify its current payment calculations.
+
+Task 14: Characterization Test
+
+A characterization test records what the existing code actually does, even if the behavior is not ideal.
+
+@Test
+void premiumCustomerGets20PercentDiscount() {
+    Customer customer = new Customer(true);
+
+
+    double result = calculateDiscount(customer);
+
+
+    assertEquals(0.2, result);
+}
+
+
+@Test
+void regularCustomerGets10PercentDiscount() {
+    Customer customer = new Customer(false);
+
+
+    double result = calculateDiscount(customer);
+
+
+    assertEquals(0.1, result);
+}
+
+These tests capture the current behavior before refactoring.
+
+Introducing a seam: Extract the buried logic into a separate method/class or inject its dependency so it can be replaced during testing.
+
+Task 15: Dependency Injection and Seam
+
+Instead of creating the database directly:
+
+class ReportGenerator {
+    private Database db;
+
+
+    ReportGenerator(Database db) {
+        this.db = db;
+    }
+
+
+    void generate() {
+        db.query("SELECT * FROM orders");
+    }
+}
+
+Now we can provide a real database in production or a fake/mock database during testing.
+
+How does this create a seam?
+
+Dependency Injection creates a seam between ReportGenerator and Database, allowing us to replace the database without changing ReportGenerator.
+
+Example:
+
+Database fakeDb = new FakeDatabase();
+ReportGenerator report = new ReportGenerator(fakeDb);
+
+This makes the legacy code easier and safer to test.
+
+Task 16: Domain-Driven Design (DDD)
+1. Why is DDD considered a strategic design approach rather than just a technical one?
+
+DDD focuses on understanding the business domain and its problems, not just writing code. It helps developers design software around real business needs.
+
+Example: In a banking system, DDD helps identify concepts like Account, Transaction, and Customer based on how the bank actually works.
+
+2. How does DDD help align software models with business goals?
+
+DDD involves developers and business experts working together to create a model that uses the same business concepts and terminology.
+
+Example: If the business calls something a "Premium Customer," the software should use the same concept instead of calling it something unrelated.
+
+Task 17: Ubiquitous Language and Bounded Contexts
+1. What is Ubiquitous Language?
+
+Ubiquitous Language is a common language shared by developers and business experts within a domain.
+
+Example: In an e-commerce system, everyone uses terms like Order, Customer, and Payment with the same meaning.
+
+2. What is a Bounded Context?
+
+A Bounded Context defines a specific boundary where a particular domain model and its terminology are valid.
+
+Example: A Customer in the Sales context may have purchase history, while a Customer in Support may have support tickets.
+
+Task 18: Aggregates, Entities, and Value Objects
+1. Why must aggregates enforce invariants?
+
+Aggregates enforce business rules and ensure that their data remains valid and consistent.
+
+Example: An order should not allow its quantity to become negative. The Order aggregate can enforce this rule.
+
+2. Entity vs Value Object
+
+Entity:
+
+Has a unique identity.
+Identity remains even when attributes change.
+Has a lifecycle.
+
+Example: A Customer with ID 101.
+
+Value Object:
+
+Has no unique identity.
+Defined by its values.
+Usually immutable.
+
+Example: Money(100, "USD").
+
+In short:
+Entity → Identity matters
+Value Object → Value matters
+
+Task 19: Context Mapping
+1. What is the purpose of Context Mapping?
+
+Context Mapping shows how different bounded contexts communicate and depend on each other. It helps teams understand integration points and avoid confusion between different domain models.
+
+Example: A Billing system may need information from a Shipping system to calculate delivery charges.
+
+2. Partnership vs Customer-Supplier
+
+Partnership:
+Two teams/contexts work together and depend on each other to achieve a common goal.
+
+Customer-Supplier:
+One context is the supplier and provides services/data, while the other is the customer that depends on it.
+
+Example:
+
+Partnership → Billing and Shipping teams jointly design an integration.
+Customer-Supplier → Shipping provides delivery information to Billing.
+
+
+Task 20: Decomposing a Monolith into Microservices
+1. What challenges arise when decomposing a monolith without proper domain analysis?
+
+Without understanding the business domain, developers may create wrong service boundaries, causing services to become tightly coupled and difficult to maintain.
+
+Other problems include:
+
+Too many unnecessary services
+Complex communication between services
+Data consistency problems
+Increased deployment and monitoring complexity
+
+Example: Splitting Order into five services without understanding its business relationships can make a simple order operation require communication between many services.
+
+2. How does DDD guide the identification of microservice boundaries?
+
+DDD helps identify bounded contexts, which can become natural candidates for microservice boundaries.
+
+Each service can focus on a specific business capability.
+
+Example:
+
+Banking System → Account Context | Transaction Context | Notification Context
+
+This creates services that are separated according to business responsibilities, rather than simply splitting the code into random pieces.
